@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.github.spring.base.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="org.github.spring.base.entity.UserEntity">
+  <id column="user_id" jdbcType="INTEGER" property="userId" />
+  <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  <result column="credits" jdbcType="INTEGER" property="credits" />
+  <result column="password" jdbcType="VARCHAR" property="password" />
+  <result column="last_visit" jdbcType="TIMESTAMP" property="lastVisit" />
+  <result column="last_ip" jdbcType="VARCHAR" property="lastIp" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+  <where>
+    <foreach collection="oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+  <where>
+    <foreach collection="example.oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Base_Column_List">
+  user_id, user_name, credits, `password`, last_visit, last_ip
+  </sql>
+  <select id="selectByExample" parameterType="org.github.spring.base.example.UserExample" resultMap="BaseResultMap">
+  select
+  <if test="distinct">
+    distinct
+  </if>
+  <include refid="Base_Column_List" />
+  from sampledb.t_user
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  <if test="orderByClause != null">
+    order by ${orderByClause}
+  </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.github.spring.base.example.UserExample">
+  delete from sampledb.t_user
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </delete>
+  <insert id="insertSelective" parameterType="org.github.spring.base.entity.UserEntity">
+  insert into sampledb.t_user
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="userId != null">
+    user_id,
+    </if>
+    <if test="userName != null">
+    user_name,
+    </if>
+    <if test="credits != null">
+    credits,
+    </if>
+    <if test="password != null">
+    `password`,
+    </if>
+    <if test="lastVisit != null">
+    last_visit,
+    </if>
+    <if test="lastIp != null">
+    last_ip,
+    </if>
+  </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="userId != null">
+    #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="userName != null">
+    #{userName,jdbcType=VARCHAR},
+    </if>
+    <if test="credits != null">
+    #{credits,jdbcType=INTEGER},
+    </if>
+    <if test="password != null">
+    #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="lastVisit != null">
+    #{lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="lastIp != null">
+    #{lastIp,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.github.spring.base.example.UserExample" resultType="java.lang.Long">
+  select count(*) from sampledb.t_user
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+  update sampledb.t_user
+  <set>
+    <if test="record.userId != null">
+    user_id = #{record.userId,jdbcType=INTEGER},
+    </if>
+    <if test="record.userName != null">
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    </if>
+    <if test="record.credits != null">
+    credits = #{record.credits,jdbcType=INTEGER},
+    </if>
+    <if test="record.password != null">
+    `password` = #{record.password,jdbcType=VARCHAR},
+    </if>
+    <if test="record.lastVisit != null">
+    last_visit = #{record.lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="record.lastIp != null">
+    last_ip = #{record.lastIp,jdbcType=VARCHAR},
+    </if>
+  </set>
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+  update sampledb.t_user
+  set user_id = #{record.userId,jdbcType=INTEGER},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    credits = #{record.credits,jdbcType=INTEGER},
+    `password` = #{record.password,jdbcType=VARCHAR},
+    last_visit = #{record.lastVisit,jdbcType=TIMESTAMP},
+    last_ip = #{record.lastIp,jdbcType=VARCHAR}
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.github.spring.base.entity.UserEntity">
+  update sampledb.t_user
+  <set>
+    <if test="userName != null">
+    user_name = #{userName,jdbcType=VARCHAR},
+    </if>
+    <if test="credits != null">
+    credits = #{credits,jdbcType=INTEGER},
+    </if>
+    <if test="password != null">
+    `password` = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="lastVisit != null">
+    last_visit = #{lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="lastIp != null">
+    last_ip = #{lastIp,jdbcType=VARCHAR},
+    </if>
+  </set>
+  where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsert" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    insert into sampledb.t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      user_id,
+      user_name,
+      credits,
+      `password`,
+      last_visit,
+      last_ip,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{item.userId,jdbcType=INTEGER},
+      #{item.userName,jdbcType=VARCHAR},
+      #{item.credits,jdbcType=INTEGER},
+      #{item.password,jdbcType=VARCHAR},
+      #{item.lastVisit,jdbcType=TIMESTAMP},
+      #{item.lastIp,jdbcType=VARCHAR},
+      </trim>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </insert>
+  <update id="batchUpdate" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    <foreach collection="list" index="index" item="item" separator=";">
+       update sampledb.t_user
+      <set>
+      <trim suffixOverrides=",">
+        <if test="item.userName != null">
+        user_name = #{item.userName,jdbcType=VARCHAR},
+        </if>
+        <if test="item.credits != null">
+        credits = #{item.credits,jdbcType=INTEGER},
+        </if>
+        <if test="item.password != null">
+        `password` = #{item.password,jdbcType=VARCHAR},
+        </if>
+        <if test="item.lastVisit != null">
+        last_visit = #{item.lastVisit,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.lastIp != null">
+        last_ip = #{item.lastIp,jdbcType=VARCHAR},
+        </if>
+      </trim>
+      </set>
+      <where>
+      <trim suffixOverrides=",">
+        user_id = #{item.userId,jdbcType=INTEGER},
+      </trim>
+      </where>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </update>
+  <sql id="Identifiers_Array_Conditions">
+  <foreach collection="array" index="index" item="item" separator=" and ">
+    <if test="item == 'userId'">
+    user_id = #{record.userId,jdbcType=INTEGER}
+    </if>
+    <if test="item == 'userName'">
+    user_name = #{record.userName,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'credits'">
+    credits = #{record.credits,jdbcType=INTEGER}
+    </if>
+    <if test="item == 'password'">
+    `password` = #{record.password,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'lastVisit'">
+    last_visit = #{record.lastVisit,jdbcType=TIMESTAMP}
+    </if>
+    <if test="item == 'lastIp'">
+    last_ip = #{record.lastIp,jdbcType=VARCHAR}
+    </if>
+  </foreach>
+  </sql>
+  <update id="upsert" parameterType="map">
+  insert into sampledb.t_user
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    user_id,
+    user_name,
+    credits,
+    `password`,
+    last_visit,
+    last_ip,
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    #{record.userId,jdbcType=INTEGER},
+    #{record.userName,jdbcType=VARCHAR},
+    #{record.credits,jdbcType=INTEGER},
+    #{record.password,jdbcType=VARCHAR},
+    #{record.lastVisit,jdbcType=TIMESTAMP},
+    #{record.lastIp,jdbcType=VARCHAR},
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    user_id = #{record.userId,jdbcType=INTEGER},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    credits = #{record.credits,jdbcType=INTEGER},
+    `password` = #{record.password,jdbcType=VARCHAR},
+    last_visit = #{record.lastVisit,jdbcType=TIMESTAMP},
+    last_ip = #{record.lastIp,jdbcType=VARCHAR},
+  </trim>
+  </update>
+  <update id="upsertSelective" parameterType="map">
+  insert into sampledb.t_user
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.userId != null">
+    user_id,
+    </if>
+    <if test="record.userName != null">
+    user_name,
+    </if>
+    <if test="record.credits != null">
+    credits,
+    </if>
+    <if test="record.password != null">
+    `password`,
+    </if>
+    <if test="record.lastVisit != null">
+    last_visit,
+    </if>
+    <if test="record.lastIp != null">
+    last_ip,
+    </if>
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.userId != null">
+    #{record.userId,jdbcType=INTEGER},
+    </if>
+    <if test="record.userName != null">
+    #{record.userName,jdbcType=VARCHAR},
+    </if>
+    <if test="record.credits != null">
+    #{record.credits,jdbcType=INTEGER},
+    </if>
+    <if test="record.password != null">
+    #{record.password,jdbcType=VARCHAR},
+    </if>
+    <if test="record.lastVisit != null">
+    #{record.lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="record.lastIp != null">
+    #{record.lastIp,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    <if test="record.userId != null">
+    user_id = #{record.userId,jdbcType=INTEGER},
+    </if>
+    <if test="record.userName != null">
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    </if>
+    <if test="record.credits != null">
+    credits = #{record.credits,jdbcType=INTEGER},
+    </if>
+    <if test="record.password != null">
+    `password` = #{record.password,jdbcType=VARCHAR},
+    </if>
+    <if test="record.lastVisit != null">
+    last_visit = #{record.lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="record.lastIp != null">
+    last_ip = #{record.lastIp,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  </update>
+  <select id="selectByUniqueKey" parameterType="org.github.spring.base.entity.UserEntity" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sampledb.t_user
+  <where>
+    <trim suffixOverrides=",">
+    <if test="record.userName != null">
+      user_name = #{record.userName,jdbcType=VARCHAR},
+    </if>
+    <if test="record.credits != null">
+      credits = #{record.credits,jdbcType=INTEGER},
+    </if>
+    <if test="record.password != null">
+      `password` = #{record.password,jdbcType=VARCHAR},
+    </if>
+    <if test="record.lastVisit != null">
+      last_visit = #{record.lastVisit,jdbcType=TIMESTAMP},
+    </if>
+    <if test="record.lastIp != null">
+      last_ip = #{record.lastIp,jdbcType=VARCHAR},
+    </if>
+    </trim>
+  </where>
+  </select>
+</mapper>

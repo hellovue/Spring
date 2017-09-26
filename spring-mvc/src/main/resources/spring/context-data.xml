@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <bean id="mysqlDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close"
+        p:driverClassName="${mysql.driverClassName}"
+        p:jdbcUrl="${mysql.jdbcUrl}"
+        p:username="${mysql.username}"
+        p:password="${mysql.password}"
+        p:maximumPoolSize="${mysql.maximumPoolSize}"
+        p:minimumIdle="${mysql.minimumIdle}"
+        p:idleTimeout="${mysql.idleTimeout}"
+        p:maxLifetime="${mysql.maxLifetime}"
+  />
+
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+        p:dataSource-ref="mysqlDataSource"
+  />
+
+  <bean id="sqlSessionFactoryBean" class="org.github.spring.component.NaiveSQLSessionFactoryBean">
+    <property name="dataSource" ref="mysqlDataSource"/>
+    <property name="mapperLocations" value="classpath*:sqlmapper/**/*.xml"/>
+    <property name="configLocation" value="classpath:orm/orm-myBatis.xml"/>
+    <property name="globalConfig" ref="globalConfig"/>
+  </bean>
+
+  <bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+    <property name="idType" value="2"/>
+    <property name="dbType" value="mysql"/>
+    <property name="dbColumnUnderline" value="true"/>
+  </bean>
+
+  <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="org.github"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+    <property name="annotationClass" value="org.github.spring.annotation.QueryInterface"/>
+  </bean>
+
+  <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="mysqlDataSource"/>
+
+  <tx:advice id="transactionAdvice">
+    <tx:attributes>
+      <tx:method name="insert*" rollback-for="java.lang.Exception"/>
+      <tx:method name="update*" rollback-for="java.lang.Exception"/>
+      <tx:method name="delete*" rollback-for="java.lang.Exception"/>
+      <tx:method name="save*" rollback-for="java.lang.Exception"/>
+      <tx:method name="do*" rollback-for="java.lang.Exception"/>
+      <tx:method name="put*" rollback-for="java.lang.Exception"/>
+      <tx:method name="post*" rollback-for="java.lang.Exception"/>
+      <tx:method name="select*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="get*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="head*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="trace*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="find*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="search*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+      <tx:method name="*" propagation="SUPPORTS" read-only="true" no-rollback-for="java.lang.Exception"/>
+    </tx:attributes>
+  </tx:advice>
+
+  <aop:config proxy-target-class="true" expose-proxy="true">
+    <aop:pointcut id="service" expression="execution(* org.github..service.I*Service.*(..))"/>
+    <aop:advisor pointcut-ref="service" advice-ref="transactionAdvice"/>
+  </aop:config>
+</beans>

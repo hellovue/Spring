@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+  <context:property-placeholder location="classpath:property/profile/dev.properties"/>
+
+  <context:component-scan base-package="org.github" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
+
+  <mvc:default-servlet-handler/>
+  <mvc:resources mapping="/static/**" location="/static/" cache-period="0" order="0"/>
+
+  <mvc:annotation-driven conversion-service="conversionServiceFactory">
+    <mvc:message-converters register-defaults="false">
+      <!--<bean class="org.springframework.data.web.XmlBeamHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.feed.RssChannelHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.feed.AtomFeedHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.ResourceRegionHttpMessageConverter"/>-->
+      <bean id="resourceHttpMessageConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter" p:defaultCharset="${project.charset}"/>
+      <!--<bean class="org.springframework.data.web.ProjectingJackson2HttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.ObjectToStringHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.xml.Jaxb2CollectionHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.json.GsonHttpMessageConverter"/>-->
+      <!--<bean class="org.springframework.http.converter.FormHttpMessageConverter"/>-->
+      <bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter" p:defaultCharset="${project.charset}"
+            p:supportedMediaTypes="application/octet-stream"/>
+      <bean id="bufferedImageHttpMessageConverter" class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+      <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" p:defaultCharset="${project.charset}" p:supportedMediaTypes="text/plain"/>
+    </mvc:message-converters>
+  </mvc:annotation-driven>
+
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/"/>
+      <bean id="actionHandlerInterceptor" class="org.github.spring.interceptor.ActionHandlerInterceptor"/>
+    </mvc:interceptor>
+  </mvc:interceptors>
+
+  <!-- MultipartResolver -->
+  <bean id="multipartResolver" class="org.github.spring.resolver.MultipartResolver"
+        p:defaultEncoding="${project.charset}"
+        p:maxUploadSize="10485760000"
+        p:maxInMemorySize="40960"/>
+
+  <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+    <property name="prefix" value="/WEB-INF/views/"/>
+    <property name="suffix" value=".html"/>
+    <property name="templateMode" value="HTML"/>
+    <property name="cacheable" value="false"/>
+  </bean>
+
+  <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <property name="templateResolver" ref="templateResolver"/>
+  </bean>
+
+  <mvc:view-resolvers>
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+      <property name="templateEngine" ref="templateEngine"/>
+      <property name="viewNames" value="html/*"/>
+      <property name="order" value="0"/>
+      <property name="characterEncoding" value="${project.charset}"/>
+    </bean>
+  </mvc:view-resolvers>
+</beans>

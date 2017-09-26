@@ -1,0 +1,13 @@
+package org.github.spring.enumeration;
+
+/**
+ * CRUDFlag.
+ *
+ * @author JYD_XL
+ */
+public enum Flag {
+  IS_NULL, NOT_NULL, EQUAL_TO, NOT_EQUAL_TO,
+  GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO,
+  LIKE, LIKE_BEHIND, NOT_LIKE, IN, NOT_IN,
+  BETWEEN_HEAD, BETWEEN_TAIL, NOT_BETWEEN_HEAD, NOT_BETWEEN_TAIL
+}

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.github.spring.base.mapper.AuthoritiesMapper">
+  <resultMap id="BaseResultMap" type="org.github.spring.base.entity.AuthoritiesEntity">
+  <result column="username" jdbcType="VARCHAR" property="username" />
+  <result column="authority" jdbcType="VARCHAR" property="authority" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+  <where>
+    <foreach collection="oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+  <where>
+    <foreach collection="example.oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Base_Column_List">
+  username, authority
+  </sql>
+  <select id="selectByExample" parameterType="org.github.spring.base.example.AuthoritiesExample" resultMap="BaseResultMap">
+  select
+  <if test="distinct">
+    distinct
+  </if>
+  <include refid="Base_Column_List" />
+  from sampledb.authorities
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  <if test="orderByClause != null">
+    order by ${orderByClause}
+  </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.github.spring.base.example.AuthoritiesExample">
+  delete from sampledb.authorities
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </delete>
+  <insert id="insertSelective" parameterType="org.github.spring.base.entity.AuthoritiesEntity">
+  insert into sampledb.authorities
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="username != null">
+    username,
+    </if>
+    <if test="authority != null">
+    authority,
+    </if>
+  </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="username != null">
+    #{username,jdbcType=VARCHAR},
+    </if>
+    <if test="authority != null">
+    #{authority,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.github.spring.base.example.AuthoritiesExample" resultType="java.lang.Long">
+  select count(*) from sampledb.authorities
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+  update sampledb.authorities
+  <set>
+    <if test="record.username != null">
+    username = #{record.username,jdbcType=VARCHAR},
+    </if>
+    <if test="record.authority != null">
+    authority = #{record.authority,jdbcType=VARCHAR},
+    </if>
+  </set>
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+  update sampledb.authorities
+  set username = #{record.username,jdbcType=VARCHAR},
+    authority = #{record.authority,jdbcType=VARCHAR}
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <insert id="batchInsert" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    insert into sampledb.authorities
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      username,
+      authority,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{item.username,jdbcType=VARCHAR},
+      #{item.authority,jdbcType=VARCHAR},
+      </trim>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </insert>
+  <update id="batchUpdate" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    <foreach collection="list" index="index" item="item" separator=";">
+       update sampledb.authorities
+      <set>
+      <trim suffixOverrides=",">
+        <if test="item.username != null">
+        username = #{item.username,jdbcType=VARCHAR},
+        </if>
+        <if test="item.authority != null">
+        authority = #{item.authority,jdbcType=VARCHAR},
+        </if>
+      </trim>
+      </set>
+      <where>
+      <trim suffixOverrides="," />
+      </where>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </update>
+  <sql id="Identifiers_Array_Conditions">
+  <foreach collection="array" index="index" item="item" separator=" and ">
+    <if test="item == 'username'">
+    username = #{record.username,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'authority'">
+    authority = #{record.authority,jdbcType=VARCHAR}
+    </if>
+  </foreach>
+  </sql>
+  <update id="upsert" parameterType="map">
+  insert into sampledb.authorities
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    username,
+    authority,
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    #{record.username,jdbcType=VARCHAR},
+    #{record.authority,jdbcType=VARCHAR},
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    username = #{record.username,jdbcType=VARCHAR},
+    authority = #{record.authority,jdbcType=VARCHAR},
+  </trim>
+  </update>
+  <update id="upsertSelective" parameterType="map">
+  insert into sampledb.authorities
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.username != null">
+    username,
+    </if>
+    <if test="record.authority != null">
+    authority,
+    </if>
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.username != null">
+    #{record.username,jdbcType=VARCHAR},
+    </if>
+    <if test="record.authority != null">
+    #{record.authority,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    <if test="record.username != null">
+    username = #{record.username,jdbcType=VARCHAR},
+    </if>
+    <if test="record.authority != null">
+    authority = #{record.authority,jdbcType=VARCHAR},
+    </if>
+  </trim>
+  </update>
+  <select id="selectByUniqueKey" parameterType="org.github.spring.base.entity.AuthoritiesEntity" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sampledb.authorities
+  <where>
+    <trim suffixOverrides=",">
+    <if test="record.username != null">
+      username = #{record.username,jdbcType=VARCHAR},
+    </if>
+    <if test="record.authority != null">
+      authority = #{record.authority,jdbcType=VARCHAR},
+    </if>
+    </trim>
+  </where>
+  </select>
+</mapper>

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.github.spring.base.mapper.ResponseSecMapper">
+  <resultMap id="BaseResultMap" type="org.github.spring.base.entity.ResponseSecEntity">
+  <id column="respond_id" jdbcType="VARCHAR" property="respondId" />
+  <result column="user_id" jdbcType="VARCHAR" property="userId" />
+  <result column="text" jdbcType="VARCHAR" property="text" />
+  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+  <where>
+    <foreach collection="oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+  <where>
+    <foreach collection="example.oredCriteria" item="criteria" separator="or">
+    <if test="criteria.valid">
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+      <foreach collection="criteria.criteria" item="criterion">
+        <choose>
+        <when test="criterion.noValue">
+          and ${criterion.condition}
+        </when>
+        <when test="criterion.singleValue">
+          and ${criterion.condition} #{criterion.value}
+        </when>
+        <when test="criterion.betweenValue">
+          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+        </when>
+        <when test="criterion.listValue">
+          and ${criterion.condition}
+          <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+          #{listItem}
+          </foreach>
+        </when>
+        </choose>
+      </foreach>
+      </trim>
+    </if>
+    </foreach>
+  </where>
+  </sql>
+  <sql id="Base_Column_List">
+  respond_id, user_id, `text`, create_time
+  </sql>
+  <select id="selectByExample" parameterType="org.github.spring.base.example.ResponseSecExample" resultMap="BaseResultMap">
+  select
+  <if test="distinct">
+    distinct
+  </if>
+  <include refid="Base_Column_List" />
+  from sampledb.t_response_sec
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  <if test="orderByClause != null">
+    order by ${orderByClause}
+  </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.github.spring.base.example.ResponseSecExample">
+  delete from sampledb.t_response_sec
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </delete>
+  <insert id="insertSelective" parameterType="org.github.spring.base.entity.ResponseSecEntity">
+  insert into sampledb.t_response_sec
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="respondId != null">
+    respond_id,
+    </if>
+    <if test="userId != null">
+    user_id,
+    </if>
+    <if test="text != null">
+    `text`,
+    </if>
+    <if test="createTime != null">
+    create_time,
+    </if>
+  </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="respondId != null">
+    #{respondId,jdbcType=VARCHAR},
+    </if>
+    <if test="userId != null">
+    #{userId,jdbcType=VARCHAR},
+    </if>
+    <if test="text != null">
+    #{text,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null">
+    #{createTime,jdbcType=TIMESTAMP},
+    </if>
+  </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.github.spring.base.example.ResponseSecExample" resultType="java.lang.Long">
+  select count(*) from sampledb.t_response_sec
+  <if test="_parameter != null">
+    <include refid="Example_Where_Clause" />
+  </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+  update sampledb.t_response_sec
+  <set>
+    <if test="record.respondId != null">
+    respond_id = #{record.respondId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.userId != null">
+    user_id = #{record.userId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.text != null">
+    `text` = #{record.text,jdbcType=VARCHAR},
+    </if>
+    <if test="record.createTime != null">
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    </if>
+  </set>
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+  update sampledb.t_response_sec
+  set respond_id = #{record.respondId,jdbcType=VARCHAR},
+    user_id = #{record.userId,jdbcType=VARCHAR},
+    `text` = #{record.text,jdbcType=VARCHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP}
+  <if test="_parameter != null">
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.github.spring.base.entity.ResponseSecEntity">
+  update sampledb.t_response_sec
+  <set>
+    <if test="userId != null">
+    user_id = #{userId,jdbcType=VARCHAR},
+    </if>
+    <if test="text != null">
+    `text` = #{text,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null">
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    </if>
+  </set>
+  where respond_id = #{respondId,jdbcType=VARCHAR}
+  </update>
+  <insert id="batchInsert" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    insert into sampledb.t_response_sec
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      respond_id,
+      user_id,
+      `text`,
+      create_time,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{item.respondId,jdbcType=VARCHAR},
+      #{item.userId,jdbcType=VARCHAR},
+      #{item.text,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      </trim>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </insert>
+  <update id="batchUpdate" parameterType="list">
+  <choose>
+    <when test="list != null and list.size != 0">
+    <foreach collection="list" index="index" item="item" separator=";">
+       update sampledb.t_response_sec
+      <set>
+      <trim suffixOverrides=",">
+        <if test="item.userId != null">
+        user_id = #{item.userId,jdbcType=VARCHAR},
+        </if>
+        <if test="item.text != null">
+        `text` = #{item.text,jdbcType=VARCHAR},
+        </if>
+        <if test="item.createTime != null">
+        create_time = #{item.createTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+      </set>
+      <where>
+      <trim suffixOverrides=",">
+        respond_id = #{item.respondId,jdbcType=VARCHAR},
+      </trim>
+      </where>
+    </foreach>
+    </when>
+    <otherwise>
+    SELECT 0
+    </otherwise>
+  </choose>
+  </update>
+  <sql id="Identifiers_Array_Conditions">
+  <foreach collection="array" index="index" item="item" separator=" and ">
+    <if test="item == 'respondId'">
+    respond_id = #{record.respondId,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'userId'">
+    user_id = #{record.userId,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'text'">
+    `text` = #{record.text,jdbcType=VARCHAR}
+    </if>
+    <if test="item == 'createTime'">
+    create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    </if>
+  </foreach>
+  </sql>
+  <update id="upsert" parameterType="map">
+  insert into sampledb.t_response_sec
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    respond_id,
+    user_id,
+    `text`,
+    create_time,
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    #{record.respondId,jdbcType=VARCHAR},
+    #{record.userId,jdbcType=VARCHAR},
+    #{record.text,jdbcType=VARCHAR},
+    #{record.createTime,jdbcType=TIMESTAMP},
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    respond_id = #{record.respondId,jdbcType=VARCHAR},
+    user_id = #{record.userId,jdbcType=VARCHAR},
+    `text` = #{record.text,jdbcType=VARCHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+  </trim>
+  </update>
+  <update id="upsertSelective" parameterType="map">
+  insert into sampledb.t_response_sec
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.respondId != null">
+    respond_id,
+    </if>
+    <if test="record.userId != null">
+    user_id,
+    </if>
+    <if test="record.text != null">
+    `text`,
+    </if>
+    <if test="record.createTime != null">
+    create_time,
+    </if>
+  </trim>
+  values 
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="record.respondId != null">
+    #{record.respondId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.userId != null">
+    #{record.userId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.text != null">
+    #{record.text,jdbcType=VARCHAR},
+    </if>
+    <if test="record.createTime != null">
+    #{record.createTime,jdbcType=TIMESTAMP},
+    </if>
+  </trim>
+  on duplicate key update 
+  <trim suffixOverrides=",">
+    <if test="record.respondId != null">
+    respond_id = #{record.respondId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.userId != null">
+    user_id = #{record.userId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.text != null">
+    `text` = #{record.text,jdbcType=VARCHAR},
+    </if>
+    <if test="record.createTime != null">
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    </if>
+  </trim>
+  </update>
+  <select id="selectByUniqueKey" parameterType="org.github.spring.base.entity.ResponseSecEntity" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sampledb.t_response_sec
+  <where>
+    <trim suffixOverrides=",">
+    <if test="record.userId != null">
+      user_id = #{record.userId,jdbcType=VARCHAR},
+    </if>
+    <if test="record.text != null">
+      `text` = #{record.text,jdbcType=VARCHAR},
+    </if>
+    <if test="record.createTime != null">
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    </if>
+    </trim>
+  </where>
+  </select>
+</mapper>

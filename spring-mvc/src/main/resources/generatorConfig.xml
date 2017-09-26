@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <properties resource="property/profile/dev.properties"/>
+
+  <context id="mysql-sampledb" defaultModelType="hierarchical" targetRuntime="MyBatis3" introspectedColumnImpl="org.github.spring.mybatis.generator.NaiveIntrospectedColumn">
+    <property name="dataBaseName" value="sampledb"/>
+    <property name="javaFileEncoding" value="UTF-8"/>
+    <property name="autoDelimitKeywords" value="true"/>
+    <property name="beginningDelimiter" value="${mysql.beginningDelimiter}"/>
+    <property name="endingDelimiter" value="${mysql.endingDelimiter}"/>
+    <property name="javaFormatter" value="org.github.spring.mybatis.generator.JavaFormatter"/>
+    <property name="xmlFormatter" value="org.github.spring.mybatis.generator.XmlFormatter"/>
+
+    <plugin type="org.github.spring.mybatis.generator.NaiveRenameClassPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.EqualsHashCodePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.NaiveSerializablePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.BatchInsertPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.BatchInsertWithBLOBsPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.BatchUpdatePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.BatchUpdateWithBLOBsPlugin"/>
+    <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+    <plugin type="com.freetmp.mbg.plugin.upsert.MySqlUpsertPlugin"/>
+    <plugin type="com.google.code.mybatis.generator.plugins.CriteriaBuilderPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.QueryInterfacePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.SqlMapperXMLOverridePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.MethodInOptimizationPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.MethodBetweenOptimizationPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.MethodParamNonNullOptimizationPlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.SelectByUniqueKeyMethodGeneratePlugin"/>
+    <plugin type="org.github.spring.mybatis.generator.SelectByPrimaryKeyWithoutBLOBsMethodGeneratePlugin"/>
+
+    <commentGenerator type="org.github.spring.mybatis.generator.NaiveCommentGenerator"/>
+
+    <jdbcConnection driverClass="${mysql.driverClassName}" connectionURL="${mysql.jdbcUrl}" userId="${mysql.username}" password="${mysql.password}"/>
+
+    <javaTypeResolver type="org.github.spring.mybatis.generator.NaiveJavaTypeResolver"/>
+
+    <javaModelGenerator targetPackage="${mysql.targetPackage.entity}" targetProject="src/main/java">
+      <property name="trimStrings" value="true"/>
+      <property name="rootClass" value="org.github.spring.footstone.AbstractEntity"/>
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="${mysql.targetPackage.sqlmapper}" targetProject="src/main/resources"/>
+
+    <javaClientGenerator type="MIXEDMAPPER" targetPackage="${mysql.targetPackage.dao}" targetProject="src/main/java">
+      <property name="rootInterface" value="org.github.spring.footstone.MyBatisMapper"/>
+    </javaClientGenerator>
+
+    <table tableName="t_users" domainObjectName="Users"/>
+    <table tableName="t_user" domainObjectName="User"/>
+    <table tableName="t_login_log" domainObjectName="LoginLog"/>
+    <table tableName="t_users_info" domainObjectName="UsersInfo"/>
+    <table tableName="t_blog" domainObjectName="Blog"/>
+    <table tableName="t_art_stat" domainObjectName="ArtStat"/>
+    <table tableName="t_response_one" domainObjectName="ResponseOne"/>
+    <table tableName="t_response_sec" domainObjectName="ResponseSec"/>
+    <table tableName="t_source" domainObjectName="Source"/>
+    <table tableName="album" domainObjectName="Album"/>
+    <table tableName="article" domainObjectName="Article"/>
+    <table tableName="critique" domainObjectName="Critique"/>
+    <table tableName="me" domainObjectName="Me"/>
+    <table tableName="photo" domainObjectName="Photo"/>
+    <table tableName="authorities" domainObjectName="Authorities"/>
+    <table tableName="critique" domainObjectName="Critique"/>
+    <table tableName="manager" domainObjectName="Manager"/>
+    <table tableName="oauth_access_token" domainObjectName="OauthAccessToken"/>
+    <table tableName="oauth_client_details" domainObjectName="OauthClientDetails"/>
+    <table tableName="oauth_client_token" domainObjectName="OauthClientToken"/>
+  </context>
+</generatorConfiguration>

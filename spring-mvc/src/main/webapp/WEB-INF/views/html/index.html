@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="JYD_XL">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/static/assets/css/reset.css">
+    <link rel="stylesheet" href="/static/assets/css/supersized.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+</head>
+
+<body>
+<div class="page-container">
+    <h1>LOGIN</h1>
+    <form id="form" action="/home/ssm" method="post">
+        <input name="username" class="username" placeholder="username">
+        <input type="password" name="password" class="password" placeholder="password">
+        <input type="hidden" name="number" value="1.1111111">
+        <input type="hidden" name="datetime" value="2017-01-11">
+        <button id="sign">SIGN</button>
+        <div class="error"><span>+</span></div>
+    </form>
+    <div class="connect">
+        <p>or login with</p>
+        <p>
+            <a class="facebook" href=""></a>
+            <a class="twitter" href=""></a>
+        </p>
+    </div>
+</div>
+
+<!-- javascript -->
+<script src="/static/assets/js/jquery-1.8.2.min.js"></script>
+<script src="/static/assets/js/supersized.3.2.7.min.js"></script>
+<script src="/static/assets/js/supersized-init.js"></script>
+<script src="/static/uri/index.js"></script>
+</body>
+</html>
