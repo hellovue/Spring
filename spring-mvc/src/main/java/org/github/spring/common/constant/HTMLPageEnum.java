@@ -2,8 +2,10 @@ package org.github.spring.common.constant;
 
 import org.github.spring.restful.VIEWReturn;
 
+import lombok.NonNull;
+
 /**
- * CACHE_PAGE_HTML page enum.
+ * HTML page enum.
  *
  * @author JYD_XL
  */
@@ -14,12 +16,12 @@ public enum HTMLPageEnum implements VIEWReturn {
   private final String _path;
 
   /** Constructor. */
-  HTMLPageEnum(String path) {
-    _path = path;
+  HTMLPageEnum(@NonNull String path) {
+    _path = PREFIX_HTML.concat(path);
   }
 
   @Override
   public String get() {
-    return PREFIX_HTML.concat(_path);
+    return _path;
   }
 }

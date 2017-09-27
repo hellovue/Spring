@@ -34,14 +34,14 @@ public class InvokeArgumentResolver extends AbstractSpringComponent implements H
 
   @Override
   public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-    ObjectMapper objectMapper = this.getMapper(parameter);
-    String value = parameter.getParameterAnnotation(Invoke.class).value();
     HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+    String value = parameter.getParameterAnnotation(Invoke.class).value();
+    ObjectMapper objectMapper = this.getMapper(parameter);
     try {
-      if (StringUtil.isBlank(value)) {
-        return objectMapper.readValue(request.getInputStream(), parameter.getParameterType());
-      } else {
+      if (StringUtil.isNoneBlank(value)) {
         return objectMapper.readValue(request.getParameter(value), parameter.getParameterType());
+      } else {
+        return objectMapper.readValue(request.getInputStream(), parameter.getParameterType());
       }
     } catch (IOException e) {
       log.error("exception-invoke ==> " + e.getMessage(), e);

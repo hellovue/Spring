@@ -1,1 +1,1 @@
-![CAT](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495725066013&di=24200148f4e7b3d5ba5ba78321314c4d&imgtype=0&src=http%3A%2F%2Fa3.topitme.com%2Fe%2F54%2F32%2F1129257176ba13254eo.jpg "GitHub")
+![GitHub](image.jpg "CAT")
