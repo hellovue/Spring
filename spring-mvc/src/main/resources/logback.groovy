@@ -11,7 +11,7 @@ appender("STDOUT", ConsoleAppender) {
 appender("BACK", RollingFileAppender) {
     file = "${logDir}/spring-mvc.log"
     rollingPolicy(SizeAndTimeBasedRollingPolicy) {
-        fileNamePattern = "${logDir}/log-archiver/${byDay}.%i.zip"
+        fileNamePattern = "${logDir}/log-archiver/${byDay}.%i.zipServletContextResources"
         maxHistory = 30
         maxFileSize = FileSize.valueOf("5MB")
         totalSizeCap = FileSize.valueOf("10MB")

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.github.spring.bootstrap.ServletResourceLoader;
 import org.github.spring.enumeration.ContentType;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
@@ -22,9 +23,14 @@ import static org.github.spring.enumeration.ContentType.FILE;
 /**
  * Top interface of file.
  *
+ * <pre>
+ *   return FileReturn.of();
+ * </pre>
+ *
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
+ * @since 1.0.0GA
  */
 public interface FileReturn extends Returnable {
   @Override
@@ -43,13 +49,14 @@ public interface FileReturn extends Returnable {
   }
 
   @Override
-  default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException, UnsupportedOperationException {
+  default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException {
     this.setFileName(response);
     Returnable.super.collect(request, response);
   }
 
   default void setFileName(@NonNull HttpServletResponse response) throws IOException {
-    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.resource().getFilename()));
+    int lastIndex = this.get().lastIndexOf("/");
+    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex == - 1 ? 0 : lastIndex)));
   }
 
   default Resource resource() throws IOException {
@@ -76,8 +83,8 @@ public interface FileReturn extends Returnable {
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull String fileName, @NonNull InputStream input) {
-    return new TempFileReturn(fileName, input);
+  static FileReturn of(@NonNull String name, @NonNull InputStream input) {
+    return new TempFileReturn(name, input);
   }
 
   final class TempFileReturn implements FileReturn {

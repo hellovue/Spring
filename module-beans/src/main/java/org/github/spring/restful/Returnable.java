@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.footstone.ConstInterface;
+
 import org.springframework.http.MediaType;
 
 import lombok.NonNull;
@@ -19,22 +20,22 @@ import static org.github.spring.enumeration.ContentType.TEXT;
 
 /**
  * Top interface of all.
- * <p>
+ *
  * 1.The core function of this interface is {@link Supplier#get}.
  * 2.This interface returns a string by default {@code text/plain; charset=UTF-8}.
  * 3.This interface is a functional interface {@link FunctionalInterface}, recommended to use lambda expressions.
- * <p>
+ *
  * <pre>
  *     return Returnable.of();
  * </pre>
  *
  * @author JYD_XL
  * @see java.util.function.Supplier
- * @since 1.0.0
+ * @since 1.0.0GA
  */
 @FunctionalInterface
 public interface Returnable extends Serializable, ConstInterface, Supplier<String> {
-  /** Get media type of return data {@link MediaType}. */
+  /** Get content type {@link MediaType} of return data. */
   default ContentType returnType() {
     return TEXT;
   }
@@ -49,7 +50,7 @@ public interface Returnable extends Serializable, ConstInterface, Supplier<Strin
     //The interface has no attributes,so it can not perform cleanup operations. The default implementation here is empty...
   }
 
-  /** Transmit data through the core function directly {@link Supplier#get}. */
+  /** Transmit data through the core function {@link Supplier#get} directly. */
   default boolean functional() {
     return true;
   }
@@ -60,7 +61,7 @@ public interface Returnable extends Serializable, ConstInterface, Supplier<Strin
   }
 
   /** Consume data by outputStream {@link OutputStream}. */
-  default void accept(@NonNull OutputStream outputStream) throws IOException {
+  default void accept(@NonNull OutputStream output) throws IOException {
     throw new UnsupportedOperationException();
   }
 

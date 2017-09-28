@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.github.spring.bootstrap.ServletResourcePatternResolver;
 import org.github.spring.util.ZipResources;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -15,19 +16,22 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import lombok.NonNull;
 
 /**
- * Top interface of MultiFile.
+ * Top interface of files.
+ *
+ * <pre>
+ *   return MultiFileReturn.of();
+ * </pre>
  *
  * @author JYD_XL
- * @see java.io.Serializable
  * @see java.util.function.Supplier
- * @see org.github.spring.footstone.ConstInterface
  * @see org.github.spring.restful.Returnable
- * @see FileReturn
+ * @see org.github.spring.restful.FileReturn
+ * @since 1.0.0GA
  */
 public interface MultiFileReturn extends FileReturn {
   @Override
   default void accept(OutputStream output) throws IOException {
-    ZipResources.zip(output, this.resources());
+    ZipResources.zipServletContextResources(output, this.resources());
   }
 
   @Override

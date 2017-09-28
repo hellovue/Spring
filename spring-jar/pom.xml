@@ -9,7 +9,7 @@
   <parent>
     <artifactId>spring</artifactId>
     <groupId>org.github.spring</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0GA</version>
   </parent>
 
   <build>

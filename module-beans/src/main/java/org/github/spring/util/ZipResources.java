@@ -7,23 +7,24 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.springframework.core.io.Resource;
+import org.springframework.web.context.support.ServletContextResource;
 
 import com.google.common.io.ByteStreams;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import lombok.NonNull;
 import lombok.val;
 
 public abstract class ZipResources {
-  @CanIgnoreReturnValue
-  public static OutputStream zip(@NonNull OutputStream outputStream, @NonNull Resource... resources) throws IOException {
+  public static void zipServletContextResources(@NonNull OutputStream outputStream, @NonNull Resource... resources) throws IOException {
     val zipOutputStream = new ZipOutputStream(outputStream);
-    for (val resource : resources) {
+    for (val res : resources) {
+      ServletContextResource resource = (ServletContextResource) res;
+      if (! resource.isReadable()) {continue;}
       InputStream inputStream = resource.getInputStream();
-      zipOutputStream.putNextEntry(new ZipEntry(resource.getFilename()));
-      zipOutputStream.write(ByteStreams.toByteArray(inputStream));
+      zipOutputStream.putNextEntry(new ZipEntry(resource.getPath().substring(1)));
+      ByteStreams.copy(inputStream, zipOutputStream);
       inputStream.close();
     }
-    return zipOutputStream;
+    zipOutputStream.close();
   }
 }

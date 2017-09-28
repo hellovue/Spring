@@ -61,8 +61,8 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   }
 
   @Override
-  public void accept(@NonNull OutputStream outputStream) throws IOException {
-    JSONMapperHolder.getWebJSONMapper().writeValue(outputStream, this);
+  public void accept(@NonNull OutputStream output) throws IOException {
+    JSONMapperHolder.getWebJSONMapper().writeValue(output, this);
   }
 
   @Override

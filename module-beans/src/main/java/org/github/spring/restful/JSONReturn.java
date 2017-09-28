@@ -8,7 +8,7 @@ import static org.github.spring.enumeration.ContentType.JSON;
 
 /**
  * Top interface of json.
- * <p>
+ *
  * <pre>
  *   return JSONReturn.of();
  * </pre>
@@ -16,7 +16,7 @@ import static org.github.spring.enumeration.ContentType.JSON;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 1.0.0
+ * @since 1.0.0GA
  */
 @FunctionalInterface
 public interface JSONReturn extends Returnable {

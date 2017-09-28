@@ -51,8 +51,8 @@ public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   }
 
   @Override
-  public void accept(@NonNull OutputStream outputStream) throws IOException {
-    this.createMapper().writeValueWithIOE(outputStream, this);
+  public void accept(@NonNull OutputStream output) throws IOException {
+    this.createMapper().writeValueWithIOE(output, this);
   }
 
   @Override
