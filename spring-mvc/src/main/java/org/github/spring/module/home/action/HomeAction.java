@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.github.spring.annotation.Invoke;
 import org.github.spring.base.AbstractAction;
 import org.github.spring.common.constant.HTMLPageEnum;
-import org.github.spring.footstone.PageHelperModel;
 import org.github.spring.module.home.model.TeacherCondModel;
 import org.github.spring.module.home.service.IHomeService;
 import org.github.spring.restful.MultiFileReturn;
@@ -49,8 +48,8 @@ public class HomeAction extends AbstractAction {
    * @return JSONReturn
    */
   @GetMapping("ssm")
-  public Returnable search(TeacherCondModel condModel, PageHelperModel pageHelperModel) {
-    return homeService.search(condModel, pageHelperModel);
+  public Returnable search(TeacherCondModel condModel) {
+    return homeService.search(condModel);
   }
 
   /**
@@ -80,6 +79,6 @@ public class HomeAction extends AbstractAction {
    */
   @GetMapping("jsonp")
   public Returnable holder(String name) {
-    return JSONPReturn.of("bilibili", "JYD_XL", 1, 2, 3,name);
+    return JSONPReturn.of("bilibili", "JYD_XL", 1, 2, 3, name);
   }
 }

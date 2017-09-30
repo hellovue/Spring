@@ -55,6 +55,16 @@ public interface ConstInterface {
 
   String SPACE = " ";
 
+  String FIELD_SORT_ORDER = "sortOrder";
+
+  String FIELD_SORT_NAME = "sortName";
+
+  String FIELD_PAGE_SIZE = "pageSize";
+
+  String FIELD_PAGE_FLAG = "pageFlag";
+
+  String FIELD_PAGE_NUMBER = "pageNumber";
+
   /** default page size. */
   int PAGE_SIZE = 10;
 

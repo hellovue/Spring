@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.github.spring.annotation.Column;
+import org.github.spring.common.constant.CodeIndex;
 import org.github.spring.enumeration.Flag;
 import org.github.spring.footstone.AbstractEntity;
 
@@ -18,7 +19,7 @@ import lombok.Setter;
  * @author JYD_XL
  */
 @Setter
-public class TeacherCondModel extends AbstractEntity {
+public class TeacherCondModel extends AbstractEntity implements CodeIndex {
   /** number. */
   @Column
   private BigDecimal number;

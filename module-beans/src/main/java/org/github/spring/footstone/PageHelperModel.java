@@ -2,8 +2,9 @@ package org.github.spring.footstone;
 
 import java.util.Optional;
 
-import org.apache.ibatis.session.RowBounds;
 import org.github.spring.util.StringUtil;
+
+import org.apache.ibatis.session.RowBounds;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.PageHelper;
@@ -16,7 +17,7 @@ import com.github.pagehelper.PageHelper;
  * @author JYD_XL
  */
 @SuppressWarnings("serial")
-public final class PageHelperModel extends AbstractEntity {
+public final class PageHelperModel implements ConstInterface {
   /** sort name. */
   private String sortName = EMPTY;
 
@@ -44,10 +45,10 @@ public final class PageHelperModel extends AbstractEntity {
   /**
    * SET pageSize.
    *
-   * @param pageSize int
+   * @param pageSize String
    */
-  public void setPageSize(int pageSize) {
-    this.pageSize = pageSize;
+  public void setPageSize(String pageSize) {
+    if (StringUtil.isNotBlank(pageSize)) this.pageSize = Integer.parseInt(pageSize);
   }
 
   /**
@@ -62,10 +63,10 @@ public final class PageHelperModel extends AbstractEntity {
   /**
    * SET pageNumber.
    *
-   * @param pageNumber int
+   * @param pageNumber String
    */
-  public void setPageNumber(int pageNumber) {
-    this.pageNumber = pageNumber;
+  public void setPageNumber(String pageNumber) {
+    if (StringUtil.isNotBlank(pageNumber)) this.pageNumber = Integer.parseInt(pageNumber);
   }
 
   /**
@@ -116,10 +117,10 @@ public final class PageHelperModel extends AbstractEntity {
   /**
    * SET pageFlag.
    *
-   * @param pageFlag boolean
+   * @param pageFlag String
    */
-  public void setPageFlag(boolean pageFlag) {
-    this.pageFlag = pageFlag;
+  public void setPageFlag(String pageFlag) {
+    if (StringUtil.isNotBlank(pageFlag)) this.pageFlag = Boolean.parseBoolean(pageFlag);
   }
 
   /**
@@ -146,7 +147,7 @@ public final class PageHelperModel extends AbstractEntity {
    * @return 排序信息
    */
   private String getSortInfoByCustom() {
-    return Optional.of(sortName).filter(StringUtil::isNotBlank).map(v -> v.concat(SPACE).concat(sortOrder)).orElse(null);
+    return Optional.of(sortName).filter(StringUtil:: isNotBlank).map(v -> v.concat(SPACE).concat(sortOrder)).orElse(null);
   }
 
   /**
@@ -167,10 +168,36 @@ public final class PageHelperModel extends AbstractEntity {
   }
 
   /**
+   * SET pageSize.
+   *
+   * @param pageSize int
+   */
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
+
+  /**
+   * SET pageNumber.
+   *
+   * @param pageNumber int
+   */
+  public void setPageNumber(int pageNumber) {
+    this.pageNumber = pageNumber;
+  }
+
+  /**
+   * SET pageFlag.
+   *
+   * @param pageFlag boolean
+   */
+  public void setPageFlag(boolean pageFlag) {
+    this.pageFlag = pageFlag;
+  }
+
+  /**
    * WITH pageSize.
    *
    * @param pageSize int
-   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageSize(int pageSize) {
@@ -182,7 +209,6 @@ public final class PageHelperModel extends AbstractEntity {
    * WITH pageNumber.
    *
    * @param pageNumber int
-   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageNumber(int pageNumber) {
@@ -194,7 +220,6 @@ public final class PageHelperModel extends AbstractEntity {
    * WITH sortName.
    *
    * @param sortName String
-   *
    * @return PageHelperModel
    */
   public PageHelperModel withSortName(String sortName) {
@@ -206,7 +231,6 @@ public final class PageHelperModel extends AbstractEntity {
    * WITH sortOrder.
    *
    * @param sortOrder String
-   *
    * @return PageHelperModel
    */
   public PageHelperModel withSortOrder(String sortOrder) {
@@ -218,7 +242,6 @@ public final class PageHelperModel extends AbstractEntity {
    * WITH pageFlag.
    *
    * @param pageFlag boolean
-   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageFlag(boolean pageFlag) {
