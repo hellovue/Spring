@@ -38,7 +38,7 @@ public class ArticleEntity extends ArticleKey implements Serializable {
   /** count1 [ article.count1 ]. */
   private Integer count1;
 
-  /** type [ article.type ]. */
+  /** flag [ article.flag ]. */
   private String type;
 
   /** notice [ article.notice ]. */
@@ -251,7 +251,7 @@ public class ArticleEntity extends ArticleKey implements Serializable {
   }
 
   /**
-   * GET type [ article.type ].
+   * GET flag [ article.flag ].
    *
    * @return java.lang.String
    */
@@ -260,7 +260,7 @@ public class ArticleEntity extends ArticleKey implements Serializable {
   }
 
   /**
-   * WITH type [ article.type ].
+   * WITH flag [ article.flag ].
    *
    * @param type java.lang.String
    * @return org.github.spring.base.entity.ArticleEntity
@@ -271,7 +271,7 @@ public class ArticleEntity extends ArticleKey implements Serializable {
   }
 
   /**
-   * SET type [ article.type ].
+   * SET flag [ article.flag ].
    *
    * @param type java.lang.String
    */

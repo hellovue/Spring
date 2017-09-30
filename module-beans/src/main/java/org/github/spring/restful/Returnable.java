@@ -35,7 +35,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
  */
 @FunctionalInterface
 public interface Returnable extends Serializable, ConstInterface, Supplier<String> {
-  /** Get content type {@link MediaType} of return data. */
+  /** Get content flag {@link MediaType} of return data. */
   default ContentType returnType() {
     return TEXT;
   }

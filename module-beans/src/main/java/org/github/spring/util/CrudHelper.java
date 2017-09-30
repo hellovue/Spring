@@ -11,13 +11,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.github.spring.annotation.Column;
 import org.github.spring.enumeration.Flag;
 import org.github.spring.exception.DataException;
 import org.github.spring.exception.RunException;
 
+import com.google.common.annotations.Beta;
+
+import lombok.NonNull;
 import lombok.val;
 
 import static java.util.Objects.isNull;
@@ -31,46 +33,47 @@ import static org.github.spring.enumeration.Flag.NOT_BETWEEN_TAIL;
  *
  * @author JYD_XL
  */
+@Beta
 public abstract class CrudHelper {
   /** MethodDescription----AND. */
   private static final String AND = "and";
-  
+
   /** MethodDescription----GREATER_THAN_OR_EQUAL_TO. */
   private static final String GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO";
-  
+
   /** MethodDescription----GREATER_THAN. */
   private static final String GREATER_THAN = "GREATER_THAN";
-  
+
   /** MethodDescription----LESS_THAN_OR_EQUAL_TO. */
   private static final String LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO";
-  
+
   /** MethodDescription----LESS_THAN. */
   private static final String LESS_THAN = "LESS_THAN";
-  
+
   /** MethodDescription----Between. */
   private static final String BETWEEN = "Between";
-  
+
   /** MethodDescription----NotBetween. */
   private static final String NOT_BETWEEN = "NotBetween";
-  
+
   /** like. */
   private static final String LIKE = "%";
-  
+
   /** Flag----Head. */
   private static final String FLAG_HEAD = "Head";
-  
+
   /** Flag----Tail. */
   private static final String FLAG_TAIL = "Tail";
-  
+
   /** Flag----UnderLine. */
   private static final String UNDERLINE = "_";
-  
+
   /** Flag----LIKE. */
   private static final String FLAG_LIKE = "LIKE";
-  
+
   /** SPECIAL_TAG_SET. */
   private static final List<Flag> FLAG_LIST = Arrays.asList(BETWEEN_HEAD, BETWEEN_TAIL, NOT_BETWEEN_HEAD, NOT_BETWEEN_TAIL);
-  
+
   /**
    * Start CRUD.
    *
@@ -80,7 +83,7 @@ public abstract class CrudHelper {
   public static void startCrud(Object condModel, Object criteria) {
     start(condModel, criteria, null);
   }
-  
+
   /**
    * Start CRUDIgnore.
    *
@@ -91,7 +94,7 @@ public abstract class CrudHelper {
   public static void startIgnore(Object condModel, Object criteria, String... ignore) {
     start(condModel, criteria, Status.IGNORE, ignore);
   }
-  
+
   /**
    * Start CRUDTarget.
    *
@@ -102,7 +105,7 @@ public abstract class CrudHelper {
   public static void startTarget(Object condModel, Object criteria, String... target) {
     start(condModel, criteria, Status.TARGET, target);
   }
-  
+
   /**
    * start.
    *
@@ -111,21 +114,20 @@ public abstract class CrudHelper {
    * @param status    Status
    * @param param     String...
    */
-  private static void start(@lombok.NonNull Object condModel, @lombok.NonNull Object criteria, Status status, String... param) {
+  private static void start(@NonNull Object condModel, @NonNull Object criteria, Status status, String... param) {
     try {
       turn(condModel, criteria, status, param);
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | IntrospectionException | DataException e) {
       throw new RunException("CRUDTarget-Exception:" + e.getMessage(), e);
     }
   }
-  
+
   /**
    * CURD core function.
    *
    * @param condModel Object
    * @param criteria  Object
    * @param status    Status
-   *
    * @throws IntrospectionException    Exception
    * @throws IllegalAccessException    Exception
    * @throws IllegalArgumentException  Exception
@@ -134,25 +136,24 @@ public abstract class CrudHelper {
    * @throws SecurityException         Exception
    * @throws DataException             Exception
    */
-  private static void turn(Object condModel, Object criteria, Status status, String... param) throws
-    IntrospectionException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, DataException {
+  private static void turn(Object condModel, Object criteria, Status status, String... param) throws IntrospectionException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, DataException {
     // GET criteria class.
     val criteriaClass = criteria.getClass();
     // GET condition model class.
     val condModelClass = condModel.getClass();
     // GET fields.
     val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
-    
+
     // GET params.
     val params = Arrays.asList(param);
-    
+
     getFields(condModelClass, fields);
-    
+
     // clean.
     clear(fields, params, status, condModelClass);
     // init.
     val betweenMap = new HashMap<String, Between>();
-    
+
     // start.
     for (val field : fields) {
       // 设置属性访问权限.
@@ -166,23 +167,23 @@ public abstract class CrudHelper {
         // 去除字符串左右空格.
         value = value.toString().trim();
       }
-      
+
       Flag flag;
       String goal;
       if (field.isAnnotationPresent(Column.class)) {
-        // GET type.
-        flag = field.getAnnotation(Column.class).type();
+        // GET flag.
+        flag = field.getAnnotation(Column.class).flag();
         // GET goal.
         goal = field.getAnnotation(Column.class).goal().trim();
       } else {
         val propertyDescriptor = new PropertyDescriptor(field.getName(), condModelClass);
         Method getMethod = propertyDescriptor.getReadMethod();
-        // GET type.
-        flag = getMethod.getAnnotation(Column.class).type();
+        // GET flag.
+        flag = getMethod.getAnnotation(Column.class).flag();
         // GET goal.
         goal = getMethod.getAnnotation(Column.class).goal().trim();
       }
-      
+
       // is between?
       if (FLAG_LIST.contains(flag)) {
         if (betweenMap.containsKey(goal)) {
@@ -221,13 +222,13 @@ public abstract class CrudHelper {
         }
       }
     }
-    
+
     // start between.
     for (Map.Entry<String, Between> temp : betweenMap.entrySet()) {
       invokeBetween(temp.getKey(), temp.getValue(), criteriaClass, criteria);
     }
   }
-  
+
   /**
    * 通过递归获取查询数据模型类的所有属性信息.
    *
@@ -240,7 +241,7 @@ public abstract class CrudHelper {
     fields.addAll(Arrays.asList(condModelClass.getDeclaredFields()));
     getFields(condModelClass, fields);
   }
-  
+
   /**
    * Method Invoke.
    *
@@ -249,15 +250,13 @@ public abstract class CrudHelper {
    * @param detail        String
    * @param criteria      Object
    * @param value         Object...
-   *
    * @throws IllegalAccessException    Exception
    * @throws IllegalArgumentException  Exception
    * @throws InvocationTargetException Exception
    * @throws NoSuchMethodException     Exception
    * @throws SecurityException         Exception
    */
-  private static void invokeMethod(Class<?> criteriaClass, String target, String detail, Object criteria, Object... value) throws IllegalAccessException, IllegalArgumentException,
-    InvocationTargetException, NoSuchMethodException, SecurityException {
+  private static void invokeMethod(Class<?> criteriaClass, String target, String detail, Object criteria, Object... value) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
     if (value.length == 0) {
       criteriaClass.getDeclaredMethod(AND + headUp(target) + detail).invoke(criteria);
     } else if (value.length == 1) {
@@ -269,7 +268,7 @@ public abstract class CrudHelper {
       }
     }
   }
-  
+
   /**
    * Between Invoke.
    *
@@ -277,15 +276,13 @@ public abstract class CrudHelper {
    * @param between       Between
    * @param criteriaClass Class<?>
    * @param criteria      Object
-   *
    * @throws IllegalAccessException    Exception
    * @throws IllegalArgumentException  Exception
    * @throws InvocationTargetException Exception
    * @throws NoSuchMethodException     Exception
    * @throws SecurityException         Exception
    */
-  private static void invokeBetween(String target, Between between, Class<?> criteriaClass, Object criteria) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-    NoSuchMethodException, SecurityException {
+  private static void invokeBetween(String target, Between between, Class<?> criteriaClass, Object criteria) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
     // GET Type.
     switch (between.getType()) {
       case HEAD:
@@ -298,60 +295,54 @@ public abstract class CrudHelper {
         criteriaClass.getDeclaredMethod(AND + headUp(target) + between.method, between.clazz, between.clazz).invoke(criteria, between.head, between.tail);
     }
   }
-  
+
   /**
    * GET TARGET.
    *
    * @param field Field
    * @param goal  String
-   *
    * @return String
    */
   private static String mark(Field field, String goal) {
     return StringUtil.isEmpty(goal) ? field.getName() : goal;
   }
-  
+
   /**
    * FieldName headUp.
    *
    * @param name String
-   *
    * @return String
    */
   private static String headUp(String name) {
     return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
-  
+
   /**
    * LikeNormal.
    *
    * @param value Object
-   *
    * @return String
    */
   private static String valueLikeNormal(Object value) {
     return LIKE + value + LIKE;
   }
-  
+
   /**
    * LIKE_BEHIND.
    *
    * @param value Object
-   *
    * @return String
    */
   private static String valueLikeBehind(Object value) {
     return value + LIKE;
   }
-  
+
   /**
    * Field clean.
    *
-   * @param fields         List
-   * @param params         List
-   * @param status         Status
-   * @param condModelClass
-   *
+   * @param fields List
+   * @param params List
+   * @param status Status
    * @throws DataException Exception
    */
   private static void clear(List<Field> fields, List<String> params, Status status, Class<?> condModelClass) throws DataException, IntrospectionException {
@@ -366,25 +357,23 @@ public abstract class CrudHelper {
       }
     }
     fields.removeAll(temp);
-    
+
     // default.
     if (isNull(status)) {return;}
-    
+
     // check.
     if (StringUtil.isEmpty(params)) {throw new DataException("When the status is not null,goal can not be null!");}
-    
-    // PRE.
-    val param = params.parallelStream().filter(StringUtil::isNotBlank).distinct().map(String::trim).collect(Collectors.toList());
+
     // clean.
     switch (status) {
       case IGNORE:
-        fields.removeIf(field -> param.contains(field.getName()) || param.contains(field.getAnnotation(Column.class).goal()));
+        fields.removeIf(field -> params.contains(field.getName()) || params.contains(field.getAnnotation(Column.class).goal()));
         break;
       case TARGET:
-        fields.removeIf(field -> ! param.contains(field.getName()) && ! param.contains(field.getAnnotation(Column.class).goal()));
+        fields.removeIf(field -> ! params.contains(field.getName()) && ! params.contains(field.getAnnotation(Column.class).goal()));
     }
   }
-  
+
   /**
    * status.
    *
@@ -393,7 +382,7 @@ public abstract class CrudHelper {
   private enum Status {
     HEAD, TAIL, BOTH, TARGET, IGNORE
   }
-  
+
   /**
    * Between.
    *
@@ -402,79 +391,16 @@ public abstract class CrudHelper {
   private static class Between {
     /** method. */
     String method;
-    
+
     /** HEAD. */
     Object head;
-    
+
     /** TAIL. */
     Object tail;
-    
+
     /** class. */
     Class<?> clazz;
-    
-    /**
-     * Constructor.
-     *
-     * @param flag  Flag
-     * @param value Object
-     *
-     * @throws DataException Exception
-     */
-    Between(Flag flag, Object value) throws DataException {
-      // INIT.
-      clazz = value.getClass();
-      setValue(flag, value);
-    }
-    
-    /**
-     * GET Method name.
-     *
-     * @param flag Flag
-     *
-     * @return String
-     */
-    String getMethod(Flag flag) {
-      return flag.toString().split(UNDERLINE)[0];
-    }
-    
-    /**
-     * GET Field name.
-     *
-     * @param flag Flag
-     *
-     * @return String
-     */
-    String getDetail(Flag flag) {
-      return flag.toString().split(UNDERLINE)[1];
-    }
-    
-    /**
-     * FLAG_LIST value.
-     *
-     * @param flag  Flag
-     * @param value Object
-     *
-     * @throws DataException Exception
-     */
-    void setValue(Flag flag, Object value) throws DataException {
-      if (method == null) {
-        // INIT.
-        method = getMethod(flag);
-      } else if (! method.equals(getMethod(flag))) {
-        throw new DataException("Between AND NotBetween，use one of them!");
-      } else if (! value.getClass().equals(clazz)) {
-        throw new DataException("Class must be same when use between!");
-      }
-      
-      // INIT.
-      String type = getDetail(flag);
-      if (type.equals(FLAG_HEAD)) {
-        head = value;
-      } else if (type.equals(FLAG_TAIL)) {
-        tail = value;
-      }
-    }
-    
+
     /**
      * GET status.
      *
@@ -489,5 +415,67 @@ public abstract class CrudHelper {
         return Status.BOTH;
       }
     }
+
+    /**
+     * GET Method name.
+     *
+     * @param flag Flag
+     * @return String
+     */
+    String getMethod(Flag flag) {
+      return flag.toString().split(UNDERLINE)[0];
+    }
+
+    /**
+     * GET Field name.
+     *
+     * @param flag Flag
+     * @return String
+     */
+    String getDetail(Flag flag) {
+      return flag.toString().split(UNDERLINE)[1];
+    }
+
+    /**
+     * FLAG_LIST value.
+     *
+     * @param flag  Flag
+     * @param value Object
+     * @throws DataException Exception
+     */
+    void setValue(Flag flag, Object value) throws DataException {
+      if (method == null) {
+        // INIT.
+        method = getMethod(flag);
+      } else if (! method.equals(getMethod(flag))) {
+        throw new DataException("Between AND NotBetween，use one of them!");
+      } else if (! value.getClass().equals(clazz)) {
+        throw new DataException("Class must be same when use between!");
+      }
+
+      // INIT.
+      String type = getDetail(flag);
+      if (type.equals(FLAG_HEAD)) {
+        head = value;
+      } else if (type.equals(FLAG_TAIL)) {
+        tail = value;
+      }
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param flag  Flag
+     * @param value Object
+     * @throws DataException Exception
+     */
+    Between(Flag flag, Object value) throws DataException {
+      // INIT.
+      clazz = value.getClass();
+      setValue(flag, value);
+    }
   }
+
+  //TODO 属性信息的包装.
+  private static class FieldWapper {}
 }

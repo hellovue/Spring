@@ -105,5 +105,5 @@ public interface ConstInterface {
   /** prefix of html. */
   String PREFIX_HTML = "html/";
 
-  String FILE_NAME_ZIP = "package.zipServletContextResources";
+  String FILE_NAME_ZIP = "package.zip";
 }

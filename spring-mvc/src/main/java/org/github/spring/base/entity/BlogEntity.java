@@ -27,7 +27,7 @@ public class BlogEntity extends BlogKey implements Serializable {
   /** 作者 [ t_blog.author ]. */
   private String author;
 
-  /** 文章类型（原创、转载） [ t_blog.type ]. */
+  /** 文章类型（原创、转载） [ t_blog.flag ]. */
   private String type;
 
   /** 转载地址 [ t_blog.loadURL ]. */
@@ -136,7 +136,7 @@ public class BlogEntity extends BlogKey implements Serializable {
   }
 
   /**
-   * GET 文章类型（原创、转载） [ t_blog.type ].
+   * GET 文章类型（原创、转载） [ t_blog.flag ].
    *
    * @return java.lang.String
    */
@@ -145,7 +145,7 @@ public class BlogEntity extends BlogKey implements Serializable {
   }
 
   /**
-   * WITH 文章类型（原创、转载） [ t_blog.type ].
+   * WITH 文章类型（原创、转载） [ t_blog.flag ].
    *
    * @param type java.lang.String
    * @return org.github.spring.base.entity.BlogEntity
@@ -156,7 +156,7 @@ public class BlogEntity extends BlogKey implements Serializable {
   }
 
   /**
-   * SET 文章类型（原创、转载） [ t_blog.type ].
+   * SET 文章类型（原创、转载） [ t_blog.flag ].
    *
    * @param type java.lang.String
    */

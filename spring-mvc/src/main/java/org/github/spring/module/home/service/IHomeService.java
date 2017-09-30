@@ -12,5 +12,5 @@ import org.github.spring.common.service.ICommonService;
  */
 public interface IHomeService extends ICommonService {
     /** search. */
-    JSONReturn search(TeacherCondModel condModel, PageHelperModel helperModel);
+    JSONReturn search(TeacherCondModel condModel, PageHelperModel pageHelperModel);
 }

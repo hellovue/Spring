@@ -34,10 +34,10 @@ public interface CritiqueMapper extends MyBatisMapper {
   @Insert({
     "insert into sampledb.critique (id, article_id, ",
     "content, `name`, `time`, ",
-    "photo, `type`, notice)",
+    "photo, `flag`, notice)",
     "values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, ",
     "#{content,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, ",
-    "#{photo,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR})"
+    "#{photo,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR})"
   })
   int insert(CritiqueEntity record);
 
@@ -47,7 +47,7 @@ public interface CritiqueMapper extends MyBatisMapper {
 
   @Select({
     "select",
-    "id, article_id, content, `name`, `time`, photo, `type`, notice",
+    "id, article_id, content, `name`, `time`, photo, `flag`, notice",
     "from sampledb.critique",
     "where id = #{id,jdbcType=INTEGER}"
   })
@@ -67,7 +67,7 @@ public interface CritiqueMapper extends MyBatisMapper {
       "`name` = #{name,jdbcType=VARCHAR},",
       "`time` = #{time,jdbcType=VARCHAR},",
       "photo = #{photo,jdbcType=VARCHAR},",
-      "`type` = #{type,jdbcType=VARCHAR},",
+      "`flag` = #{flag,jdbcType=VARCHAR},",
       "notice = #{notice,jdbcType=VARCHAR}",
     "where id = #{id,jdbcType=INTEGER}"
   })

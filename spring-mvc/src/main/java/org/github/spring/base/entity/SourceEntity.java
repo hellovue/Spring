@@ -24,7 +24,7 @@ public class SourceEntity extends SourceKey implements Serializable {
   /** 标题 [ t_source.title ]. */
   private String title;
 
-  /** 类型 [ t_source.type ]. */
+  /** 类型 [ t_source.flag ]. */
   private String type;
 
   /** 描述信息 [ t_source.sdecotation ]. */
@@ -95,7 +95,7 @@ public class SourceEntity extends SourceKey implements Serializable {
   }
 
   /**
-   * GET 类型 [ t_source.type ].
+   * GET 类型 [ t_source.flag ].
    *
    * @return java.lang.String
    */
@@ -104,7 +104,7 @@ public class SourceEntity extends SourceKey implements Serializable {
   }
 
   /**
-   * WITH 类型 [ t_source.type ].
+   * WITH 类型 [ t_source.flag ].
    *
    * @param type java.lang.String
    * @return org.github.spring.base.entity.SourceEntity
@@ -115,7 +115,7 @@ public class SourceEntity extends SourceKey implements Serializable {
   }
 
   /**
-   * SET 类型 [ t_source.type ].
+   * SET 类型 [ t_source.flag ].
    *
    * @param type java.lang.String
    */

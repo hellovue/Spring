@@ -10,13 +10,13 @@ import org.github.spring.common.constant.HTMLPageEnum;
 import org.github.spring.footstone.PageHelperModel;
 import org.github.spring.module.home.model.TeacherCondModel;
 import org.github.spring.module.home.service.IHomeService;
-import org.github.spring.restful.FileReturn;
 import org.github.spring.restful.MultiFileReturn;
 import org.github.spring.restful.Returnable;
 import org.github.spring.restful.json.JSONPReturn;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,8 +49,8 @@ public class HomeAction extends AbstractAction {
    * @return JSONReturn
    */
   @GetMapping("ssm")
-  public Returnable search(TeacherCondModel condModel, PageHelperModel helperModel) {
-    return homeService.search(condModel, helperModel);
+  public Returnable search(TeacherCondModel condModel, PageHelperModel pageHelperModel) {
+    return homeService.search(condModel, pageHelperModel);
   }
 
   /**
@@ -60,7 +60,7 @@ public class HomeAction extends AbstractAction {
    */
   @GetMapping("file")
   public Returnable format() {
-    return MultiFileReturn.of("/static/**/*");
+    return MultiFileReturn.of("/**/*");
   }
 
   /**
@@ -68,9 +68,9 @@ public class HomeAction extends AbstractAction {
    *
    * @return JSONReturn
    */
-  @GetMapping("lambda")
-  public Returnable lambda(@Invoke Map<String, String> node) {
-    return Returnable.of("Hello,world!");
+  @PostMapping("lambda")
+  public Returnable lambda(@Invoke Map<String, Object> param) {
+    return Returnable.of(param.toString());
   }
 
   /**
@@ -79,7 +79,7 @@ public class HomeAction extends AbstractAction {
    * @return JSONReturn
    */
   @GetMapping("jsonp")
-  public Returnable holder() {
-    return JSONPReturn.of("bilibili", "JYD_XL", 1, 2, 3);
+  public Returnable holder(String name) {
+    return JSONPReturn.of("bilibili", "JYD_XL", 1, 2, 3,name);
   }
 }

@@ -33,10 +33,10 @@ public interface SourceMapper extends MyBatisMapper {
 
   @Insert({
     "insert into sampledb.t_source (source_id, user_id, ",
-    "title, `type`, sdecotation, ",
+    "title, `flag`, sdecotation, ",
     "source_url, create_time)",
     "values (#{sourceId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, ",
-    "#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sdecotation,jdbcType=VARCHAR}, ",
+    "#{title,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{sdecotation,jdbcType=VARCHAR}, ",
     "#{sourceUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})"
   })
   int insert(SourceEntity record);
@@ -47,7 +47,7 @@ public interface SourceMapper extends MyBatisMapper {
 
   @Select({
     "select",
-    "source_id, user_id, title, `type`, sdecotation, source_url, create_time",
+    "source_id, user_id, title, `flag`, sdecotation, source_url, create_time",
     "from sampledb.t_source",
     "where source_id = #{sourceId,jdbcType=VARCHAR}"
   })
@@ -64,7 +64,7 @@ public interface SourceMapper extends MyBatisMapper {
     "update sampledb.t_source",
     "set user_id = #{userId,jdbcType=VARCHAR},",
       "title = #{title,jdbcType=VARCHAR},",
-      "`type` = #{type,jdbcType=VARCHAR},",
+      "`flag` = #{flag,jdbcType=VARCHAR},",
       "sdecotation = #{sdecotation,jdbcType=VARCHAR},",
       "source_url = #{sourceUrl,jdbcType=VARCHAR},",
       "create_time = #{createTime,jdbcType=TIMESTAMP}",

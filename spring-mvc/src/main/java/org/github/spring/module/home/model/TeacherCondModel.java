@@ -1,11 +1,15 @@
 package org.github.spring.module.home.model;
 
-import lombok.Setter;
-import org.github.spring.footstone.AbstractEntity;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+import org.github.spring.footstone.AbstractEntity;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Setter;
 
 /**
  * TeacherCondModel.
@@ -16,9 +20,15 @@ import java.util.Date;
 @Setter
 public class TeacherCondModel extends AbstractEntity {
   /** number. */
+  @Column
   private BigDecimal number;
 
   /** number. */
   @DateTimeFormat(pattern = FORMAT_DATE)
   private Date datetime;
+
+  @Column(flag = Flag.BETWEEN_HEAD, goal = "time")
+  public Date getDatetime() {
+    return datetime;
+  }
 }

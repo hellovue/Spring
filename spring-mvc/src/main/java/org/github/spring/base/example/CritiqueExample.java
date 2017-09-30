@@ -509,72 +509,72 @@ public class CritiqueExample {
     }
 
     public Criteria andTypeIsNull() {
-      addCriterion("`type` is null");
+      addCriterion("`flag` is null");
       return (Criteria) this;
     }
 
     public Criteria andTypeIsNotNull() {
-      addCriterion("`type` is not null");
+      addCriterion("`flag` is not null");
       return (Criteria) this;
     }
 
     public Criteria andTypeEqualTo(String value) {
-      if(value != null) addCriterion("`type` =", value, "type");
+      if(value != null) addCriterion("`flag` =", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeNotEqualTo(String value) {
-      if(value != null) addCriterion("`type` <>", value, "type");
+      if(value != null) addCriterion("`flag` <>", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeGreaterThan(String value) {
-      if(value != null) addCriterion("`type` >", value, "type");
+      if(value != null) addCriterion("`flag` >", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeGreaterThanOrEqualTo(String value) {
-      if(value != null) addCriterion("`type` >=", value, "type");
+      if(value != null) addCriterion("`flag` >=", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeLessThan(String value) {
-      if(value != null) addCriterion("`type` <", value, "type");
+      if(value != null) addCriterion("`flag` <", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeLessThanOrEqualTo(String value) {
-      if(value != null) addCriterion("`type` <=", value, "type");
+      if(value != null) addCriterion("`flag` <=", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeLike(String value) {
-      if(value != null) addCriterion("`type` like", value, "type");
+      if(value != null) addCriterion("`flag` like", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeNotLike(String value) {
-      if(value != null) addCriterion("`type` not like", value, "type");
+      if(value != null) addCriterion("`flag` not like", value, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeIn(List<String> values) {
-      if (values != null && ! values.isEmpty()) addCriterion("`type` in", values, "type");
+      if (values != null && ! values.isEmpty()) addCriterion("`flag` in", values, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeNotIn(List<String> values) {
-      if (values != null && ! values.isEmpty()) addCriterion("`type` not in", values, "type");
+      if (values != null && ! values.isEmpty()) addCriterion("`flag` not in", values, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeBetween(String head, String tail) {
-      if(head != null && tail != null) addCriterion("`type` between", head, tail, "type");
+      if(head != null && tail != null) addCriterion("`flag` between", head, tail, "flag");
       return (Criteria) this;
     }
 
     public Criteria andTypeNotBetween(String head, String tail) {
-      if(head != null && tail != null) addCriterion("`type` not between", head, tail, "type");
+      if(head != null && tail != null) addCriterion("`flag` not between", head, tail, "flag");
       return (Criteria) this;
     }
 

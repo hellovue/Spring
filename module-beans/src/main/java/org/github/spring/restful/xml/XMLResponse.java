@@ -18,7 +18,7 @@ import lombok.NonNull;
  *   return XMLResponse.of();
  * </pre>
  *
- * @param <T> type
+ * @param <T> flag
  * @author JYD_XL
  * @see java.io.Serializable
  * @see java.util.function.Supplier

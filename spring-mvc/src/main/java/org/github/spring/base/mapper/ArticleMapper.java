@@ -35,12 +35,12 @@ public interface ArticleMapper extends MyBatisMapper {
     "insert into sampledb.article (id, title, ",
     "content, image, ",
     "`time`, editer, `count`, ",
-    "count1, `type`, notice, ",
+    "count1, `flag`, notice, ",
     "keywords)",
     "values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, ",
     "#{content,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, ",
     "#{time,jdbcType=VARCHAR}, #{editer,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, ",
-    "#{count1,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, ",
+    "#{count1,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, ",
     "#{keywords,jdbcType=VARCHAR})"
   })
   int insert(ArticleEntity record);
@@ -51,7 +51,7 @@ public interface ArticleMapper extends MyBatisMapper {
 
   @Select({
     "select",
-    "id, title, content, image, `time`, editer, `count`, count1, `type`, notice, ",
+    "id, title, content, image, `time`, editer, `count`, count1, `flag`, notice, ",
     "keywords",
     "from sampledb.article",
     "where id = #{id,jdbcType=INTEGER}"
@@ -74,7 +74,7 @@ public interface ArticleMapper extends MyBatisMapper {
       "editer = #{editer,jdbcType=VARCHAR},",
       "`count` = #{count,jdbcType=INTEGER},",
       "count1 = #{count1,jdbcType=INTEGER},",
-      "`type` = #{type,jdbcType=VARCHAR},",
+      "`flag` = #{flag,jdbcType=VARCHAR},",
       "notice = #{notice,jdbcType=VARCHAR},",
       "keywords = #{keywords,jdbcType=VARCHAR}",
     "where id = #{id,jdbcType=INTEGER}"

@@ -23,11 +23,11 @@ import static org.github.spring.footstone.ConstInterface.EMPTY;
 @Documented
 public @interface Column {
   /**
-   * GET type.
+   * GET flag.
    *
-   * @return type
+   * @return flag
    */
-  Flag type() default EQUAL_TO;
+  Flag flag() default EQUAL_TO;
 
   /**
    * GET goal.

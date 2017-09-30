@@ -26,7 +26,7 @@ public class PhotoEntity extends PhotoKey implements Serializable {
   /** content [ photo.content ]. */
   private String content;
 
-  /** type [ photo.type ]. */
+  /** flag [ photo.flag ]. */
   private String type;
 
   /** notice [ photo.notice ]. */
@@ -126,7 +126,7 @@ public class PhotoEntity extends PhotoKey implements Serializable {
   }
 
   /**
-   * GET type [ photo.type ].
+   * GET flag [ photo.flag ].
    *
    * @return java.lang.String
    */
@@ -135,7 +135,7 @@ public class PhotoEntity extends PhotoKey implements Serializable {
   }
 
   /**
-   * WITH type [ photo.type ].
+   * WITH flag [ photo.flag ].
    *
    * @param type java.lang.String
    * @return org.github.spring.base.entity.PhotoEntity
@@ -146,7 +146,7 @@ public class PhotoEntity extends PhotoKey implements Serializable {
   }
 
   /**
-   * SET type [ photo.type ].
+   * SET flag [ photo.flag ].
    *
    * @param type java.lang.String
    */

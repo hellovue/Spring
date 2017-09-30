@@ -33,10 +33,10 @@ public interface PhotoMapper extends MyBatisMapper {
 
   @Insert({
     "insert into sampledb.photo (id, image, ",
-    "note, content, `type`, ",
+    "note, content, `flag`, ",
     "notice, `time`, album_id)",
     "values (#{id,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, ",
-    "#{note,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, ",
+    "#{note,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, ",
     "#{notice,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, #{albumId,jdbcType=INTEGER})"
   })
   int insert(PhotoEntity record);
@@ -47,7 +47,7 @@ public interface PhotoMapper extends MyBatisMapper {
 
   @Select({
     "select",
-    "id, image, note, content, `type`, notice, `time`, album_id",
+    "id, image, note, content, `flag`, notice, `time`, album_id",
     "from sampledb.photo",
     "where id = #{id,jdbcType=INTEGER}"
   })
@@ -65,7 +65,7 @@ public interface PhotoMapper extends MyBatisMapper {
     "set image = #{image,jdbcType=VARCHAR},",
       "note = #{note,jdbcType=VARCHAR},",
       "content = #{content,jdbcType=VARCHAR},",
-      "`type` = #{type,jdbcType=VARCHAR},",
+      "`flag` = #{flag,jdbcType=VARCHAR},",
       "notice = #{notice,jdbcType=VARCHAR},",
       "`time` = #{time,jdbcType=VARCHAR},",
       "album_id = #{albumId,jdbcType=INTEGER}",

@@ -33,12 +33,12 @@ public interface BlogMapper extends MyBatisMapper {
 
   @Insert({
     "insert into sampledb.t_blog (tid, user_id, ",
-    "title, author, `type`, ",
+    "title, author, `flag`, ",
     "loadURL, `label`, ",
     "decoration, create_time, ",
     "alter_time, `state`)",
     "values (#{tid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, ",
-    "#{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, ",
+    "#{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, ",
     "#{loadurl,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, ",
     "#{decoration,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
     "#{alterTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR})"
@@ -51,7 +51,7 @@ public interface BlogMapper extends MyBatisMapper {
 
   @Select({
     "select",
-    "tid, user_id, title, author, `type`, loadURL, `label`, decoration, create_time, ",
+    "tid, user_id, title, author, `flag`, loadURL, `label`, decoration, create_time, ",
     "alter_time, `state`",
     "from sampledb.t_blog",
     "where tid = #{tid,jdbcType=VARCHAR}"
@@ -70,7 +70,7 @@ public interface BlogMapper extends MyBatisMapper {
     "set user_id = #{userId,jdbcType=VARCHAR},",
       "title = #{title,jdbcType=VARCHAR},",
       "author = #{author,jdbcType=VARCHAR},",
-      "`type` = #{type,jdbcType=CHAR},",
+      "`flag` = #{flag,jdbcType=CHAR},",
       "loadURL = #{loadurl,jdbcType=VARCHAR},",
       "`label` = #{label,jdbcType=VARCHAR},",
       "decoration = #{decoration,jdbcType=VARCHAR},",

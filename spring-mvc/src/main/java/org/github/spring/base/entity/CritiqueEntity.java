@@ -32,7 +32,7 @@ public class CritiqueEntity extends CritiqueKey implements Serializable {
   /** photo [ critique.photo ]. */
   private String photo;
 
-  /** type [ critique.type ]. */
+  /** flag [ critique.flag ]. */
   private String type;
 
   /** notice [ critique.notice ]. */
@@ -184,7 +184,7 @@ public class CritiqueEntity extends CritiqueKey implements Serializable {
   }
 
   /**
-   * GET type [ critique.type ].
+   * GET flag [ critique.flag ].
    *
    * @return java.lang.String
    */
@@ -193,7 +193,7 @@ public class CritiqueEntity extends CritiqueKey implements Serializable {
   }
 
   /**
-   * WITH type [ critique.type ].
+   * WITH flag [ critique.flag ].
    *
    * @param type java.lang.String
    * @return org.github.spring.base.entity.CritiqueEntity
@@ -204,7 +204,7 @@ public class CritiqueEntity extends CritiqueKey implements Serializable {
   }
 
   /**
-   * SET type [ critique.type ].
+   * SET flag [ critique.flag ].
    *
    * @param type java.lang.String
    */
