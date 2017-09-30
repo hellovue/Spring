@@ -14,22 +14,12 @@
     <module>module-beans</module>
     <module>module-plugins</module>
     <module>module-components</module>
-    <module>spring-jar</module>
-    <module>spring-mvc</module>
-    <module>spring-main</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 
-    <keycloak.version>3.1.0.Final</keycloak.version>
-    <spring-cloud-services.version>1.5.0.RELEASE</spring-cloud-services.version>
-    <spring-cloud-task.version>1.2.0.RELEASE</spring-cloud-task.version>
-    <spring-cloud.version>Dalston.SR1</spring-cloud.version>
-    <stormpath.version>1.5.2</stormpath.version>
-    <vaadin.version>8.0.6</vaadin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven.compiler.plugin>3.6.2</maven.compiler.plugin>
     <maven.assembly.plugin>3.0.0</maven.assembly.plugin>
@@ -79,54 +69,16 @@
     <joda-time.version>2.9.9</joda-time.version>
     <scala-test.version>3.0.3</scala-test.version>
     <scala-reflect.version>2.12.3</scala-reflect.version>
-    <springframework.version>4.3.11.RELEASE</springframework.version>
+    <springframework.version>5.0.0.RELEASE</springframework.version>
     <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>druid</artifactId>
-        <version>1.1.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>dubbo</artifactId>
-        <version>2.5.5</version>
-      </dependency>
-      <dependency>
-        <groupId>org.scala-lang</groupId>
-        <artifactId>scala-reflect</artifactId>
-        <version>${scala-reflect.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest_2.11</artifactId>
-        <version>${scala-test.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
         <groupId>joda-time</groupId>
         <artifactId>joda-time</artifactId>
         <version>${joda-time.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${testng.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.clojure</groupId>
-        <artifactId>tools.nrepl</artifactId>
-        <version>${clojure-tools-nrepl.version}</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -154,12 +106,6 @@
         <version>${springframework.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>${mockito-core.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>${javax.servlet.api.version}</version>
@@ -171,45 +117,9 @@
         <version>${springframework.version}</version>
       </dependency>
       <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${logback.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j-api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dyuproject.protostuff</groupId>
-        <artifactId>protostuff-core</artifactId>
-        <version>1.0.8</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dyuproject.protostuff</groupId>
-        <artifactId>protostuff-runtime</artifactId>
-        <version>1.0.8</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>1.11.4.RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-redis</artifactId>
-        <version>1.8.4.RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>redis.clients</groupId>
-        <artifactId>jedis</artifactId>
-        <version>2.8.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.scala-lang</groupId>
-        <artifactId>scala-library</artifactId>
-        <version>${scala-lib.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
@@ -217,31 +127,10 @@
         <version>1.2</version>
       </dependency>
       <dependency>
-        <groupId>com.googlecode.protobuf-java-format</groupId>
-        <artifactId>protobuf-java-format</artifactId>
-        <version>1.4</version>
-      </dependency>
-      <dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-api</artifactId>
         <version>8.0</version>
         <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>1.8.10</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${springsecurity.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>${springframework.version}</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -266,208 +155,13 @@
       </dependency>
       <dependency>
         <groupId>com.freetmp</groupId>
-        <artifactId>dolphin-common</artifactId>
-        <version>${dolphin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.mysema.querydsl</groupId>
-        <artifactId>querydsl-sql</artifactId>
-        <version>${mysema.querydsl.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.mysema.querydsl</groupId>
-        <artifactId>querydsl-apt</artifactId>
-        <version>${mysema.querydsl.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.mysema.querydsl</groupId>
-        <artifactId>querydsl-core</artifactId>
-        <version>${mysema.querydsl.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>com.mysema.querydsl</groupId>
-        <artifactId>querydsl-jpa</artifactId>
-        <version>${mysema.querydsl.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>cglib</groupId>
-        <artifactId>cglib</artifactId>
-        <version>${cglib.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.ibeetl</groupId>
-        <artifactId>beetl</artifactId>
-        <version>${beetl.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.freetmp</groupId>
         <artifactId>dolphin-mybatis-generator</artifactId>
         <version>${dolphin.version}</version>
       </dependency>
-
-      <dependency>
-        <groupId>org.onosproject</groupId>
-        <artifactId>onos-yang-utils-generator</artifactId>
-        <version>${onos.yang.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.openjdk.jmh</groupId>
-        <artifactId>jmh-generator-bytecode</artifactId>
-        <version>1.19</version>
-      </dependency>
-      <dependency>
-        <groupId>org.openjdk.jmh</groupId>
-        <artifactId>jmh-generator-reflection</artifactId>
-        <version>1.19</version>
-      </dependency>
-      <dependency>
-        <groupId>com.linkedin.pegasus</groupId>
-        <artifactId>generator</artifactId>
-        <version>11.0.17</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.netty</groupId>
-        <artifactId>netty-all</artifactId>
-        <version>${core.netty.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protobuf-java</artifactId>
-        <version>${google.protobuf.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-pool2</artifactId>
-        <version>${commons.pool.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-fileupload</groupId>
-        <artifactId>commons-fileupload</artifactId>
-        <version>${commons.fileupload.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>${commons-codec.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>${google.gson.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.poi</groupId>
-        <artifactId>poi</artifactId>
-        <version>${apache.poi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-test</artifactId>
-        <version>${kotlin.version}</version>
-        <scope>test</scope>
-      </dependency>
-
       <dependency>
         <groupId>io.github.cgi</groupId>
         <artifactId>mybatis-generator-plugins</artifactId>
         <version>1.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.openjdk.jmh</groupId>
-        <artifactId>jmh-generator-annprocess</artifactId>
-        <version>1.19</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-task-dependencies</artifactId>
-        <version>${spring-cloud-task.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>io.pivotal.spring.cloud</groupId>
-        <artifactId>spring-cloud-services-dependencies</artifactId>
-        <version>${spring-cloud-services.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-bom</artifactId>
-        <version>${vaadin.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.keycloak.bom</groupId>
-        <artifactId>keycloak-adapter-bom</artifactId>
-        <version>${keycloak.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.stormpath.sdk</groupId>
-        <artifactId>stormpath-bom</artifactId>
-        <version>${stormpath.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>spring-mvc</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>spring-boot</artifactId>
-        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.github.spring</groupId>
@@ -480,47 +174,9 @@
         <version>${springframework.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>module-components</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>spring-main</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>spring-jar</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.github.spring</groupId>
-        <artifactId>module-plugins</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
         <version>1.8.10</version>
-      </dependency>
-      <dependency>
-        <groupId>org.spockframework</groupId>
-        <artifactId>spock-core</artifactId>
-        <version>1.1-groovy-2.4</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.spockframework</groupId>
-        <artifactId>spock-spring</artifactId>
-        <version>1.1-groovy-2.4</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${commons.io.version}</version>
       </dependency>
 
       <!-- Third Party Libraries -->
@@ -544,28 +200,8 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.16.18</version>
+        <version>${core.lombok.version}</version>
         <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.groovy</groupId>
-        <artifactId>groovy-all</artifactId>
-        <version>2.4.12</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib-jre8</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.clojure</groupId>
-        <artifactId>clojure</artifactId>
-        <version>${clojure.core.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.thymeleaf</groupId>
-        <artifactId>thymeleaf</artifactId>
-        <version>3.0.7.RELEASE</version>
       </dependency>
       <dependency>
         <groupId>org.thymeleaf</groupId>
@@ -576,21 +212,6 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>5.1.44</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>2.0.0.Final</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-validator</groupId>
-        <artifactId>commons-validator</artifactId>
-        <version>1.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.velocity</groupId>
-        <artifactId>velocity-engine-core</artifactId>
-        <version>2.0</version>
       </dependency>
       <dependency>
         <groupId>com.baomidou</groupId>
@@ -695,27 +316,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
           <version>3.0.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.mybatis.generator</groupId>
-          <artifactId>mybatis-generator-maven-plugin</artifactId>
-          <version>${maven.generator.plugin}</version>
-          <configuration>
-            <verbose>true</verbose>
-            <overwrite>true</overwrite>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.github.spring</groupId>
-              <artifactId>module-plugins</artifactId>
-              <version>${project.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
