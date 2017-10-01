@@ -16,7 +16,7 @@ import static org.github.spring.enumeration.ContentType.XML;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 1.0.0GA
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface XMLReturn extends Returnable {

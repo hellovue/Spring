@@ -30,7 +30,7 @@ import static org.github.spring.enumeration.ContentType.FILE;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 1.0.0GA
+ * @since 0.0.1-SNAPSHOT
  */
 public interface FileReturn extends Returnable {
   @Override

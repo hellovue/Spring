@@ -1,18 +1,16 @@
 package org.github.spring.util;
 
+import com.google.common.io.ByteStreams;
+import lombok.NonNull;
+import lombok.val;
+import org.springframework.core.io.Resource;
+import org.springframework.web.context.support.ServletContextResource;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import org.springframework.core.io.Resource;
-import org.springframework.web.context.support.ServletContextResource;
-
-import com.google.common.io.ByteStreams;
-
-import lombok.NonNull;
-import lombok.val;
 
 public abstract class ZipResources {
   public static void zipServletContextResources(@NonNull OutputStream outputStream, @NonNull Resource... resources) throws IOException {

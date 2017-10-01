@@ -1,27 +1,25 @@
 package org.github.spring.footstone;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.var;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-import org.github.spring.util.StringUtil;
-
-import org.slf4j.LoggerFactory;
-
-import lombok.Data;
-import lombok.NonNull;
-import lombok.experimental.var;
-import lombok.val;
-
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * 分页查询数据模型.
@@ -31,29 +29,31 @@ import static java.util.Objects.isNull;
  * @author JYD_XL
  */
 @SuppressWarnings("serial")
+@Slf4j
 public final class CrudHelperModel implements ConstInterface {
 
+  @Getter
   private final List<FieldWrapper> attributes;
 
-  public CrudHelperModel(@NonNull Object condModel) {
+  CrudHelperModel(@NonNull Object condModel) {
     val condModelClass = condModel.getClass();
     val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
     this.findAllFields(condModelClass, fields);
     attributes = fields.parallelStream().map(v -> this.wrap(v, condModel, condModelClass)).filter(Objects:: nonNull).collect(Collectors.toList());
   }
 
-  public void startCrud(@NonNull Object criteria) {}
+  public void startCrud(@NonNull Object criteria) {
+    CrudHelper.startCrud(criteria, this);
+  }
 
-  public void startCrudWithIgnore(@NonNull Object criteria, String... ignore) {}
+  public void startCrudWithIgnore(@NonNull Object criteria, String... ignore) {
+    CrudHelper.startIgnore(criteria, this, ignore);
+  }
 
-  public void startCrudWithTarget(@NonNull Object criteria, String... target) {}
+  public void startCrudWithTarget(@NonNull Object criteria, String... target) {
+    CrudHelper.startTarget(criteria, this, target);
+  }
 
-  /**
-   * 通过递归获取查询数据模型类的所有属性信息.
-   *
-   * @param condModelClass 数据模型类类型
-   * @param fields         属性信息存储容器
-   */
   private void findAllFields(Class<?> condModelClass, List<Field> fields) {
     condModelClass = condModelClass.getSuperclass();
     if (condModelClass.isAssignableFrom(Object.class)) {return;}
@@ -67,29 +67,34 @@ public final class CrudHelperModel implements ConstInterface {
       var column = field.getAnnotation(Column.class);
       if (isNull(column)) {
         val propertyDescriptor = new PropertyDescriptor(field.getName(), condModelClass);
-        Method getMethod = propertyDescriptor.getReadMethod();
+        val getMethod = propertyDescriptor.getReadMethod();
         if (! getMethod.isAnnotationPresent(Column.class)) return null;
         column = getMethod.getAnnotation(Column.class);
       }
 
-      val data = field.get(condModel);
-      val type = field.getType();
       val flag = column.flag();
-      val goal = StringUtil.isBlank(column.goal()) ? field.getName() : column.goal();
-
-      if (isNull(data)) return null;
-      if (isNull(goal)) return null;
+      val type = field.getType();
+      var data = field.get(condModel);
+      var goal = isBlank(column.goal()) ? field.getName() : column.goal();
+      goal = this.headUp(goal);
+      goal = AND.concat(goal).concat(flag.get());
 
       return new FieldWrapper(data, goal, flag, type);
     } catch (IllegalAccessException | IntrospectionException e) {
-      LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
     }
     return null;
   }
 
+  private String headUp(String name) {
+    return name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
+
+  /** MethodDescription----AND. */
+  private static final String AND = "and";
+
   @Data
-  private static final class FieldWrapper {
-    @NonNull
+  static final class FieldWrapper {
     final Object data;
 
     @NonNull
@@ -101,12 +106,12 @@ public final class CrudHelperModel implements ConstInterface {
     @NonNull
     final Class<?> type;
 
-    public boolean contains(String... collection) {
-      return true;
+    boolean In(@NonNull List<String> param) {
+      return param.contains(goal);
     }
 
-    public boolean notContains(String... collection) {
-      return false;
+    boolean noIn(@NonNull List<String> param) {
+      return ! this.In(param);
     }
   }
 }

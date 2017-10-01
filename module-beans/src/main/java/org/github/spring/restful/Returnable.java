@@ -31,7 +31,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
  *
  * @author JYD_XL
  * @see java.util.function.Supplier
- * @since 1.0.0GA
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface Returnable extends Serializable, ConstInterface, Supplier<String> {
