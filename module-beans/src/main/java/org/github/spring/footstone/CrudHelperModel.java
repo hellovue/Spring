@@ -1,14 +1,5 @@
 package org.github.spring.footstone;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.var;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -18,28 +9,34 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.var;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.github.spring.footstone.ConstInterface.AND;
 
-/**
- * 分页查询数据模型.
- * <p>
- * 该类的作用是辅助分页及帮助分页时进行排序操作.
- *
- * @author JYD_XL
- */
-@SuppressWarnings("serial")
 @Slf4j
-public final class CrudHelperModel implements ConstInterface {
-
-  @Getter
+@Getter
+public final class CrudHelperModel {
   private final List<FieldWrapper> attributes;
+
+  private final Object condModel;
 
   CrudHelperModel(@NonNull Object condModel) {
     val condModelClass = condModel.getClass();
     val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
+
     this.findAllFields(condModelClass, fields);
-    attributes = fields.parallelStream().map(v -> this.wrap(v, condModel, condModelClass)).filter(Objects:: nonNull).collect(Collectors.toList());
+    this.condModel = condModel;
+    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
   public void startCrud(@NonNull Object criteria) {
@@ -61,12 +58,12 @@ public final class CrudHelperModel implements ConstInterface {
     findAllFields(condModelClass, fields);
   }
 
-  private FieldWrapper wrap(Field field, Object condModel, Class<?> condModelClass) {
+  private FieldWrapper wrap(Field field) {
     try {
       field.setAccessible(true);
       var column = field.getAnnotation(Column.class);
       if (isNull(column)) {
-        val propertyDescriptor = new PropertyDescriptor(field.getName(), condModelClass);
+        val propertyDescriptor = new PropertyDescriptor(field.getName(), condModel.getClass());
         val getMethod = propertyDescriptor.getReadMethod();
         if (! getMethod.isAnnotationPresent(Column.class)) return null;
         column = getMethod.getAnnotation(Column.class);
@@ -74,12 +71,11 @@ public final class CrudHelperModel implements ConstInterface {
 
       val flag = column.flag();
       val type = field.getType();
-      var data = field.get(condModel);
-      var goal = isBlank(column.goal()) ? field.getName() : column.goal();
-      goal = this.headUp(goal);
-      goal = AND.concat(goal).concat(flag.get());
+      val data = field.get(condModel);
+      val origin = isBlank(column.goal()) ? field.getName() : column.goal();
+      val method = AND.concat(this.headUp(origin)).concat(flag.get());
 
-      return new FieldWrapper(data, goal, flag, type);
+      return new FieldWrapper(data, flag, type, origin, method);
     } catch (IllegalAccessException | IntrospectionException e) {
       log.error(e.getMessage(), e);
     }
@@ -90,15 +86,11 @@ public final class CrudHelperModel implements ConstInterface {
     return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 
-  /** MethodDescription----AND. */
-  private static final String AND = "and";
 
-  @Data
+  @Getter
+  @AllArgsConstructor
   static final class FieldWrapper {
     final Object data;
-
-    @NonNull
-    final String goal;
 
     @NonNull
     final Flag flag;
@@ -106,12 +98,18 @@ public final class CrudHelperModel implements ConstInterface {
     @NonNull
     final Class<?> type;
 
-    boolean In(@NonNull List<String> param) {
-      return param.contains(goal);
+    @NonNull
+    final String origin;
+
+    @NonNull
+    final String method;
+
+    public boolean in(String... param) {
+      return Arrays.asList(param).contains(origin);
     }
 
-    boolean noIn(@NonNull List<String> param) {
-      return ! this.In(param);
+    public boolean notIn(String... param) {
+      return ! this.in(param);
     }
   }
 }

@@ -9,6 +9,17 @@ import org.apache.ibatis.session.RowBounds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.PageHelper;
 
+import static org.github.spring.footstone.ConstInterface.ASC;
+import static org.github.spring.footstone.ConstInterface.DESC;
+import static org.github.spring.footstone.ConstInterface.EMPTY;
+import static org.github.spring.footstone.ConstInterface.PAGE_FLAG;
+import static org.github.spring.footstone.ConstInterface.PAGE_NUMBER;
+import static org.github.spring.footstone.ConstInterface.PAGE_SIZE;
+import static org.github.spring.footstone.ConstInterface.PAGE_ZERO;
+import static org.github.spring.footstone.ConstInterface.PATTERN_PARAM;
+import static org.github.spring.footstone.ConstInterface.SPACE;
+import static org.github.spring.footstone.ConstInterface.UNDER_LINE;
+
 /**
  * 分页查询数据模型.
  * <p>
@@ -17,7 +28,7 @@ import com.github.pagehelper.PageHelper;
  * @author JYD_XL
  */
 @SuppressWarnings("serial")
-public final class PageHelperModel implements ConstInterface {
+public final class PageHelperModel {
   /** sort name. */
   private String sortName = EMPTY;
 
@@ -147,7 +158,7 @@ public final class PageHelperModel implements ConstInterface {
    * @return 排序信息
    */
   private String getSortInfoByCustom() {
-    return Optional.of(sortName).filter(StringUtil:: isNotBlank).map(v -> v.concat(SPACE).concat(sortOrder)).orElse(null);
+    return Optional.of(sortName).filter(StringUtil::isNotBlank).map(v -> v.concat(SPACE).concat(sortOrder)).orElse(null);
   }
 
   /**
@@ -198,6 +209,7 @@ public final class PageHelperModel implements ConstInterface {
    * WITH pageSize.
    *
    * @param pageSize int
+   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageSize(int pageSize) {
@@ -209,6 +221,7 @@ public final class PageHelperModel implements ConstInterface {
    * WITH pageNumber.
    *
    * @param pageNumber int
+   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageNumber(int pageNumber) {
@@ -220,6 +233,7 @@ public final class PageHelperModel implements ConstInterface {
    * WITH sortName.
    *
    * @param sortName String
+   *
    * @return PageHelperModel
    */
   public PageHelperModel withSortName(String sortName) {
@@ -231,6 +245,7 @@ public final class PageHelperModel implements ConstInterface {
    * WITH sortOrder.
    *
    * @param sortOrder String
+   *
    * @return PageHelperModel
    */
   public PageHelperModel withSortOrder(String sortOrder) {
@@ -242,6 +257,7 @@ public final class PageHelperModel implements ConstInterface {
    * WITH pageFlag.
    *
    * @param pageFlag boolean
+   *
    * @return PageHelperModel
    */
   public PageHelperModel withPageFlag(boolean pageFlag) {

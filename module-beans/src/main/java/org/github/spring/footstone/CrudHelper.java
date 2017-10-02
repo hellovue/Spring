@@ -1,13 +1,13 @@
 package org.github.spring.footstone;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Optional;
-
 import static java.util.Objects.isNull;
+import static org.github.spring.footstone.ConstInterface.LIKE;
 import static org.github.spring.footstone.CrudHelper.Status.IGNORE;
 import static org.github.spring.footstone.CrudHelper.Status.TARGET;
 
@@ -44,19 +44,20 @@ public abstract class CrudHelper {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
     val statusOptional = Optional.ofNullable(status);
-    statusOptional.filter(IGNORE:: equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.In(Arrays.asList(param))));
-    statusOptional.filter(TARGET:: equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.noIn(Arrays.asList(param))));
+    statusOptional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
+    statusOptional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
 
     for (val wrapper : fieldWrappers) {
       val data = wrapper.getData();
-      val goal = wrapper.getGoal();
       val flag = wrapper.getFlag();
       val type = wrapper.getType();
+
+      val method = wrapper.getMethod();
 
       switch (flag) {
         case IS_NULL:
         case NOT_NULL:
-          criteriaClass.getDeclaredMethod(goal).invoke(criteria);
+          criteriaClass.getDeclaredMethod(method).invoke(criteria);
           break;
         case EQUAL_TO:
         case NOT_EQUAL_TO:
@@ -66,15 +67,15 @@ public abstract class CrudHelper {
         case LESS_THAN_OR_EQUAL_TO:
         case IN:
         case NOT_IN:
-          criteriaClass.getDeclaredMethod(goal, type).invoke(criteria, data);
+          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, data);
           break;
         case LIKE:
         case NOT_LIKE:
-          criteriaClass.getDeclaredMethod(goal, type).invoke(criteria, valueLikeNormal(data));
+          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, valueLikeNormal(data));
           break;
         case LIKE_FULL:
         case NOT_LIKE_FULL:
-          criteriaClass.getDeclaredMethod(goal, type).invoke(criteria, valueLikeFull(data));
+          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, valueLikeFull(data));
           break;
       }
     }
@@ -99,9 +100,6 @@ public abstract class CrudHelper {
   private static String valueLikeFull(Object value) {
     return isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
   }
-
-  /** like. */
-  private static final String LIKE = "%";
 
   /**
    * status.

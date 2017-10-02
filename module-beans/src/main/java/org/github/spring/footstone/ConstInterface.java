@@ -116,4 +116,10 @@ public interface ConstInterface {
   String PREFIX_HTML = "html/";
 
   String FILE_NAME_ZIP = "package.zip";
+
+  /** MethodDescription----AND. */
+  String AND = "and";
+
+  /** like. */
+  String LIKE = "%";
 }
