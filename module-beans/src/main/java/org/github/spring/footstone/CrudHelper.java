@@ -43,9 +43,9 @@ public abstract class CrudHelper {
   private static void main(Object criteria, CrudHelperModel helper, Status status, String... param) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
-    val statusOptional = Optional.ofNullable(status);
-    statusOptional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
-    statusOptional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
+    val optional = Optional.ofNullable(status);
+    optional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
+    optional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
 
     for (val wrapper : fieldWrappers) {
       val data = wrapper.getData();
