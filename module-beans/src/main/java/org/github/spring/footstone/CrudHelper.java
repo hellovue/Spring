@@ -43,6 +43,7 @@ public abstract class CrudHelper {
   private static void main(Object criteria, CrudHelperModel helper, Status status, String... param) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
+
     val optional = Optional.ofNullable(status);
     optional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
     optional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
@@ -57,7 +58,7 @@ public abstract class CrudHelper {
       switch (flag) {
         case IS_NULL:
         case NOT_NULL:
-          criteriaClass.getDeclaredMethod(method).invoke(criteria);
+          criteriaClass.getMethod(method).invoke(criteria);
           break;
         case EQUAL_TO:
         case NOT_EQUAL_TO:
@@ -67,15 +68,15 @@ public abstract class CrudHelper {
         case LESS_THAN_OR_EQUAL_TO:
         case IN:
         case NOT_IN:
-          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, data);
+          criteriaClass.getMethod(method, type).invoke(criteria, data);
           break;
         case LIKE:
         case NOT_LIKE:
-          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, valueLikeNormal(data));
+          criteriaClass.getMethod(method, type).invoke(criteria, valueLikeNormal(data));
           break;
         case LIKE_FULL:
         case NOT_LIKE_FULL:
-          criteriaClass.getDeclaredMethod(method, type).invoke(criteria, valueLikeFull(data));
+          criteriaClass.getMethod(method, type).invoke(criteria, valueLikeFull(data));
           break;
       }
     }
