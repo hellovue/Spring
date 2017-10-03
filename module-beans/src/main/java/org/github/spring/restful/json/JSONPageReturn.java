@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import lombok.NonNull;
+
 import org.github.spring.annotation.PrimaryMethod;
 import org.github.spring.restful.JSONReturn;
 
 import com.github.pagehelper.Page;
-
-import lombok.NonNull;
 
 /**
  * JSONReturn of PAGE.
@@ -19,7 +19,6 @@ import lombok.NonNull;
  * </pre>
  *
  * @param <E> element
- *
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
@@ -117,6 +116,11 @@ public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn 
   public void release() {
     total = COUNT;
     super.release();
+  }
+
+  @Override
+  public JSONPageReturn clone() {
+    return (JSONPageReturn) super.clone();
   }
 
   /** GET total. */

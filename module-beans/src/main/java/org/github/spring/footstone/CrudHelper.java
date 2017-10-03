@@ -17,7 +17,16 @@ import static org.github.spring.footstone.CrudHelper.Status.TARGET;
  * @author JYD_XL
  */
 @Slf4j
-public abstract class CrudHelper {
+abstract class CrudHelper {
+
+  /**
+   * status.
+   *
+   * @author JYD_XL
+   */
+  enum Status {
+    TARGET, IGNORE
+  }
 
   public static void startCrud(Object criteria, CrudHelperModel helper) {
     start(criteria, helper, null);
@@ -35,7 +44,7 @@ public abstract class CrudHelper {
     try {
       main(criteria, helper, status, param);
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      log.error("exception-crud ==> " + e.getMessage(), e);
+      log.error("exception-crud ==> " + e.getMessage() + "  NoSuchMethod", e);
     }
   }
 
@@ -45,8 +54,8 @@ public abstract class CrudHelper {
     val criteriaClass = criteria.getClass();
 
     val optional = Optional.ofNullable(status);
-    optional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
-    optional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
+    optional.filter(IGNORE:: equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
+    optional.filter(TARGET:: equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
 
     for (val wrapper : fieldWrappers) {
       val data = wrapper.getData();
@@ -100,14 +109,5 @@ public abstract class CrudHelper {
    */
   private static String valueLikeFull(Object value) {
     return isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
-  }
-
-  /**
-   * status.
-   *
-   * @author JYD_XL
-   */
-  enum Status {
-    TARGET, IGNORE
   }
 }

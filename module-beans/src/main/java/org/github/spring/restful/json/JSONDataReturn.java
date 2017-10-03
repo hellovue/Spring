@@ -10,7 +10,6 @@ import org.github.spring.restful.JSONReturn;
  * </pre>
  *
  * @param <T> data
- *
  * @author JYD_XL
  * @version 1.0
  * @see java.util.function.Supplier
@@ -36,6 +35,11 @@ public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
   public void release() {
     data = null;
     super.release();
+  }
+
+  @Override
+  public JSONDataReturn clone() {
+    return (JSONDataReturn) super.clone();
   }
 
   /** GET data. */

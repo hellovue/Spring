@@ -1,13 +1,10 @@
 package org.github.spring.footstone;
 
+import com.google.common.base.Joiner;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Joiner;
-
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 /**
  * 公共常量聚合接口,定义所有通用型常量.
@@ -49,9 +46,7 @@ public interface ConstInterface {
 
   String EMPTY_JSON = "{}";
 
-  String ASC = "ASC";
 
-  String DESC = "DESC";
 
   String SPACE = " ";
 
@@ -66,16 +61,16 @@ public interface ConstInterface {
   String FIELD_PAGE_NUMBER = "pageNumber";
 
   /** default page size. */
-  int PAGE_SIZE = 10;
+  int SIZE = 10;
 
   /** default page number. */
-  int PAGE_NUMBER = 1;
+  int NUMBER = 1;
 
   /** default page zero. */
   int PAGE_ZERO = 0;
 
   /** default page flag. */
-  boolean PAGE_FLAG = true;
+  boolean FLAG = true;
 
   Joiner JOINER_EMPTY = Joiner.on(EMPTY).skipNulls();
 
@@ -92,13 +87,13 @@ public interface ConstInterface {
   String UTF8 = CHAR_SET_UTF8.name();
 
   /** success----code. */
-  int RET_OK_CODE = SC_OK;
+  int RET_OK_CODE = 0;
 
   /** success----message. */
   String RET_OK_MSG = "OK";
 
   /** failure----code. */
-  int RET_ERROR_CODE = SC_INTERNAL_SERVER_ERROR;
+  int RET_ERROR_CODE = - 1;
 
   /** failure----message. */
   String RET_ERROR_MSG = "ERROR";

@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,13 +16,18 @@ import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.github.spring.footstone.ConstInterface.AND;
 
 @Slf4j
-@Getter
-public final class CrudHelperModel {
+public final class CrudHelperModel extends AbstractEntity {
+  @Getter
   private final List<FieldWrapper> attributes;
 
   private final Object condModel;
@@ -36,7 +38,12 @@ public final class CrudHelperModel {
 
     this.findAllFields(condModelClass, fields);
     this.condModel = condModel;
-    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).collect(Collectors.toList());
+    this.attributes = fields.parallelStream().map(this :: wrap).filter(Objects:: nonNull).collect(Collectors.toList());
+  }
+
+  @Override
+  public String toString() {
+    return JSONMapperHolder.getWebJSONMapper().toJSONString(attributes);
   }
 
   public void startCrud(@NonNull Object criteria) {
@@ -69,11 +76,14 @@ public final class CrudHelperModel {
         column = getMethod.getAnnotation(Column.class);
       }
 
+      Class type = List.class.isAssignableFrom(field.getType()) ? List.class : field.getType();
       val flag = column.flag();
-      val type = field.getType();
       val data = field.get(condModel);
       val origin = isBlank(column.goal()) ? field.getName() : column.goal();
       val method = AND.concat(this.headUp(origin)).concat(flag.get());
+      var goal = isBlank(column.goal()) ? field.getName() : column.goal();
+      goal = this.headUp(goal);
+      goal = AND.concat(goal).concat(flag.get());
 
       return new FieldWrapper(data, flag, type, origin, method);
     } catch (IllegalAccessException | IntrospectionException e) {
@@ -86,19 +96,22 @@ public final class CrudHelperModel {
     return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 
-
   @Getter
   @AllArgsConstructor
   static final class FieldWrapper {
+    @JsonProperty("values")
     final Object data;
 
     @NonNull
+    @JsonIgnore
     final Flag flag;
 
     @NonNull
+    @JsonIgnore
     final Class<?> type;
 
     @NonNull
+    @JsonIgnore
     final String origin;
 
     @NonNull
@@ -112,4 +125,7 @@ public final class CrudHelperModel {
       return ! this.in(param);
     }
   }
+
+  /** MethodDescription----AND. */
+  static final String AND = "and";
 }

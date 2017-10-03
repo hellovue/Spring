@@ -1,21 +1,16 @@
 package org.github.spring.footstone;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
+import org.github.spring.exception.HandlingException;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TimeZone;
 
-import org.github.spring.exception.HandlingException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.NonNull;
-
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_INVALID_SUBTYPE;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS;
+import static com.fasterxml.jackson.databind.DeserializationFeature.*;
 import static com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY;
 import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
 import static org.github.spring.footstone.ConstInterface.DEFAULT_TIME_ZONE;
@@ -58,7 +53,7 @@ public final class JSONMapperHolder extends ObjectMapper {
    * @param clazz class
    * @return JAVABean
    */
-  public <T> T toJavaBean(@NonNull String json, @NonNull Class<T> clazz) throws HandlingException {
+  public <T> T toJAVABean(@NonNull String json, @NonNull Class<T> clazz) throws HandlingException {
     try {
       return super.readValue(json, clazz);
     } catch (IOException e) {
@@ -87,7 +82,7 @@ public final class JSONMapperHolder extends ObjectMapper {
    * @param bean JAVABean
    * @return JSONString
    */
-  public String toJson(@NonNull Object bean) throws HandlingException {
+  public String toJSONString(@NonNull Object bean) throws HandlingException {
     try {
       return super.writeValueAsString(bean);
     } catch (JsonProcessingException e) {

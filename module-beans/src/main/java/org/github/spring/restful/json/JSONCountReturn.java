@@ -1,10 +1,8 @@
 package org.github.spring.restful.json;
 
-import org.github.spring.restful.JSONReturn;
-
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import lombok.NonNull;
+import org.github.spring.restful.JSONReturn;
 
 /**
  * JSONReturn of count.
@@ -72,6 +70,11 @@ public class JSONCountReturn extends JSONBasicReturn implements JSONReturn {
   public void release() {
     data = COUNT;
     super.release();
+  }
+
+  @Override
+  public JSONCountReturn clone() {
+    return (JSONCountReturn) super.clone();
   }
 
   /** GET data. */

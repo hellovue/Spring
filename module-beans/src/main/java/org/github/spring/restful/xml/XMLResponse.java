@@ -1,15 +1,13 @@
 package org.github.spring.restful.xml;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.NonNull;
 import org.github.spring.footstone.AbstractEntity;
 import org.github.spring.footstone.XMLMapperHolder;
 import org.github.spring.restful.XMLReturn;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
-import lombok.NonNull;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * XMLReturn of response.
@@ -58,6 +56,11 @@ public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   @Override
   public String get() {
     return this.createMapper().toXMLString(this);
+  }
+
+  @Override
+  public XMLResponse clone() {
+    return (XMLResponse) super.clone();
   }
 
   /**

@@ -2,7 +2,6 @@ package org.github.spring.util;
 
 import lombok.NonNull;
 import org.github.spring.exception.RunException;
-import org.github.spring.footstone.AbstractEntity;
 import org.github.spring.footstone.PropertyNameLocation;
 import org.github.spring.footstone.PropertyPathLocation;
 
@@ -17,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author JYD_XL
  */
-public abstract class PropertiesUtil extends AbstractEntity {
+public abstract class PropertiesUtil {
   /** cache. */
   private static final Map<String, Properties> cacheMap = new ConcurrentHashMap<>();
 
@@ -30,7 +29,7 @@ public abstract class PropertiesUtil extends AbstractEntity {
    * @param path String
    */
   private static void addProperties(String path) {
-    if (!cacheMap.containsKey(path)) load(path);
+    if (! cacheMap.containsKey(path)) load(path);
   }
 
   /**

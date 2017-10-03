@@ -1,14 +1,13 @@
 package org.github.spring.restful.json;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.github.spring.restful.JSONReturn;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import org.github.spring.restful.JSONReturn;
-
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * JSONReturn of array.
@@ -18,7 +17,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * </pre>
  *
  * @param <E> element
- *
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
@@ -55,6 +53,11 @@ public class JSONArrayReturn<E> extends JSONBasicReturn implements JSONReturn {
   public void release() {
     data = ARRAY;
     super.release();
+  }
+
+  @Override
+  public JSONArrayReturn clone() {
+    return (JSONArrayReturn) super.clone();
   }
 
   /** GET data. */

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.val;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,35 +17,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Const of entity.
  *
  * @author JYD_XL
- * @see java.io.Serializable
- * @see org.github.spring.footstone.ConstInterface
+ * @see java.io.Closeable
+ * @since 1.0.0GA
  */
 @SuppressWarnings("serial")
-public abstract class AbstractEntity implements Serializable, ConstInterface, BeansInterface {
+public abstract class AbstractEntity implements Serializable, ConstInterface, BeansInterface, Cloneable {
+  @Override
+  public AbstractEntity clone() {
+    try {
+      return (AbstractEntity) super.clone();
+    } catch (CloneNotSupportedException e) {
+      LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
+      return null;
+    }
+  }
+
   @Override
   public String toString() {
-    return JSONMapperHolder.getWebJSONMapper().toJson(this);
-  }
-
-  @JsonIgnore
-  public PageHelperModel getPageHelper() {
-    PageHelperModel pageHelperModel = new PageHelperModel();
-    try {
-      HttpServletRequest request = this.getRequest();
-      pageHelperModel.setSortOrder(request.getParameter(FIELD_SORT_ORDER));
-      pageHelperModel.setSortName(request.getParameter(FIELD_SORT_NAME));
-      pageHelperModel.setPageFlag(request.getParameter(FIELD_PAGE_FLAG));
-      pageHelperModel.setPageSize(request.getParameter(FIELD_PAGE_SIZE));
-      pageHelperModel.setPageNumber(request.getParameter(FIELD_PAGE_NUMBER));
-    } catch (Exception e) {
-      LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
-    }
-    return pageHelperModel;
-  }
-
-  @JsonIgnore
-  public CrudHelperModel getCrudHelper() {
-    return new CrudHelperModel(this);
+    return JSONMapperHolder.getWebJSONMapper().toJSONString(this);
   }
 
   @JsonIgnore
@@ -54,5 +45,28 @@ public abstract class AbstractEntity implements Serializable, ConstInterface, Be
   @JsonIgnore
   public HttpServletResponse getResponse() {
     return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+  }
+
+  public PageHelperModel createPageHelper() {
+    val pageHelperModel = new PageHelperModel();
+    try {
+      val request = this.getRequest();
+      pageHelperModel.setOrder(request.getParameter(FIELD_SORT_ORDER));
+      pageHelperModel.setColumn(request.getParameter(FIELD_SORT_NAME));
+      pageHelperModel.setFlag(request.getParameter(FIELD_PAGE_FLAG));
+      pageHelperModel.setSize(request.getParameter(FIELD_PAGE_SIZE));
+      pageHelperModel.setNumber(request.getParameter(FIELD_PAGE_NUMBER));
+    } catch (Exception e) {
+      LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
+    }
+
+    LoggerFactory.getLogger(this.getClass()).debug("Generated PageHelper ==> {}.", pageHelperModel);
+    return pageHelperModel;
+  }
+
+  public CrudHelperModel createCrudHelper() {
+    val crudHelperModel = new CrudHelperModel(this);
+    LoggerFactory.getLogger(this.getClass()).debug("Generated CrudHelper ==> {}.", crudHelperModel);
+    return crudHelperModel;
   }
 }

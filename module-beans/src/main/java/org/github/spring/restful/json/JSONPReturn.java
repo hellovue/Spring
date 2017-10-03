@@ -1,17 +1,14 @@
 package org.github.spring.restful.json;
 
-import java.io.IOException;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.NonNull;
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.restful.JSONReturn;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.NonNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Optional;
 
 import static org.github.spring.enumeration.ContentType.JSON_P;
 import static org.github.spring.footstone.ConstInterface.CALL_BACK;
@@ -24,7 +21,6 @@ import static org.github.spring.footstone.ConstInterface.CALL_BACK;
  * </pre>
  *
  * @param <T> data
- *
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
@@ -59,7 +55,7 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
 
   @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
-    Optional.of(callback).filter(CALL_BACK::equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
+    Optional.of(callback).filter(CALL_BACK:: equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
     super.collect(request, response);
   }
 
@@ -77,6 +73,11 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
   public void release() {
     callback = CALL_BACK;
     super.release();
+  }
+
+  @Override
+  public JSONPReturn clone() {
+    return (JSONPReturn) super.clone();
   }
 
   /** GET callback. */
