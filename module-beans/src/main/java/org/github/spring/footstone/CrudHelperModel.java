@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -38,7 +38,7 @@ public final class CrudHelperModel extends AbstractEntity {
 
     this.findAllFields(condModelClass, fields);
     this.condModel = condModel;
-    this.attributes = fields.parallelStream().map(this :: wrap).filter(Objects:: nonNull).collect(Collectors.toList());
+    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
   @Override
@@ -81,9 +81,6 @@ public final class CrudHelperModel extends AbstractEntity {
       val data = field.get(condModel);
       val origin = isBlank(column.goal()) ? field.getName() : column.goal();
       val method = AND.concat(this.headUp(origin)).concat(flag.get());
-      var goal = isBlank(column.goal()) ? field.getName() : column.goal();
-      goal = this.headUp(goal);
-      goal = AND.concat(goal).concat(flag.get());
 
       return new FieldWrapper(data, flag, type, origin, method);
     } catch (IllegalAccessException | IntrospectionException e) {
@@ -117,15 +114,15 @@ public final class CrudHelperModel extends AbstractEntity {
     @NonNull
     final String method;
 
-    public boolean in(String... param) {
+    boolean in(String... param) {
       return Arrays.asList(param).contains(origin);
     }
 
-    public boolean notIn(String... param) {
+    boolean notIn(String... param) {
       return ! this.in(param);
     }
   }
 
   /** MethodDescription----AND. */
-  static final String AND = "and";
+  private static final String AND = "and";
 }
