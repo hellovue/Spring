@@ -6,14 +6,14 @@ import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.NonNull;
+
 import org.github.spring.bootstrap.ServletResourcePatternResolver;
 import org.github.spring.util.ZipResources;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
-
-import lombok.NonNull;
 
 /**
  * Top interface of files.

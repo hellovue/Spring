@@ -9,12 +9,12 @@ import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.NonNull;
+
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.footstone.ConstInterface;
 
 import org.springframework.http.MediaType;
-
-import lombok.NonNull;
 
 import static org.github.spring.enumeration.ContentType.TEXT;
 
@@ -22,7 +22,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
  * Top interface of all.
  *
  * 1.The core function of this interface is {@link Supplier#get}.
- * 2.This interface returns a string by default {@code text/plain; charset=UTF-8}.
+ * 2.This interface returns a string {@code text/plain; charset=UTF-8} by default.
  * 3.This interface is a functional interface {@link FunctionalInterface}, recommended to use lambda expressions.
  *
  * <pre>

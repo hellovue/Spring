@@ -1,44 +1,40 @@
 package org.github.spring.restful.xml;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import lombok.NonNull;
+
 import org.github.spring.footstone.AbstractEntity;
 import org.github.spring.footstone.XMLMapperHolder;
 import org.github.spring.restful.XMLReturn;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * XMLReturn of response.
- * <p>
+ *
  * <pre>
  *   return XMLResponse.of();
  * </pre>
  *
- * @param <T> flag
+ * @param <T> type
  * @author JYD_XL
- * @see java.io.Serializable
  * @see java.util.function.Supplier
- * @see org.github.spring.footstone.ConstInterface
- * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.XMLReturn
+ * @see org.github.spring.footstone.AbstractEntity
  */
 @SuppressWarnings("serial")
 @JacksonXmlRootElement(localName = "root")
 public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   /** data. */
-  private T data;
+  private transient T data;
 
   /** Constructor. */
   public XMLResponse() {}
 
-  /**
-   * Constructor.
-   *
-   * @param data T
-   */
+  /** Constructor. */
   public XMLResponse(T data) {
     this.data = data;
   }

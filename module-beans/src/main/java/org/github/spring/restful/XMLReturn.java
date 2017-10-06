@@ -1,8 +1,8 @@
 package org.github.spring.restful;
 
-import org.github.spring.enumeration.ContentType;
-
 import lombok.NonNull;
+
+import org.github.spring.enumeration.ContentType;
 
 import static org.github.spring.enumeration.ContentType.XML;
 

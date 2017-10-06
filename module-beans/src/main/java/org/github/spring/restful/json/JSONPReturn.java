@@ -1,21 +1,23 @@
 package org.github.spring.restful.json;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.NonNull;
-import org.github.spring.enumeration.ContentType;
-import org.github.spring.restful.JSONReturn;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import lombok.NonNull;
+
+import org.github.spring.enumeration.ContentType;
+import org.github.spring.restful.JSONReturn;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import static org.github.spring.enumeration.ContentType.JSON_P;
-import static org.github.spring.footstone.ConstInterface.CALL_BACK;
 
 /**
  * JSONReturn of json_p.
- * <p>
+ *
  * <pre>
  *   return JSONPReturn.of();
  * </pre>
@@ -30,7 +32,7 @@ import static org.github.spring.footstone.ConstInterface.CALL_BACK;
  * @see org.github.spring.restful.json.JSONDataReturn
  */
 @SuppressWarnings("serial")
-@JsonIgnoreProperties(CALL_BACK)
+@JsonIgnoreProperties("callback")
 public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
   /** callback. */
   private String callback = CALL_BACK;
@@ -55,7 +57,7 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
 
   @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
-    Optional.of(callback).filter(CALL_BACK:: equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
+    Optional.of(callback).filter(CALL_BACK::equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
     super.collect(request, response);
   }
 

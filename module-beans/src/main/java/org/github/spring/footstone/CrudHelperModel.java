@@ -2,18 +2,14 @@ package org.github.spring.footstone;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +18,14 @@ import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -65,6 +68,7 @@ public final class CrudHelperModel extends AbstractEntity {
     findAllFields(condModelClass, fields);
   }
 
+  @SuppressWarnings("all")
   private FieldWrapper wrap(Field field) {
     try {
       field.setAccessible(true);
@@ -76,9 +80,12 @@ public final class CrudHelperModel extends AbstractEntity {
         column = getMethod.getAnnotation(Column.class);
       }
 
-      Class type = List.class.isAssignableFrom(field.getType()) ? List.class : field.getType();
+      Object data = field.get(condModel);
+      Class type = (Collection.class.isAssignableFrom(field.getType()) || Array.class.isAssignableFrom(field.getType())) ? List.class : field.getType();
+      if (nonNull(data) && data instanceof Array) data = Arrays.asList((Object[]) data);
+      if (nonNull(data) && data instanceof Collection) data = new ArrayList((Collection) data);
+
       val flag = column.flag();
-      val data = field.get(condModel);
       val origin = isBlank(column.goal()) ? field.getName() : column.goal();
       val method = AND.concat(this.headUp(origin)).concat(flag.get());
 

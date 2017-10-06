@@ -39,7 +39,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
- * @since 1.0.0GA
  */
 @SuppressWarnings("serial")
 public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
@@ -124,7 +123,7 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
 
   /** SET retMsg. */
   public void setRetMsg(@NonNull String retMsg) {
-    Optional.of(retMsg).filter(StringUtil:: isNotBlank).ifPresent(v -> this.retMsg = v);
+    Optional.of(retMsg).filter(StringUtil::isNotBlank).ifPresent(v -> this.retMsg = v);
   }
 
   /** WITH retCode. */

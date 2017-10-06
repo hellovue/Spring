@@ -1,12 +1,14 @@
 package org.github.spring.restful.json;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.NonNull;
+
 import org.github.spring.restful.JSONReturn;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * JSONReturn of count.
- * <p>
+ *
  * <pre>
  *   return JSONCountReturn.of();
  * </pre>

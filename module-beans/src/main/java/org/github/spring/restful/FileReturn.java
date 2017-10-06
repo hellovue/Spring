@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.NonNull;
+
 import org.github.spring.bootstrap.ServletResourceLoader;
 import org.github.spring.enumeration.ContentType;
 
@@ -15,8 +17,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.google.common.io.ByteStreams;
-
-import lombok.NonNull;
 
 import static org.github.spring.enumeration.ContentType.FILE;
 
@@ -56,7 +56,7 @@ public interface FileReturn extends Returnable {
 
   default void setFileName(@NonNull HttpServletResponse response) throws IOException {
     int lastIndex = this.get().lastIndexOf("/");
-    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex == - 1 ? 0 : lastIndex)));
+    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex == - 1 ? 0 : lastIndex + 1)));
   }
 
   default Resource resource() throws IOException {

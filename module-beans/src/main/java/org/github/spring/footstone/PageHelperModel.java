@@ -109,7 +109,7 @@ public final class PageHelperModel extends AbstractEntity {
    */
   @JsonIgnore
   private String getSortInfoByCustom() {
-    return Optional.ofNullable(column).filter(StringUtil:: isNotBlank).map(v -> v.concat(SPACE).concat(order)).orElse(null);
+    return Optional.ofNullable(column).filter(StringUtil::isNotBlank).map(v -> v.concat(SPACE).concat(order)).orElse(null);
   }
 
   /** Get RowBounds. */
@@ -196,14 +196,14 @@ public final class PageHelperModel extends AbstractEntity {
   }
 
   /** default sort order. */
-  static final String ASC = "ASC";
+  private static final String ASC = "ASC";
 
   /** default page number. */
-  static final int NUMBER = 1;
+  private static final int NUMBER = 1;
 
   /** default page size. */
-  static final int SIZE = 10;
+  private static final int SIZE = 10;
 
   /** default page flag. */
-  static final boolean FLAG = true;
+  private static final boolean FLAG = true;
 }

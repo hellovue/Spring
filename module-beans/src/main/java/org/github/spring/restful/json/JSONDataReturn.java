@@ -4,14 +4,13 @@ import org.github.spring.restful.JSONReturn;
 
 /**
  * JSONReturn of data.
- * <p>
+ *
  * <pre>
  *   return JSONDataReturn.of();
  * </pre>
  *
  * @param <T> data
  * @author JYD_XL
- * @version 1.0
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.JSONReturn

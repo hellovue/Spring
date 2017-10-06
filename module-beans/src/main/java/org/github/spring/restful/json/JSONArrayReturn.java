@@ -1,17 +1,18 @@
 package org.github.spring.restful.json;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.github.spring.restful.JSONReturn;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.github.spring.restful.JSONReturn;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /**
  * JSONReturn of array.
- * <p>
+ *
  * <pre>
  *   return JSONArrayReturn.of();
  * </pre>

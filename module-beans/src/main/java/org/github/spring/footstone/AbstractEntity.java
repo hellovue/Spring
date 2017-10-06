@@ -60,13 +60,13 @@ public abstract class AbstractEntity implements Serializable, ConstInterface, Be
       LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
     }
 
-    LoggerFactory.getLogger(this.getClass()).debug("Generated PageHelper ==> {}.", pageHelperModel);
+    LoggerFactory.getLogger(this.getClass()).debug("Generated PageHelper ==> {}", pageHelperModel);
     return pageHelperModel;
   }
 
   public CrudHelperModel createCrudHelper() {
     val crudHelperModel = new CrudHelperModel(this);
-    LoggerFactory.getLogger(this.getClass()).debug("Generated CrudHelper ==> {}.", crudHelperModel);
+    LoggerFactory.getLogger(this.getClass()).debug("Generated CrudHelper ==> {}", crudHelperModel);
     return crudHelperModel;
   }
 }

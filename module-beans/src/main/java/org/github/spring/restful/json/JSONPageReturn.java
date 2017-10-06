@@ -13,7 +13,7 @@ import com.github.pagehelper.Page;
 
 /**
  * JSONReturn of PAGE.
- * <p>
+ *
  * <pre>
  *   return JSONPageReturn.of();
  * </pre>
@@ -26,7 +26,6 @@ import com.github.pagehelper.Page;
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
  * @see org.github.spring.restful.json.JSONArrayReturn
- * @since 1.0.0
  */
 @SuppressWarnings("serial")
 public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn {

@@ -18,7 +18,6 @@ import static org.github.spring.footstone.CrudHelper.Status.TARGET;
  */
 @Slf4j
 abstract class CrudHelper {
-
   /**
    * status.
    *
@@ -28,28 +27,28 @@ abstract class CrudHelper {
     TARGET, IGNORE
   }
 
-  public static void startCrud(Object criteria, CrudHelperModel helper) {
+  static void startCrud(Object criteria, CrudHelperModel helper) {
     start(criteria, helper, null);
   }
 
-  public static void startIgnore(Object criteria, CrudHelperModel helper, String... ignore) {
+  static void startIgnore(Object criteria, CrudHelperModel helper, String... ignore) {
     start(criteria, helper, IGNORE, ignore);
   }
 
-  public static void startTarget(Object criteria, CrudHelperModel helper, String... target) {
+  static void startTarget(Object criteria, CrudHelperModel helper, String... target) {
     start(criteria, helper, TARGET, target);
   }
 
   private static void start(Object criteria, CrudHelperModel helper, Status status, String... param) {
     try {
-      main(criteria, helper, status, param);
+      turn(criteria, helper, status, param);
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      log.error("exception-crud ==> " + e.getMessage() + "  NoSuchMethod", e);
+      log.error("exception-crud ==> " + e.getMessage() + " NoSuchMethod", e);
     }
   }
 
   /** CURD core function. */
-  private static void main(Object criteria, CrudHelperModel helper, Status status, String... param) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+  private static void turn(Object criteria, CrudHelperModel helper, Status status, String... param) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
     val optional = Optional.ofNullable(status);
@@ -60,14 +59,13 @@ abstract class CrudHelper {
     for (val wrapper : fieldWrappers) {
       val data = wrapper.getData();
       val flag = wrapper.getFlag();
-      val type = wrapper.getType();
 
-      val method = wrapper.getMethod();
-
+      val methodName = wrapper.getMethod();
+      val parameterType = wrapper.getType();
       switch (flag) {
         case IS_NULL:
         case NOT_NULL:
-          criteriaClass.getMethod(method).invoke(criteria);
+          criteriaClass.getMethod(methodName).invoke(criteria);
           break;
         case EQUAL_TO:
         case NOT_EQUAL_TO:
@@ -77,15 +75,15 @@ abstract class CrudHelper {
         case LESS_THAN_OR_EQUAL_TO:
         case IN:
         case NOT_IN:
-          criteriaClass.getMethod(method, type).invoke(criteria, data);
+          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, data);
           break;
         case LIKE:
         case NOT_LIKE:
-          criteriaClass.getMethod(method, type).invoke(criteria, valueLikeNormal(data));
+          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeNormal(data));
           break;
         case LIKE_FULL:
         case NOT_LIKE_FULL:
-          criteriaClass.getMethod(method, type).invoke(criteria, valueLikeFull(data));
+          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeFull(data));
           break;
       }
     }
