@@ -6,12 +6,12 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.NonNull;
-
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.restful.JSONReturn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.NonNull;
 
 import static org.github.spring.enumeration.ContentType.JSON_P;
 
@@ -57,7 +57,7 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
 
   @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
-    Optional.of(callback).filter(CALL_BACK::equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
+    Optional.of(callback).filter(CALL_BACK:: equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
     super.collect(request, response);
   }
 

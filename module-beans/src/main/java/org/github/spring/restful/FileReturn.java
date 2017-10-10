@@ -3,20 +3,29 @@ package org.github.spring.restful;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.NonNull;
-
 import org.github.spring.bootstrap.ServletResourceLoader;
 import org.github.spring.enumeration.ContentType;
+import org.github.spring.footstone.ExcelGenerator;
+import org.github.spring.util.StringUtil;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.google.common.io.ByteStreams;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 import static org.github.spring.enumeration.ContentType.FILE;
 
@@ -30,7 +39,7 @@ import static org.github.spring.enumeration.ContentType.FILE;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.1-SNAPSHOT
+ * @since 0.0.4-SNAPSHOT
  */
 public interface FileReturn extends Returnable {
   @Override
@@ -50,13 +59,13 @@ public interface FileReturn extends Returnable {
 
   @Override
   default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    this.setFileName(response);
-    Returnable.super.collect(request, response);
+    Returnable.super.collect(request, this.withFileName(response));
   }
 
-  default void setFileName(@NonNull HttpServletResponse response) throws IOException {
+  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
     int lastIndex = this.get().lastIndexOf("/");
-    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex == - 1 ? 0 : lastIndex + 1)));
+    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex + 1)));
+    return response;
   }
 
   default Resource resource() throws IOException {
@@ -74,7 +83,7 @@ public interface FileReturn extends Returnable {
 
   /** Generator. */
   static FileReturn of(@NonNull String file) {
-    return of(file::toString);
+    return of(file:: toString);
   }
 
   /** Generator. */
@@ -87,12 +96,17 @@ public interface FileReturn extends Returnable {
     return new TempFileReturn(name, input);
   }
 
+  /** Generator. */
+  static <T> FileReturn of(@NonNull String name, @NonNull List<String> title, @NonNull List<String> field, @NonNull List<T> data) {
+    return new ExcelFileReturn<>(name, title, field, data);
+  }
+
   final class TempFileReturn implements FileReturn {
     /** file name. */
-    private final String _name;
+    final String _name;
 
     /** input stream. */
-    private final InputStream _input;
+    final InputStream _input;
 
     /** Constructor. */
     private TempFileReturn(@NonNull String name, @NonNull InputStream input) {
@@ -106,8 +120,14 @@ public interface FileReturn extends Returnable {
     }
 
     @Override
-    public void setFileName(HttpServletResponse response) throws IOException {
+    public String get() {
+      return JOINER.join("The file of", "[", _name, "].");
+    }
+
+    @Override
+    public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
       response.addHeader("Content-Disposition", "attachment;fileName=".concat(_name));
+      return response;
     }
 
     @Override
@@ -116,36 +136,98 @@ public interface FileReturn extends Returnable {
     }
 
     @Override
-    public String get() {
-      return JOINER.join("The file of", "[", _name, "].");
-    }
-
-    @Override
     public Resource resource(Supplier<ResourceLoader> loader) {
       throw new UnsupportedOperationException();
     }
   }
 
+  @AllArgsConstructor
   final class PathFileReturn implements FileReturn {
+    /** resource path. */
+    @NonNull
+    private final String path;
+
     /** resource loader. */
-    private final ResourceLoader _loader;
-
-    private final String _path;
-
-    /** Constructor. */
-    private PathFileReturn(@NonNull String path, @NonNull ResourceLoader loader) {
-      this._loader = loader;
-      this._path = path;
-    }
+    @NonNull
+    private final ResourceLoader loader;
 
     @Override
     public Resource resource() {
-      return this.resource(() -> _loader);
+      return this.resource(() -> loader);
     }
 
     @Override
     public String get() {
-      return _path;
+      return path;
+    }
+  }
+
+  @Slf4j
+  @AllArgsConstructor
+  final class ExcelFileReturn<T> implements FileReturn {
+    private static final String[][] DATA_INIT = {};
+
+    @NonNull
+    private final String name;
+
+    @Getter
+    @NonNull
+    private final List<String> title;
+
+    @NonNull
+    private final List<String> field;
+
+    @NonNull
+    private final List<T> data;
+
+    public String[][] getWrappedData() {
+      if (data.isEmpty()) return DATA_INIT;
+      val dataClass = this.getType();
+      if (Objects.isNull(dataClass)) return DATA_INIT;
+
+      val wrappedData = new String[data.size()][field.size()];
+      for (int i = 0; i < data.size(); i++) {
+        val object = data.get(i);
+        for (int j = 0; j < field.size(); j++) {
+          val target = field.get(j);
+          try {
+            val value = dataClass.getMethod("get".concat(this.headUp(target))).invoke(object);
+            wrappedData[i][j] = Objects.isNull(value) ? "" : value.toString();
+          } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            wrappedData[i][j] = "";
+            log.error("exception-excel ==> " + e.getMessage() + " NoSuchMethod", e);
+          }
+        }
+      }
+      return wrappedData;
+    }
+
+    private Class<?> getType() {
+      for (T item : data) {if (Objects.nonNull(item)) return item.getClass();}
+      return null;
+    }
+
+    private String headUp(String field) {
+      if (StringUtil.isBlank(field)) throw new IllegalArgumentException("field");
+      return field.substring(0, 1).toUpperCase().concat(field.substring(1));
+    }
+
+    @Override
+    public String get() {
+      return null;
+    }
+
+    @Override
+    public void accept(OutputStream output) throws IOException {
+      val workBook = ExcelGenerator.generate(this);
+      workBook.write(output);
+      workBook.close();
+    }
+
+    @Override
+    public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
+      response.addHeader("Content-Disposition", "attachment;fileName=".concat(name).concat(SUFFIX_EXCEL));
+      return response;
     }
   }
 }

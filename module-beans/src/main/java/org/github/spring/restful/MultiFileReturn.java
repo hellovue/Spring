@@ -6,14 +6,14 @@ import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.NonNull;
-
 import org.github.spring.bootstrap.ServletResourcePatternResolver;
-import org.github.spring.util.ZipResources;
+import org.github.spring.footstone.ZipResources;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import lombok.NonNull;
 
 /**
  * Top interface of files.
@@ -26,7 +26,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.FileReturn
- * @since 0.0.1-SNAPSHOT
+ * @since 0.0.4-SNAPSHOT
  */
 public interface MultiFileReturn extends FileReturn {
   @Override
@@ -35,8 +35,9 @@ public interface MultiFileReturn extends FileReturn {
   }
 
   @Override
-  default void setFileName(@NonNull HttpServletResponse response) throws IOException {
+  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
     response.addHeader("Content-Disposition", "attachment;fileName=".concat(FILE_NAME_ZIP));
+    return response;
   }
 
   @Override
@@ -62,7 +63,7 @@ public interface MultiFileReturn extends FileReturn {
   }
 
   static MultiFileReturn of(@NonNull String multiFile) {
-    return of(multiFile::toString);
+    return of(multiFile:: toString);
   }
 
   static MultiFileReturn of(@NonNull String pattern, @NonNull ResourcePatternResolver resolver) {

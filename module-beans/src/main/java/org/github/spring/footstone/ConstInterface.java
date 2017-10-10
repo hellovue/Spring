@@ -1,10 +1,10 @@
 package org.github.spring.footstone;
 
-import com.google.common.base.Joiner;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
+
+import com.google.common.base.Joiner;
 
 /**
  * 公共常量聚合接口,定义所有通用型常量.
@@ -45,8 +45,6 @@ public interface ConstInterface {
   String EMPTY_XML = "<root/>";
 
   String EMPTY_JSON = "{}";
-
-
 
   String SPACE = " ";
 
@@ -109,6 +107,9 @@ public interface ConstInterface {
 
   /** prefix of html. */
   String PREFIX_HTML = "html/";
+
+  /** suffix of excel. */
+  String SUFFIX_EXCEL = ".xlsx";
 
   String FILE_NAME_ZIP = "package.zip";
 

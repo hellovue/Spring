@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @author JYD_XL
  * @see java.io.Closeable
- * @since 1.0.0GA
+ * @since 0.0.4-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public abstract class AbstractEntity implements Serializable, ConstInterface, BeansInterface, Cloneable {

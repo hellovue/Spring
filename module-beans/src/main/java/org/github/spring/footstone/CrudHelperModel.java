@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.github.spring.annotation.Column;
+import org.github.spring.enumeration.Flag;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -18,31 +24,17 @@ import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import org.github.spring.annotation.Column;
-import org.github.spring.enumeration.Flag;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
 public final class CrudHelperModel extends AbstractEntity {
+  /** MethodDescription----AND. */
+  private static final String AND = "and";
   @Getter
   private final List<FieldWrapper> attributes;
-
   private final Object condModel;
-
-  CrudHelperModel(@NonNull Object condModel) {
-    val condModelClass = condModel.getClass();
-    val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
-
-    this.findAllFields(condModelClass, fields);
-    this.condModel = condModel;
-    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).collect(Collectors.toList());
-  }
 
   @Override
   public String toString() {
@@ -97,7 +89,7 @@ public final class CrudHelperModel extends AbstractEntity {
   }
 
   private String headUp(String name) {
-    return name.substring(0, 1).toUpperCase() + name.substring(1);
+    return name.substring(0, 1).toUpperCase().concat(name.substring(1));
   }
 
   @Getter
@@ -130,6 +122,12 @@ public final class CrudHelperModel extends AbstractEntity {
     }
   }
 
-  /** MethodDescription----AND. */
-  private static final String AND = "and";
+  CrudHelperModel(@NonNull Object condModel) {
+    val condModelClass = condModel.getClass();
+    val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
+
+    this.findAllFields(condModelClass, fields);
+    this.condModel = condModel;
+    this.attributes = fields.parallelStream().map(this :: wrap).filter(Objects:: nonNull).collect(Collectors.toList());
+  }
 }
