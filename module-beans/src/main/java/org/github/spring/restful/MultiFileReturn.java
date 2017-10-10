@@ -26,7 +26,7 @@ import lombok.NonNull;
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.FileReturn
- * @since 0.0.4-SNAPSHOT
+ * @since 0.0.7-SNAPSHOT
  */
 public interface MultiFileReturn extends FileReturn {
   @Override

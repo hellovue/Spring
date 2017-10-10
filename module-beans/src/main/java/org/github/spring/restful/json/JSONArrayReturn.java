@@ -24,7 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
- * @since 0.0.4-SNAPSHOT
+ * @since 0.0.7-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONArrayReturn<E> extends JSONBasicReturn implements JSONReturn {

@@ -11,9 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public abstract class ExcelGenerator {
-  public static <T> XSSFWorkbook generate(ExcelFileReturn<T> excel) {
+  public static XSSFWorkbook generate(ExcelFileReturn excel) {
     XSSFWorkbook workbook = new XSSFWorkbook();
-    XSSFSheet sheet = workbook.createSheet();
+    XSSFSheet sheet = workbook.createSheet("sheet");
     XSSFRow head = sheet.createRow(0);
 
     List<String> title = excel.getTitle();

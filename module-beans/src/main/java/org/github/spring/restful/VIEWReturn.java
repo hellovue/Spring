@@ -16,7 +16,7 @@ import static org.github.spring.enumeration.ContentType.PAGE;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.4-SNAPSHOT
+ * @since 0.0.7-SNAPSHOT
  */
 @FunctionalInterface
 public interface VIEWReturn extends Returnable {

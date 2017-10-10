@@ -3,6 +3,7 @@ package org.github.spring.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -21,6 +22,7 @@ import static org.github.spring.footstone.ConstInterface.EMPTY;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
+@Repeatable(Columns.class)
 public @interface Column {
   /**
    * GET flag.

@@ -39,7 +39,7 @@ import static org.github.spring.enumeration.ContentType.FILE;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.4-SNAPSHOT
+ * @since 0.0.7-SNAPSHOT
  */
 public interface FileReturn extends Returnable {
   @Override
@@ -97,8 +97,8 @@ public interface FileReturn extends Returnable {
   }
 
   /** Generator. */
-  static <T> FileReturn of(@NonNull String name, @NonNull List<String> title, @NonNull List<String> field, @NonNull List<T> data) {
-    return new ExcelFileReturn<>(name, title, field, data);
+  static FileReturn of(@NonNull String name, @NonNull List<String> title, @NonNull List<String> field, @NonNull List<?> data) {
+    return new ExcelFileReturn(name, title, field, data);
   }
 
   final class TempFileReturn implements FileReturn {
@@ -164,7 +164,7 @@ public interface FileReturn extends Returnable {
 
   @Slf4j
   @AllArgsConstructor
-  final class ExcelFileReturn<T> implements FileReturn {
+  final class ExcelFileReturn implements FileReturn {
     private static final String[][] DATA_INIT = {};
 
     @NonNull
@@ -178,7 +178,7 @@ public interface FileReturn extends Returnable {
     private final List<String> field;
 
     @NonNull
-    private final List<T> data;
+    private final List data;
 
     public String[][] getWrappedData() {
       if (data.isEmpty()) return DATA_INIT;
@@ -203,7 +203,7 @@ public interface FileReturn extends Returnable {
     }
 
     private Class<?> getType() {
-      for (T item : data) {if (Objects.nonNull(item)) return item.getClass();}
+      for (Object item : data) {if (Objects.nonNull(item)) return item.getClass();}
       return null;
     }
 
