@@ -3,7 +3,6 @@ import io.netty.buffer.Unpooled;
 
 public class ByteBufTest {
   public static void main(String[] args) {
-    //实例初始化
     ByteBuf buffer = Unpooled.buffer(100);
     String value = "学习ByteBuf";
     buffer.writeBytes(value.getBytes());

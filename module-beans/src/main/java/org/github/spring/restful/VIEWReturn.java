@@ -1,10 +1,8 @@
 package org.github.spring.restful;
 
-import lombok.NonNull;
-
 import org.github.spring.enumeration.ContentType;
 
-import static org.github.spring.enumeration.ContentType.PAGE;
+import lombok.NonNull;
 
 /**
  * Top interface of view.
@@ -22,7 +20,7 @@ import static org.github.spring.enumeration.ContentType.PAGE;
 public interface VIEWReturn extends Returnable {
   @Override
   default ContentType returnType() {
-    return PAGE;
+    throw new UnsupportedOperationException();
   }
 
   @Override

@@ -13,10 +13,10 @@ import java.text.SimpleDateFormat;
  * @see java.io.Serializable
  * @see java.text.DateFormat
  * @see java.text.SimpleDateFormat
- * @see org.github.spring.footstone.ConstInterface
+ * @see Constants
  */
 @SuppressWarnings("serial")
-public class NaiveDateFormat extends SimpleDateFormat implements ConstInterface {
+public class NaiveDateFormat extends SimpleDateFormat implements Constants {
   /** Constructor. */
   public NaiveDateFormat() {
     this(DEFAULT_DATE_FORMAT);

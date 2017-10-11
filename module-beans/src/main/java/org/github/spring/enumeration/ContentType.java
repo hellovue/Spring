@@ -15,10 +15,10 @@ import org.springframework.http.MediaType;
  */
 public enum ContentType implements Supplier<String> {
   /** standard return flag from spring. */
-  XML("application/xml"), JSON("application/json"), TEXT("text/plain"), HTML("text/html"), FILE("application/octet-stream"),
+  XML("application/xml"), JSON("application/json"), TEXT("text/plain"), FILE("application/octet-stream"),
 
   /** custom return flag. */
-  JSON_P("application/javascript"), PAGE(""), JSP("jsp/");
+  JSON_P("application/javascript");
 
   /** return flag. */
   private final String _type;

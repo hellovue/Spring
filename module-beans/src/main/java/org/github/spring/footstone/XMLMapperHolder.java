@@ -28,7 +28,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_
  * Created by JYD_XL on 2017/7/17.
  */
 @Getter
-public final class XMLMapperHolder extends XmlMapper implements ConstInterface {
+public final class XMLMapperHolder extends XmlMapper implements Constants {
   /** jackson mapper. */
   private final ObjectMapper _mapper;
 

@@ -6,16 +6,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static org.github.spring.annotation.Invoke.Style.JSON;
-import static org.github.spring.footstone.ConstInterface.EMPTY;
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 @Documented
 public @interface Invoke {
-  String value() default EMPTY;
+  String value() default "";
 
-  Style style() default JSON;
+  Style style() default Style.JSON;
 
   enum Style {
     JSON, XML

@@ -1,19 +1,24 @@
 package org.github.spring.footstone;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NonNull;
-import org.github.spring.exception.HandlingException;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TimeZone;
 
+import org.github.spring.exception.HandlingException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.NonNull;
+
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static com.fasterxml.jackson.databind.DeserializationFeature.*;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_INVALID_SUBTYPE;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS;
 import static com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY;
 import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
-import static org.github.spring.footstone.ConstInterface.DEFAULT_TIME_ZONE;
+import static org.github.spring.footstone.Constants.DEFAULT_TIME_ZONE;
 
 public final class JSONMapperHolder extends ObjectMapper {
   /** Constructor. */
@@ -107,17 +112,7 @@ public final class JSONMapperHolder extends ObjectMapper {
     private Holder() {}
 
     static {
-      _web_json_instance
-        .setDateFormat(ThreadLocal.withInitial(NaiveDateFormat::new).get())
-        .setTimeZone(TimeZone.getTimeZone(DEFAULT_TIME_ZONE))
-        .setSerializationInclusion(NON_NULL)
-        .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-        .disable(FAIL_ON_INVALID_SUBTYPE)
-        .disable(FAIL_ON_UNRESOLVED_OBJECT_IDS)
-        .disable(FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
-        .disable(FAIL_ON_UNRESOLVED_OBJECT_IDS)
-        .disable(FAIL_ON_EMPTY_BEANS)
-        .enable(SORT_PROPERTIES_ALPHABETICALLY);
+      _web_json_instance.setDateFormat(ThreadLocal.withInitial(NaiveDateFormat::new).get()).setTimeZone(TimeZone.getTimeZone(DEFAULT_TIME_ZONE)).setSerializationInclusion(NON_NULL).disable(FAIL_ON_UNKNOWN_PROPERTIES).disable(FAIL_ON_INVALID_SUBTYPE).disable(FAIL_ON_UNRESOLVED_OBJECT_IDS).disable(FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY).disable(FAIL_ON_UNRESOLVED_OBJECT_IDS).disable(FAIL_ON_EMPTY_BEANS).enable(SORT_PROPERTIES_ALPHABETICALLY);
     }
   }
 }

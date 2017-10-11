@@ -3,7 +3,6 @@ package org.github.spring.component;
 import java.util.EventListener;
 
 import org.apache.ibatis.plugin.Interceptor;
-import org.github.spring.footstone.BeansInterface;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,7 +21,7 @@ import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
  * @see ApplicationListener
  * @see InitializingBean
  */
-public class NaiveSQLSessionFactoryBean extends MybatisSqlSessionFactoryBean implements BeansInterface {
+public class NaiveSQLSessionFactoryBean extends MybatisSqlSessionFactoryBean {
   @Autowired
   @Override
   public void setPlugins(Interceptor[] plugins) {

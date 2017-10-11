@@ -1,6 +1,5 @@
 package org.github.spring.configuration;
 
-import org.github.spring.footstone.BeansInterface;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.datetime.DateTimeFormatAnnotationFormatterFactory;
@@ -14,9 +13,9 @@ import com.google.common.collect.ImmutableSet;
 import lombok.val;
 
 @Configuration
-public class ConversionServiceConfiguration implements BeansInterface {
-  @Bean(CONVERSION_SERVICE_FACTORY)
-  public FormattingConversionServiceFactoryBean conversionServiceFactory() {
+public class ConversionServiceConfiguration {
+  @Bean("conversionServiceFactory")
+  public FormattingConversionServiceFactoryBean createConversionServiceFactory() {
     FormattingConversionServiceFactoryBean conversionService = new FormattingConversionServiceFactoryBean();
     val numberFormatter = new NumberFormatAnnotationFormatterFactory();
     val dateTimeFormatter = new DateTimeFormatAnnotationFormatterFactory();

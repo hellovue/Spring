@@ -1,9 +1,10 @@
 package org.github.spring.exception;
 
-import com.google.common.collect.ImmutableList;
-import org.github.spring.footstone.ConstInterface;
-
 import java.util.List;
+
+import org.github.spring.footstone.Constants;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * InvalidParamsException.
@@ -11,18 +12,13 @@ import java.util.List;
  * @author JYD_XL
  */
 @SuppressWarnings("serial")
-public class InvalidParamsException extends RunException implements ConstInterface {
+public class InvalidParamsException extends RunException implements Constants {
   /** params. */
   private List<String> params;
 
   /** Constructor. */
   public InvalidParamsException(String... param) {
     params = ImmutableList.copyOf(param);
-  }
-
-  @Override
-  public String getMessage() {
-    return JOINER.join(params, "invalid param of them. ");
   }
 
   /**
@@ -63,5 +59,10 @@ public class InvalidParamsException extends RunException implements ConstInterfa
    */
   public InvalidParamsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
+  }
+
+  @Override
+  public String getMessage() {
+    return JOINER.join(params, "invalid param of them. ");
   }
 }

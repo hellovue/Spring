@@ -11,7 +11,7 @@ import com.google.common.base.Joiner;
  *
  * @author JYD_XL
  */
-public interface ConstInterface {
+public interface Constants {
   /** default time zone. */
   String DEFAULT_TIME_ZONE = "GMT+08:00";
 

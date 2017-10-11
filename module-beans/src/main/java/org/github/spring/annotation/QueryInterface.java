@@ -8,8 +8,10 @@ import java.lang.annotation.Target;
 
 /**
  * QueryInterface.
- * <p>
- * Created by JYD_XL on 2017/5/11.
+ *
+ * @author JYD_XL
+ * @version 0.0.7-SNAPSHOT
+ * @see java.lang.annotation.Annotation
  */
 @Documented
 @Target({ElementType.TYPE})

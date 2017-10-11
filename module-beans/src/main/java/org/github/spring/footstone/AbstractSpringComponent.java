@@ -15,32 +15,30 @@ import org.springframework.web.context.ServletContextAware;
  * @see java.io.Serializable
  * @see org.springframework.beans.factory.Aware
  * @see org.github.spring.footstone.AbstractEntity
- * @see org.github.spring.footstone.ConstInterface
- * @see org.github.spring.footstone.BeansInterface
  * @see org.springframework.beans.factory.BeanNameAware
  */
-public abstract class AbstractSpringComponent implements BeansInterface, BeanNameAware, ServletContextAware, ApplicationContextAware {
+public abstract class AbstractSpringComponent implements Constants, BeanNameAware, ServletContextAware, ApplicationContextAware {
   /** id. */
   protected String id;
-  
+
   /** servlet context. */
   protected ServletContext servletContext;
-  
+
   /** application context. */
   protected ApplicationContext applicationContext;
-  
+
   @Deprecated
   @Override
   public void setBeanName(String beanName) {
     id = beanName;
   }
-  
+
   @Deprecated
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
   }
-  
+
   @Deprecated
   @Override
   public void setServletContext(ServletContext servletContext) {

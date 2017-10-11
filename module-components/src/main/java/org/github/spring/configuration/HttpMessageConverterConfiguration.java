@@ -1,8 +1,8 @@
 package org.github.spring.configuration;
 
-import org.github.spring.footstone.BeansInterface;
 import org.github.spring.footstone.JSONMapperHolder;
 import org.github.spring.footstone.XMLMapperHolder;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter.PROTOBUF;
 
 @Configuration
-public class HttpMessageConverterConfiguration implements BeansInterface {
+public class HttpMessageConverterConfiguration {
   @Bean
   public MappingJackson2HttpMessageConverter jacksonJSONHttpMessageConverter() {
     val jacksonJSONHttpMessageConverter = new MappingJackson2HttpMessageConverter(JSONMapperHolder.getJSONMapper());

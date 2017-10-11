@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 
 import org.github.spring.enumeration.ContentType;
-import org.github.spring.footstone.ConstInterface;
+import org.github.spring.footstone.Constants;
 
 import org.springframework.http.MediaType;
 
@@ -34,7 +34,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
  * @since 0.0.7-SNAPSHOT
  */
 @FunctionalInterface
-public interface Returnable extends Serializable, ConstInterface, Supplier<String> {
+public interface Returnable extends Serializable, Constants, Supplier<String> {
   /** Get content flag {@link MediaType} of return data. */
   default ContentType returnType() {
     return TEXT;

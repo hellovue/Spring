@@ -1,13 +1,13 @@
 package org.github.spring.bootstrap;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.context.support.ServletContextResourceLoader;
 
-import javax.servlet.ServletContext;
-
 /**
- * Servlet资源文件加载器,直接委托给{@link ServletContextResourceLoader}.
+ * ServletResourceLoader.
  *
  * @author JYD_XL
  * @see org.springframework.core.io.ResourceLoader

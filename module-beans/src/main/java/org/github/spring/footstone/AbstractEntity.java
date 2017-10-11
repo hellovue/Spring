@@ -5,23 +5,22 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.val;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.val;
+
 /**
  * Const of entity.
  *
  * @author JYD_XL
- * @see java.io.Closeable
  * @since 0.0.7-SNAPSHOT
  */
 @SuppressWarnings("serial")
-public abstract class AbstractEntity implements Serializable, ConstInterface, BeansInterface, Cloneable {
+public abstract class AbstractEntity implements Cloneable, Constants, Serializable {
   @Override
   public AbstractEntity clone() {
     try {

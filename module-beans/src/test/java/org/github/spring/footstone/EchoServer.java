@@ -10,6 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class EchoServer {
+
   private final int port;
 
   public EchoServer(int port) {

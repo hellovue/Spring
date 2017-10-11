@@ -1,19 +1,16 @@
 package org.github.spring.aspect;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import javax.annotation.Resource;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.github.spring.annotation.Logger;
 import org.github.spring.service.ILoggerService;
-import org.springframework.stereotype.Component;
 
-import static java.util.Objects.nonNull;
-import static org.github.spring.footstone.BeansInterface.LOGGER_ASPECT;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 
-@Component(LOGGER_ASPECT)
 public class LoggerAspect {
   @Resource
   private ILoggerService loggerService;
@@ -22,9 +19,9 @@ public class LoggerAspect {
   public Object saveLogger(ProceedingJoinPoint joinPoint) throws Throwable {
     String name = joinPoint.getSignature().getName();
     Method method = currentMethod(joinPoint, name);
-    if (nonNull(method)) {
+    if (Objects.nonNull(method)) {
       Logger logger = method.getAnnotation(Logger.class);
-      if (nonNull(logger)) {
+      if (Objects.nonNull(logger)) {
         loggerService.save(joinPoint, method, logger);
       }
     }

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import static java.util.Objects.isNull;
-import static org.github.spring.footstone.ConstInterface.LIKE;
+import static org.github.spring.footstone.Constants.LIKE;
 import static org.github.spring.footstone.CrudHelper.Status.IGNORE;
 import static org.github.spring.footstone.CrudHelper.Status.TARGET;
 
