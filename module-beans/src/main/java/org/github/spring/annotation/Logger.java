@@ -6,9 +6,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+/**
+ * LOG mark annotation.
+ *
+ * @author JYD_XL
+ * @version 0.0.7-SNAPSHOT
+ * @see java.lang.annotation.Annotation
+ */
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 @Documented
 public @interface Logger {
+  /** GET a description. */
   String value() default "";
 }

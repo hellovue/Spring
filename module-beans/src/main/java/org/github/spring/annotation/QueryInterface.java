@@ -7,13 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * QueryInterface.
+ * MyBatis mapper mark annotation.
  *
  * @author JYD_XL
  * @version 0.0.7-SNAPSHOT
  * @see java.lang.annotation.Annotation
  */
-@Documented
-@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Documented
 public @interface QueryInterface {}
