@@ -118,4 +118,8 @@ public interface Constants {
 
   /** like. */
   String LIKE = "%";
+
+  String VERSION = "version";
+
+  String UNKNOWN = "unknown";
 }

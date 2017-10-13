@@ -49,6 +49,8 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   @JsonIgnore
   private int status = SC_OK;
 
+  private final String version = System.getProperty(VERSION,UNKNOWN);
+
   /** result message. */
   private String retMsg = RET_OK_MSG;
 
@@ -124,6 +126,10 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   /** SET retMsg. */
   public void setRetMsg(@NonNull String retMsg) {
     Optional.of(retMsg).filter(StringUtil::isNotBlank).ifPresent(v -> this.retMsg = v);
+  }
+
+  public String getVersion() {
+    return version;
   }
 
   /** WITH retCode. */
