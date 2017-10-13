@@ -7,9 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.github.spring.enumeration.Flag;
+import org.github.spring.enumeration.Method;
 
 /**
+ * CRUD标记注解.
  * CRUD operation inject annotation.
  * CRUD mark annotation.
  *
@@ -22,9 +23,9 @@ import org.github.spring.enumeration.Flag;
 @Documented
 @Repeatable(Columns.class)
 public @interface Column {
-  /** GET flag. */
-  Flag flag() default Flag.EQUAL_TO;
+  /** GET field. */
+  String field() default "";
 
-  /** GET goal. */
-  String goal() default "";
+  /** GET value. */
+  Method value() default Method.EQUAL_TO;
 }

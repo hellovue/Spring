@@ -21,7 +21,7 @@ import static org.github.spring.enumeration.ContentType.JSON;
 @FunctionalInterface
 public interface JSONReturn extends Returnable {
   @Override
-  default ContentType returnType() {
+  default ContentType contentType() {
     return JSON;
   }
 

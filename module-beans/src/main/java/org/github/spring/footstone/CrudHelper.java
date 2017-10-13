@@ -17,15 +17,6 @@ import static org.github.spring.footstone.CrudHelper.Status.TARGET;
  */
 @Slf4j
 abstract class CrudHelper {
-  /**
-   * status.
-   *
-   * @author JYD_XL
-   */
-  enum Status {
-    TARGET, IGNORE
-  }
-
   static void startCrud(Object criteria, CrudHelperModel helper) {
     start(criteria, helper, null);
   }
@@ -52,8 +43,8 @@ abstract class CrudHelper {
     optional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
 
     for (val wrapper : fieldWrappers) {
-      val data = wrapper.getData();
       val flag = wrapper.getFlag();
+      val data = wrapper.getValues();
 
       val methodName = wrapper.getMethod();
       val parameterType = wrapper.getType();
@@ -106,6 +97,15 @@ abstract class CrudHelper {
    */
   private static String valueLikeFull(Object value) {
     return isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
+  }
+
+  /**
+   * status.
+   *
+   * @author JYD_XL
+   */
+  enum Status {
+    TARGET, IGNORE
   }
 
   private static final String LIKE = "%";

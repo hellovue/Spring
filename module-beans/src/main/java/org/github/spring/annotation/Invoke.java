@@ -26,6 +26,9 @@ public @interface Invoke {
   Style style() default JSON;
 
   /** GET invoke schema. */
+  Style format() default Style.JSON;
+
+  /** invoke mode. */
   enum Style {
     JSON, XML
   }

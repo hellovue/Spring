@@ -27,7 +27,7 @@ public final class PageHelperModel extends AbstractEntity {
   /** page number. */
   private int number = NUMBER;
 
-  /** page flag. */
+  /** page method. */
   private boolean flag = FLAG;
 
   /** page size. */
@@ -73,12 +73,12 @@ public final class PageHelperModel extends AbstractEntity {
     if (ASC.equalsIgnoreCase(order) || "DESC".equalsIgnoreCase(order)) this.order = order.toUpperCase();
   }
 
-  /** GET flag. */
+  /** GET method. */
   public boolean getFlag() {
     return flag;
   }
 
-  /** SET flag. */
+  /** SET method. */
   public void setFlag(boolean flag) {
     this.flag = flag;
   }
@@ -119,7 +119,7 @@ public final class PageHelperModel extends AbstractEntity {
     return new RowBounds(number, this.getData());
   }
 
-  /** Get data size, part or full. */
+  /** Get values size, part or full. */
   @JsonIgnore
   public int getData() {
     return flag ? size : 0;
@@ -135,7 +135,7 @@ public final class PageHelperModel extends AbstractEntity {
     if (StringUtil.isNotBlank(number)) this.number = Integer.parseInt(number);
   }
 
-  /** SET flag. */
+  /** SET method. */
   public void setFlag(String flag) {
     if (StringUtil.isNotBlank(flag)) this.flag = Boolean.parseBoolean(flag);
   }
@@ -164,7 +164,7 @@ public final class PageHelperModel extends AbstractEntity {
     return this;
   }
 
-  /** WITH flag. */
+  /** WITH method. */
   public PageHelperModel withFlag(boolean flag) {
     this.setFlag(flag);
     return this;
@@ -204,6 +204,6 @@ public final class PageHelperModel extends AbstractEntity {
   /** default page size. */
   private static final int SIZE = 10;
 
-  /** default page flag. */
+  /** default page method. */
   private static final boolean FLAG = true;
 }

@@ -41,6 +41,8 @@ import com.google.common.io.ByteStreams;
  */
 public interface FileReturn extends Returnable {
   @Override
+  default ContentType contentType() {
+    return FILE;
   default ContentType returnType() {
     return ContentType.FILE;
   }

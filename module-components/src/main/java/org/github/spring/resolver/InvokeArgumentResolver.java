@@ -57,7 +57,7 @@ public class InvokeArgumentResolver extends AbstractSpringComponent implements H
    * @return MAPPER
    */
   private ObjectMapper getMapper(MethodParameter parameter) {
-    switch (parameter.getParameterAnnotation(Invoke.class).style()) {
+    switch (parameter.getParameterAnnotation(Invoke.class).format()) {
       case JSON:
         return JSONMapperHolder.getWebJSONMapper();
       case XML:

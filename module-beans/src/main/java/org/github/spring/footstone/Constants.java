@@ -71,7 +71,7 @@ public interface Constants {
   /** default page zero. */
   int PAGE_ZERO = 0;
 
-  /** default page flag. */
+  /** default page value. */
   boolean FLAG = true;
 
   Joiner JOINER_EMPTY = Joiner.on(EMPTY).skipNulls();
@@ -116,4 +116,14 @@ public interface Constants {
   String SUFFIX_EXCEL = ".xlsx";
 
   String FILE_NAME_ZIP = "package.zip";
+
+  /** MethodDescription----AND. */
+  String AND = "and";
+
+  /** like. */
+  String LIKE = "%";
+
+  String VERSION = "version";
+
+  String UNKNOWN = "unknown";
 }

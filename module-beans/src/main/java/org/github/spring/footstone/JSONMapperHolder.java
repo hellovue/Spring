@@ -112,7 +112,16 @@ public final class JSONMapperHolder extends ObjectMapper {
     private Holder() {}
 
     static {
-      _web_json_instance.setDateFormat(ThreadLocal.withInitial(NaiveDateFormat::new).get()).setTimeZone(TimeZone.getTimeZone(DEFAULT_TIME_ZONE)).setSerializationInclusion(NON_NULL).disable(FAIL_ON_UNKNOWN_PROPERTIES).disable(FAIL_ON_INVALID_SUBTYPE).disable(FAIL_ON_UNRESOLVED_OBJECT_IDS).disable(FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY).disable(FAIL_ON_UNRESOLVED_OBJECT_IDS).disable(FAIL_ON_EMPTY_BEANS).enable(SORT_PROPERTIES_ALPHABETICALLY);
+      _web_json_instance
+        .enable(SORT_PROPERTIES_ALPHABETICALLY)
+        .disable(FAIL_ON_EMPTY_BEANS)
+        .disable(FAIL_ON_INVALID_SUBTYPE)
+        .disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(FAIL_ON_UNRESOLVED_OBJECT_IDS)
+        .disable(FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
+        .setTimeZone(TimeZone.getTimeZone(DEFAULT_TIME_ZONE))
+        .setSerializationInclusion(NON_NULL)
+        .setDateFormat(ThreadLocal.withInitial(NaiveDateFormat::new).get());
     }
   }
 }
