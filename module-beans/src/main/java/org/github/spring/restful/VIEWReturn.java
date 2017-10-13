@@ -19,7 +19,7 @@ import lombok.NonNull;
 @FunctionalInterface
 public interface VIEWReturn extends Returnable {
   @Override
-  default ContentType returnType() {
+  default ContentType contentType() {
     throw new UnsupportedOperationException();
   }
 

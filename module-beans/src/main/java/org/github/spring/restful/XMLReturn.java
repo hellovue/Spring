@@ -21,7 +21,7 @@ import static org.github.spring.enumeration.ContentType.XML;
 @FunctionalInterface
 public interface XMLReturn extends Returnable {
   @Override
-  default ContentType returnType() {
+  default ContentType contentType() {
     return XML;
   }
 

@@ -67,7 +67,7 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
   }
 
   @Override
-  public ContentType returnType() {
+  public ContentType contentType() {
     return JSON_P;
   }
 

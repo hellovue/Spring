@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.NonNull;
-
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.footstone.Constants;
 
 import org.springframework.http.MediaType;
+
+import lombok.NonNull;
 
 import static org.github.spring.enumeration.ContentType.TEXT;
 
@@ -36,7 +37,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
 @FunctionalInterface
 public interface Returnable extends Serializable, Constants, Supplier<String> {
   /** Get content value {@link MediaType} of return data. */
-  default ContentType returnType() {
+  default ContentType contentType() {
     return TEXT;
   }
 
@@ -67,8 +68,8 @@ public interface Returnable extends Serializable, Constants, Supplier<String> {
 
   /** Collect data by request {@link HttpServletRequest} and response {@link HttpServletResponse}. */
   default void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
-    response.setCharacterEncoding(UTF8);
-    response.setContentType(this.returnType().get());
+    response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    response.setContentType(this.contentType().get());
     if (this.functional()) {
       this.accept(response.getWriter());
     } else {

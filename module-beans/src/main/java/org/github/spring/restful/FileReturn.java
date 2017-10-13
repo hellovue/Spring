@@ -43,7 +43,7 @@ import static org.github.spring.enumeration.ContentType.FILE;
  */
 public interface FileReturn extends Returnable {
   @Override
-  default ContentType returnType() {
+  default ContentType contentType() {
     return FILE;
   }
 
