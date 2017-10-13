@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import org.springframework.http.MediaType;
 
 /**
- * Enum of content flag,include custom flag and standard flag{@link MediaType}.
+ * Enum of content value,include custom value and standard value{@link MediaType}.
  *
  * @author JYD_XL
  * @see java.lang.Enum

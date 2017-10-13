@@ -67,7 +67,7 @@ public interface Constants {
   /** default page zero. */
   int PAGE_ZERO = 0;
 
-  /** default page flag. */
+  /** default page value. */
   boolean FLAG = true;
 
   Joiner JOINER_EMPTY = Joiner.on(EMPTY).skipNulls();

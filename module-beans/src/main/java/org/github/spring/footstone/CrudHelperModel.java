@@ -3,7 +3,6 @@ package org.github.spring.footstone;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +12,8 @@ import java.util.stream.Collectors;
 
 import org.github.spring.annotation.Column;
 import org.github.spring.annotation.Columns;
-import org.github.spring.enumeration.Flag;
+import org.github.spring.enumeration.Method;
+import org.github.spring.util.StringUtil;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,14 +24,13 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
 @Slf4j
 public final class CrudHelperModel extends AbstractEntity {
   /** MethodDescription----AND. */
   private static final String AND = "and";
   @Getter
   private final List<Wrapper> attributes;
+
   private final Object condModel;
 
   @Override
@@ -62,7 +61,7 @@ public final class CrudHelperModel extends AbstractEntity {
   private List<Wrapper> findAllColumnOnMethod() {
     val wrappers = new ArrayList<Wrapper>();
     val condModelClass = condModel.getClass();
-    for (Method each : condModelClass.getMethods()) {
+    for (val each : condModelClass.getMethods()) {
       try {
         if (! each.getName().startsWith("get")) continue;
 
@@ -77,14 +76,14 @@ public final class CrudHelperModel extends AbstractEntity {
         if (Objects.nonNull(data) && data instanceof Collection) data = new ArrayList((Collection) data);
 
         if (Objects.isNull(columns)) {
-          val flag = column.flag();
-          val origin = isBlank(column.goal()) ? this.headDown(each.getName().substring(3)) : column.goal();
+          val flag = column.value();
+          val origin = StringUtil.isBlank(column.field()) ? this.headDown(each.getName().substring(3)) : column.field();
           val method = AND.concat(this.headUp(origin)).concat(flag.get());
           wrappers.add(new Wrapper(data, flag, type, origin, method));
         } else {
           for (Column item : columns.value()) {
-            val flag = item.flag();
-            val origin = isBlank(item.goal()) ? this.headDown(each.getName().substring(3)) : item.goal();
+            val flag = item.value();
+            val origin = StringUtil.isBlank(item.field()) ? this.headDown(each.getName().substring(3)) : item.field();
             val method = AND.concat(this.headUp(origin)).concat(flag.get());
             wrappers.add(new Wrapper(data, flag, type, origin, method));
           }
@@ -112,14 +111,14 @@ public final class CrudHelperModel extends AbstractEntity {
       val wrappers = new ArrayList<Wrapper>();
       if (Objects.isNull(column)) {
         for (Column each : columns.value()) {
-          val flag = each.flag();
-          val origin = isBlank(each.goal()) ? field.getName() : each.goal();
+          val flag = each.value();
+          val origin = StringUtil.isBlank(each.field()) ? field.getName() : each.field();
           val method = AND.concat(this.headUp(origin)).concat(flag.get());
           wrappers.add(new Wrapper(data, flag, type, origin, method));
         }
       } else {
-        val flag = column.flag();
-        val origin = isBlank(column.goal()) ? field.getName() : column.goal();
+        val flag = column.value();
+        val origin = StringUtil.isBlank(column.field()) ? field.getName() : column.field();
         val method = AND.concat(this.headUp(origin)).concat(flag.get());
         wrappers.add(new Wrapper(data, flag, type, origin, method));
       }
@@ -142,15 +141,15 @@ public final class CrudHelperModel extends AbstractEntity {
   @AllArgsConstructor
   static final class Wrapper {
     @JsonProperty("values")
-    final Object data;
+    final Object values;
 
     @NonNull
     @JsonIgnore
-    final Flag flag;
+    final Method flag;
 
     @NonNull
     @JsonIgnore
-    final Class<?> type;
+    final Class type;
 
     @NonNull
     @JsonIgnore

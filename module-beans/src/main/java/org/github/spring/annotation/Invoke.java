@@ -21,7 +21,7 @@ public @interface Invoke {
   String value() default "";
 
   /** GET invoke schema. */
-  Style style() default Style.JSON;
+  Style format() default Style.JSON;
 
   /** invoke mode. */
   enum Style {
