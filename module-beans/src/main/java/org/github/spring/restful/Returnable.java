@@ -16,8 +16,6 @@ import org.github.spring.footstone.Constants;
 
 import org.springframework.http.MediaType;
 
-import static org.github.spring.enumeration.ContentType.TEXT;
-
 /**
  * Top interface of all.
  *
@@ -37,7 +35,7 @@ import static org.github.spring.enumeration.ContentType.TEXT;
 public interface Returnable extends Serializable, Constants, Supplier<String> {
   /** Get content flag {@link MediaType} of return data. */
   default ContentType returnType() {
-    return TEXT;
+    return ContentType.TEXT;
   }
 
   /** Whether the request has been handled fully within the handler. */

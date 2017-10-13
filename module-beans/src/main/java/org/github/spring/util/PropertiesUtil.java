@@ -1,15 +1,16 @@
 package org.github.spring.util;
 
-import lombok.NonNull;
-import org.github.spring.exception.RunException;
-import org.github.spring.footstone.PropertyNameLocation;
-import org.github.spring.footstone.PropertyPathLocation;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+
+import lombok.NonNull;
+
+import org.github.spring.exception.RunException;
+import org.github.spring.footstone.PropertyNameLocation;
+import org.github.spring.footstone.PropertyPathLocation;
 
 /**
  * PropertiesUtil.
@@ -17,9 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author JYD_XL
  */
 public abstract class PropertiesUtil {
-  /** cache. */
-  private static final Map<String, Properties> cacheMap = new ConcurrentHashMap<>();
-
   /** Constructor. */
   protected PropertiesUtil() {}
 
@@ -43,7 +41,7 @@ public abstract class PropertiesUtil {
       property.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(path));
       cacheMap.put(path, property);
     } catch (IOException e) {
-      throw new RunException("PropertiesLoading-Exception:" + e.getMessage(), e);
+      throw new RunException("exception-propertiesLoading ==> " + e.getMessage(), e);
     }
   }
 
@@ -78,7 +76,7 @@ public abstract class PropertiesUtil {
    */
   private static String getRealPath(@NonNull String path) {
     if (StringUtil.isBlank(path)) {
-      throw new RunException("The property [ path ] can not be is empty!");
+      throw new RunException("The property [ " + path + " ] can not be is empty!");
     } else if (path.startsWith("/")) {
       return path.substring(1);
     } else {
@@ -109,7 +107,7 @@ public abstract class PropertiesUtil {
   }
 
   /**
-   * GET value.
+   * GET target.
    *
    * @param path String
    * @param key  String
@@ -151,4 +149,7 @@ public abstract class PropertiesUtil {
   public static int getIntValue(PropertyPathLocation path, PropertyNameLocation name) {
     return StringUtil.isEmpty(getStringValue(path, name)) ? 0 : Integer.parseInt(getStringValue(path, name));
   }
+
+  /** cache. */
+  private static final Map<String, Properties> cacheMap = new ConcurrentHashMap<>();
 }

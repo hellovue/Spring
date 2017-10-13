@@ -12,10 +12,11 @@ import org.springframework.web.context.ServletContextAware;
  * Abstract class of spring component.
  *
  * @author JYD_XL
- * @see java.io.Serializable
  * @see org.springframework.beans.factory.Aware
  * @see org.github.spring.footstone.AbstractEntity
+ * @see org.github.spring.footstone.BeansInterface
  * @see org.springframework.beans.factory.BeanNameAware
+ * @since 0.0.1-SNAPSHOT
  */
 public abstract class AbstractSpringComponent implements Constants, BeanNameAware, ServletContextAware, ApplicationContextAware {
   /** id. */

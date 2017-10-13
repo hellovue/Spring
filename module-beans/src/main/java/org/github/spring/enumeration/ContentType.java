@@ -5,22 +5,20 @@ import java.util.function.Supplier;
 import org.springframework.http.MediaType;
 
 /**
- * Enum of content flag,include custom flag and standard flag{@link MediaType}.
+ * Enum of content type, include custom type and standard type {@link MediaType}.
  *
  * @author JYD_XL
- * @see java.lang.Enum
- * @see java.lang.Comparable
- * @see java.io.Serializable
  * @see java.util.function.Supplier
+ * @since 0.0.1-SNAPSHOT
  */
 public enum ContentType implements Supplier<String> {
   /** standard return flag from spring. */
   XML("application/xml"), JSON("application/json"), TEXT("text/plain"), FILE("application/octet-stream"),
 
-  /** custom return flag. */
+  /** custom return type. */
   JSON_P("application/javascript");
 
-  /** return flag. */
+  /** return type. */
   private final String _type;
 
   /** Constructor. */

@@ -11,6 +11,12 @@ import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+
 import org.github.spring.bootstrap.ServletResourceLoader;
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.footstone.ExcelGenerator;
@@ -20,14 +26,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.google.common.io.ByteStreams;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-
-import static org.github.spring.enumeration.ContentType.FILE;
 
 /**
  * Top interface of file.
@@ -44,7 +42,7 @@ import static org.github.spring.enumeration.ContentType.FILE;
 public interface FileReturn extends Returnable {
   @Override
   default ContentType returnType() {
-    return FILE;
+    return ContentType.FILE;
   }
 
   @Override
@@ -63,8 +61,7 @@ public interface FileReturn extends Returnable {
   }
 
   default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
-    int lastIndex = this.get().lastIndexOf("/");
-    response.addHeader("Content-Disposition", "attachment;fileName=".concat(this.get().substring(lastIndex + 1)));
+    response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(this.get().substring(this.get().lastIndexOf("/") + 1)));
     return response;
   }
 
@@ -83,7 +80,7 @@ public interface FileReturn extends Returnable {
 
   /** Generator. */
   static FileReturn of(@NonNull String file) {
-    return of(file:: toString);
+    return of(file::toString);
   }
 
   /** Generator. */
@@ -126,7 +123,7 @@ public interface FileReturn extends Returnable {
 
     @Override
     public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
-      response.addHeader("Content-Disposition", "attachment;fileName=".concat(_name));
+      response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(_name));
       return response;
     }
 
@@ -165,18 +162,13 @@ public interface FileReturn extends Returnable {
   @Slf4j
   @AllArgsConstructor
   final class ExcelFileReturn implements FileReturn {
-    private static final String[][] DATA_INIT = {};
-
     @NonNull
     private final String name;
-
     @Getter
     @NonNull
     private final List<String> title;
-
     @NonNull
     private final List<String> field;
-
     @NonNull
     private final List data;
 
@@ -212,6 +204,8 @@ public interface FileReturn extends Returnable {
       return field.substring(0, 1).toUpperCase().concat(field.substring(1));
     }
 
+    private static final String[][] DATA_INIT = {};
+
     @Override
     public String get() {
       return null;
@@ -226,7 +220,7 @@ public interface FileReturn extends Returnable {
 
     @Override
     public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
-      response.addHeader("Content-Disposition", "attachment;fileName=".concat(name).concat(SUFFIX_EXCEL));
+      response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(name).concat(SUFFIX_EXCEL));
       return response;
     }
   }

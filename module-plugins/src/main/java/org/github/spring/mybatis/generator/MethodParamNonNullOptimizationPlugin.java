@@ -30,7 +30,7 @@ public class MethodParamNonNullOptimizationPlugin extends NaivePluginAdapter {
       if (name.endsWith(methodCriterion)) continue;
       
       String origin = method.getBodyLines().get(0);
-      origin = "if(value != null) ".concat(origin);
+      origin = "if(target != null) ".concat(origin);
       method.getBodyLines().set(0, origin);
     }
     

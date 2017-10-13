@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 import org.github.spring.enumeration.Flag;
 
 /**
+ * CRUD operation inject annotation.
  * CRUD mark annotation.
  *
  * @author JYD_XL

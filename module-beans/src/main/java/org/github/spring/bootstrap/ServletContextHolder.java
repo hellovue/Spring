@@ -12,9 +12,6 @@ import org.springframework.web.context.ServletContextAware;
  * @see org.springframework.web.context.ServletContextAware
  */
 public final class ServletContextHolder implements ServletContextAware {
-  /** servlet context. */
-  private static ServletContext servletContext;
-
   /** GET servlet context. */
   public static ServletContext getServletContext() {
     return servletContext;
@@ -30,4 +27,7 @@ public final class ServletContextHolder implements ServletContextAware {
   public ServletContext getLetCtx() {
     return servletContext;
   }
+
+  /** servlet context. */
+  private static ServletContext servletContext;
 }

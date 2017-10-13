@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.github.spring.annotation.Invoke;
 import org.github.spring.exception.RunException;
 import org.github.spring.footstone.AbstractSpringComponent;
@@ -18,8 +20,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JSONArgumentResolver.
@@ -36,11 +36,11 @@ public class InvokeArgumentResolver extends AbstractSpringComponent implements H
   @Override
   public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
     HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-    String value = parameter.getParameterAnnotation(Invoke.class).value();
+    String target = parameter.getParameterAnnotation(Invoke.class).value();
     ObjectMapper objectMapper = this.getMapper(parameter);
     try {
-      if (StringUtil.isNoneBlank(value)) {
-        return objectMapper.readValue(request.getParameter(value), parameter.getParameterType());
+      if (StringUtil.isNoneBlank(target)) {
+        return objectMapper.readValue(request.getParameter(target), parameter.getParameterType());
       } else {
         return objectMapper.readValue(request.getInputStream(), parameter.getParameterType());
       }

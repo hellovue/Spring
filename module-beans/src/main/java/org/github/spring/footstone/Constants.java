@@ -15,24 +15,24 @@ public interface Constants {
   /** default time zone. */
   String DEFAULT_TIME_ZONE = "GMT+08:00";
 
-  /** default date format pattern. */
+  /** default date style pattern. */
   String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-  /** date format pattern of day. */
+  /** date style pattern of day. */
   String FORMAT_DATE = "yyyy-MM-dd";
 
   String FORMAT_TIME = "HH:mm:ss";
 
-  /** date format pattern of year. */
+  /** date style pattern of year. */
   String FORMAT_YEAR = "yyyy";
 
-  /** date format pattern of month. */
+  /** date style pattern of month. */
   String FORMAT_MONTH = "yyyy-MM";
 
-  /** date format pattern only day. */
+  /** date style pattern only day. */
   String FORMAT_ONLY_DAY = "dd";
 
-  /** date format pattern only month. */
+  /** date style pattern only month. */
   String FORMAT_ONLY_MONTH = "MM";
 
   /** default param pattern. */
@@ -45,6 +45,10 @@ public interface Constants {
   String EMPTY_XML = "<root/>";
 
   String EMPTY_JSON = "{}";
+
+  String CONTENT_DISPOSITION = "Content-Disposition";
+
+  String ATTACHMENT_FILENAME = "attachment;fileName=";
 
   String SPACE = " ";
 
@@ -112,10 +116,4 @@ public interface Constants {
   String SUFFIX_EXCEL = ".xlsx";
 
   String FILE_NAME_ZIP = "package.zip";
-
-  /** MethodDescription----AND. */
-  String AND = "and";
-
-  /** like. */
-  String LIKE = "%";
 }

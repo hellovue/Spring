@@ -11,6 +11,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.var;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+
 import org.github.spring.annotation.Column;
 import org.github.spring.annotation.Columns;
 import org.github.spring.enumeration.Flag;
@@ -18,21 +25,23 @@ import org.github.spring.enumeration.Flag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
 public final class CrudHelperModel extends AbstractEntity {
-  /** MethodDescription----AND. */
-  private static final String AND = "and";
   @Getter
   private final List<Wrapper> attributes;
   private final Object condModel;
+
+  CrudHelperModel(@NonNull Object condModel) {
+    val condModelClass = condModel.getClass();
+    val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
+
+    this.findAllFields(condModelClass, fields);
+    this.condModel = condModel;
+    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).flatMap(List::parallelStream).collect(Collectors.toList());
+    this.attributes.addAll(this.findAllColumnOnMethod());
+  }
 
   @Override
   public String toString() {
@@ -70,7 +79,7 @@ public final class CrudHelperModel extends AbstractEntity {
         val columns = each.getAnnotation(Columns.class);
         if (Objects.isNull(column) && Objects.isNull(columns)) continue;
 
-        Object data = each.invoke(condModel);
+        var data = each.invoke(condModel);
         Class<?> type = each.getReturnType();
         if (Collection.class.isAssignableFrom(type) || Array.class.isAssignableFrom(type)) type = List.class;
         if (Objects.nonNull(data) && data instanceof Array) data = Arrays.asList((Object[]) data);
@@ -168,13 +177,6 @@ public final class CrudHelperModel extends AbstractEntity {
     }
   }
 
-  CrudHelperModel(@NonNull Object condModel) {
-    val condModelClass = condModel.getClass();
-    val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
-
-    this.findAllFields(condModelClass, fields);
-    this.condModel = condModel;
-    this.attributes = fields.parallelStream().map(this::wrap).filter(Objects::nonNull).flatMap(List::parallelStream).collect(Collectors.toList());
-    this.attributes.addAll(this.findAllColumnOnMethod());
-  }
+  /** MethodDescription----AND. */
+  private static final String AND = "and";
 }

@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static org.github.spring.annotation.Invoke.Style.JSON;
+
 /**
  * INVOKE mark annotation.
  *
@@ -20,10 +22,10 @@ public @interface Invoke {
   /** GET invoke target. */
   String value() default "";
 
-  /** GET invoke schema. */
-  Style style() default Style.JSON;
+  /** GET invoke style. */
+  Style style() default JSON;
 
-  /** invoke mode. */
+  /** GET invoke schema. */
   enum Style {
     JSON, XML
   }

@@ -12,9 +12,6 @@ import org.springframework.context.ApplicationContextAware;
  * @see org.springframework.context.ApplicationContextAware
  */
 public final class ApplicationContextHolder implements ApplicationContextAware {
-  /** application context. */
-  private static ApplicationContext applicationContext;
-
   /** GET application context. */
   public static ApplicationContext getApplicationContext() {
     return applicationContext;
@@ -30,4 +27,7 @@ public final class ApplicationContextHolder implements ApplicationContextAware {
   public ApplicationContext getAppCtx() {
     return applicationContext;
   }
+
+  /** application context. */
+  private static ApplicationContext applicationContext;
 }

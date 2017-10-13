@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import static java.util.Objects.isNull;
-import static org.github.spring.footstone.Constants.LIKE;
 import static org.github.spring.footstone.CrudHelper.Status.IGNORE;
 import static org.github.spring.footstone.CrudHelper.Status.TARGET;
 
@@ -40,15 +39,11 @@ abstract class CrudHelper {
   }
 
   private static void start(Object criteria, CrudHelperModel helper, Status status, String... param) {
-    try {
-      turn(criteria, helper, status, param);
-    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      log.error("exception-crud ==> " + e.getMessage() + " NoSuchMethod", e);
-    }
+    turn(criteria, helper, status, param);
   }
 
   /** CURD core function. */
-  private static void turn(Object criteria, CrudHelperModel helper, Status status, String... param) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+  private static void turn(Object criteria, CrudHelperModel helper, Status status, String... param) {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
     val optional = Optional.ofNullable(status);
@@ -62,29 +57,33 @@ abstract class CrudHelper {
 
       val methodName = wrapper.getMethod();
       val parameterType = wrapper.getType();
-      switch (flag) {
-        case IS_NULL:
-        case NOT_NULL:
-          criteriaClass.getMethod(methodName).invoke(criteria);
-          break;
-        case EQUAL_TO:
-        case NOT_EQUAL_TO:
-        case GREATER_THAN:
-        case GREATER_THAN_OR_EQUAL_TO:
-        case LESS_THAN:
-        case LESS_THAN_OR_EQUAL_TO:
-        case IN:
-        case NOT_IN:
-          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, data);
-          break;
-        case LIKE:
-        case NOT_LIKE:
-          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeNormal(data));
-          break;
-        case LIKE_FULL:
-        case NOT_LIKE_FULL:
-          criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeFull(data));
-          break;
+      try {
+        switch (flag) {
+          case IS_NULL:
+          case NOT_NULL:
+            criteriaClass.getMethod(methodName).invoke(criteria);
+            break;
+          case EQUAL_TO:
+          case NOT_EQUAL_TO:
+          case GREATER_THAN:
+          case GREATER_THAN_OR_EQUAL_TO:
+          case LESS_THAN:
+          case LESS_THAN_OR_EQUAL_TO:
+          case IN:
+          case NOT_IN:
+            criteriaClass.getMethod(methodName, parameterType).invoke(criteria, data);
+            break;
+          case LIKE:
+          case NOT_LIKE:
+            criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeNormal(data));
+            break;
+          case LIKE_FULL:
+          case NOT_LIKE_FULL:
+            criteriaClass.getMethod(methodName, parameterType).invoke(criteria, valueLikeFull(data));
+            break;
+        }
+      } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        log.error("exception-crud ==> " + e.getMessage() + " NoSuchMethod", e);
       }
     }
   }
@@ -108,4 +107,6 @@ abstract class CrudHelper {
   private static String valueLikeFull(Object value) {
     return isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
   }
+
+  private static final String LIKE = "%";
 }
