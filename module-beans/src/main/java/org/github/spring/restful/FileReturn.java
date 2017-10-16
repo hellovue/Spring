@@ -44,7 +44,9 @@ import com.google.common.io.ByteStreams;
 public interface FileReturn extends Returnable {
   @Override
   default void accept(OutputStream output) throws IOException {
-    ByteStreams.copy(this.resource().getInputStream(), output);
+    val input = this.resource().getInputStream();
+    ByteStreams.copy(input, output);
+    input.close();
   }
 
   @Override
@@ -122,6 +124,7 @@ public interface FileReturn extends Returnable {
     @Override
     public void accept(OutputStream output) throws IOException {
       ByteStreams.copy(inputStream, output);
+      inputStream.close();
     }
 
     @Override
@@ -181,7 +184,7 @@ public interface FileReturn extends Returnable {
 
     /** GET 数据类型. */
     Class<?> getType() {
-      for (Object item : data) {if (Objects.nonNull(item)) return item.getClass();}
+      for (val item : data) {if (Objects.nonNull(item)) return item.getClass();}
       return null;
     }
 

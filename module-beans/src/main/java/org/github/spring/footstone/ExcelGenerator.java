@@ -1,13 +1,10 @@
 package org.github.spring.footstone;
 
-import java.util.List;
+import lombok.val;
 
 import org.github.spring.restful.FileReturn.ExcelFileReturn;
 
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -18,16 +15,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public abstract class ExcelGenerator {
   public static XSSFWorkbook generate(ExcelFileReturn excel) {
-    XSSFWorkbook workbook = new XSSFWorkbook();
-    XSSFSheet sheet = workbook.createSheet();
-    XSSFRow head = sheet.createRow(0);
+    val workbook = new XSSFWorkbook();
 
-    List<String> title = excel.getTitle();
-    String[][] data = excel.getWrappedData();
+    val sheet = workbook.createSheet();
+    val first = sheet.createRow(0);
+    val title = excel.getTitle();
+
+    val origin = excel.getWrappedData();
 
     // SET 写入标题.
     for (int i = 0; i < title.size(); i++) {
-      XSSFCell cell = head.createCell(i);
+      val cell = first.createCell(i);
 
       // TODO 标题必须加特技...
 
@@ -36,12 +34,12 @@ public abstract class ExcelGenerator {
     }
 
     // SET 写入数据.
-    for (int i = 0; i < data.length; i++) {
-      XSSFRow row = sheet.createRow(i + 1);
-      for (int j = 0; j < data[i].length; j++) {
-        XSSFCell cell = row.createCell(j);
+    for (int i = 0; i < origin.length; i++) {
+      val row = sheet.createRow(i + 1);
+      for (int j = 0; j < origin[i].length; j++) {
+        val cell = row.createCell(j);
         cell.setCellType(CellType.STRING);
-        cell.setCellValue(data[i][j]);
+        cell.setCellValue(origin[i][j]);
       }
     }
 
