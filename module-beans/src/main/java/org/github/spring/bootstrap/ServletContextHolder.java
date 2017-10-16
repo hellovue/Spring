@@ -2,19 +2,18 @@ package org.github.spring.bootstrap;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
 /**
  * Holder of servlet context.
  *
  * @author JYD_XL
- * @version 0.0.7-SNAPSHOT
  * @see org.springframework.web.context.ServletContextAware
+ * @since 0.0.1-SNAPSHOT
  */
+@Component
 public final class ServletContextHolder implements ServletContextAware {
-  /** servlet context. */
-  private static ServletContext servletContext;
-
   /** GET servlet context. */
   public static ServletContext getServletContext() {
     return servletContext;
@@ -25,4 +24,7 @@ public final class ServletContextHolder implements ServletContextAware {
   public void setServletContext(ServletContext servletContext) {
     ServletContextHolder.servletContext = servletContext;
   }
+
+  /** servlet context. */
+  private static ServletContext servletContext;
 }

@@ -1,11 +1,9 @@
 package org.github.spring.footstone;
 
 /**
- * 常量接口，存储Bean的名称集合.
+ * MyBatisMapper.
  *
  * @author JYD_XL
- * @version 1.0
+ * @since 0.0.1-SNAPSHOT
  */
-public interface MyBatisMapper {
-
-}
+public interface MyBatisMapper {}

@@ -14,10 +14,15 @@ import org.github.spring.enumeration.ContentType;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface JSONReturn extends Returnable {
+  @Override
+  default ContentType contentType() {
+    return ContentType.JSON;
+  }
+
   /** Generator. */
   static JSONReturn of(@NonNull JSONReturn json) {
     return json;
@@ -36,10 +41,5 @@ public interface JSONReturn extends Returnable {
   /** Generator. */
   static JSONReturn of() {
     return of(EMPTY_JSON);
-  }
-
-  @Override
-  default ContentType contentType() {
-    return ContentType.JSON;
   }
 }

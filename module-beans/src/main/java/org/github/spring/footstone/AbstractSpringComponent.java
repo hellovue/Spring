@@ -30,14 +30,14 @@ public abstract class AbstractSpringComponent extends AbstractEntity implements 
 
   @Deprecated
   @Override
-  public void setBeanName(String beanName) {
-    id = beanName;
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
   }
 
   @Deprecated
   @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    this.applicationContext = applicationContext;
+  public void setBeanName(String beanName) {
+    id = beanName;
   }
 
   @Deprecated

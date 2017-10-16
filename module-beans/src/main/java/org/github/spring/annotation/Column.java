@@ -14,7 +14,7 @@ import org.github.spring.enumeration.Method;
  *
  * @author JYD_XL
  * @see java.lang.annotation.Annotation
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})

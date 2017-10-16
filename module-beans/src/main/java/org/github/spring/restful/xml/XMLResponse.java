@@ -23,26 +23,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.XMLReturn
  * @see org.github.spring.footstone.AbstractEntity
+ * @since 0.0.1-SNAPSHOT
  */
 @JacksonXmlRootElement(localName = "root")
 @SuppressWarnings("serial")
 public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
-  /** Generator. */
-  public static XMLResponse of() {
-    return new XMLResponse();
-  }
-
-  /** Generator. */
-  public static <T> XMLResponse<T> of(T data) {
-    return new XMLResponse<>(data);
-  }
-
-  /** Generator. */
-  @SafeVarargs
-  public static <T> XMLResponse<T[]> of(T... data) {
-    return new XMLResponse<>(data);
-  }
-
   /** data. */
   private transient T data;
 
@@ -55,23 +40,23 @@ public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   }
 
   @Override
+  public void accept(@NonNull OutputStream output) throws IOException {
+    XML.writeValue(output, this);
+  }
+
+  @Override
   public boolean functional() {
     return false;
   }
 
   @Override
-  public void accept(@NonNull OutputStream output) throws IOException {
-    XML.writeValueWithIOE(output, this);
+  public XMLResponse clone() {
+    return (XMLResponse) super.clone();
   }
 
   @Override
   public String get() {
     return XML.toXMLString(this);
-  }
-
-  @Override
-  public XMLResponse clone() {
-    return (XMLResponse) super.clone();
   }
 
   /** GET data. */
@@ -88,5 +73,21 @@ public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   public XMLResponse withData(T data) {
     this.setData(data);
     return this;
+  }
+
+  /** Generator. */
+  public static XMLResponse of() {
+    return new XMLResponse();
+  }
+
+  /** Generator. */
+  public static <T> XMLResponse<T> of(T data) {
+    return new XMLResponse<>(data);
+  }
+
+  /** Generator. */
+  @SafeVarargs
+  public static <T> XMLResponse<T[]> of(T... data) {
+    return new XMLResponse<>(data);
   }
 }

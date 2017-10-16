@@ -28,50 +28,10 @@ import org.github.spring.footstone.Constants;
  *
  * @author JYD_XL
  * @see java.util.function.Supplier
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface Returnable extends Constants, Serializable, Supplier<String> {
-  /** Generator. */
-  static Returnable of(@NonNull Returnable data) {
-    return data;
-  }
-
-  /** Generator. */
-  static Returnable of(@NonNull String data) {
-    return of(data::toString);
-  }
-
-  /** Generator. */
-  static Returnable of(@NonNull Object data) {
-    return of(data.toString());
-  }
-
-  /** Generator. */
-  static Returnable of() {
-    return of(EMPTY);
-  }
-
-  /** 获取返回类型. */
-  default ContentType contentType() {
-    return ContentType.TEXT;
-  }
-
-  /** 请求是否已被完全处理, 未被完全处理的请求将继续被Spring处理. */
-  default boolean terminal() {
-    return true;
-  }
-
-  /** 清空数据. */
-  default void release() {
-    // 接口没有属性, 直接通过函数接口传递的数据无法保存, 因而无法执行清理操作, 此处的默认实现为空...
-  }
-
-  /** 是否直接通过函数接口 {@link Supplier#get} 传递数据. */
-  default boolean functional() {
-    return true;
-  }
-
   /** 通过字符流 {@link Writer} 消费数据. */
   default void accept(@NonNull Writer writer) throws IOException {
     writer.write(this.get());
@@ -91,5 +51,45 @@ public interface Returnable extends Constants, Serializable, Supplier<String> {
     } else {
       this.accept(response.getOutputStream());
     }
+  }
+
+  /** 获取返回类型. */
+  default ContentType contentType() {
+    return ContentType.TEXT;
+  }
+
+  /** 是否直接通过函数接口 {@link Supplier#get} 传递数据. */
+  default boolean functional() {
+    return true;
+  }
+
+  /** 清空数据. */
+  default void release() {
+    // 接口没有属性, 直接通过函数接口传递的数据无法保存, 因而无法执行清理操作, 此处的默认实现为空...
+  }
+
+  /** 请求是否已被完全处理, 未被完全处理的请求将继续被Spring处理. */
+  default boolean terminal() {
+    return true;
+  }
+
+  /** Generator. */
+  static Returnable of(@NonNull Object data) {
+    return of(data.toString());
+  }
+
+  /** Generator. */
+  static Returnable of(@NonNull String data) {
+    return of(data::toString);
+  }
+
+  /** Generator. */
+  static Returnable of(@NonNull Returnable data) {
+    return data;
+  }
+
+  /** Generator. */
+  static Returnable of() {
+    return of(EMPTY);
   }
 }

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  *
  * @author JYD_XL
  * @see java.lang.annotation.Annotation
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

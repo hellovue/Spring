@@ -4,48 +4,30 @@ package org.github.spring.exception;
  * DataException.
  *
  * @author JYD_XL
+ * @see java.lang.Exception
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class DataException extends Exception {
   /** Constructor. */
   public DataException() {}
 
-  /**
-   * Constructor.
-   *
-   * @param message String
-   */
+  /** Constructor. */
   public DataException(String message) {
     super(message);
   }
 
-  /**
-   * Constructor.
-   *
-   * @param cause Throwable
-   */
+  /** Constructor. */
   public DataException(Throwable cause) {
     super(cause);
   }
 
-  /**
-   * Constructor.
-   *
-   * @param message String
-   * @param cause   Throwable
-   */
+  /** Constructor. */
   public DataException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  /**
-   * Constructor.
-   *
-   * @param message            String
-   * @param cause              Throwable
-   * @param enableSuppression  boolean
-   * @param writableStackTrace boolean
-   */
+  /** Constructor. */
   public DataException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
   }

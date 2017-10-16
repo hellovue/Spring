@@ -17,54 +17,10 @@ import org.github.spring.restful.JSONReturn;
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONCountReturn extends JSONBasicReturn implements JSONReturn {
-  /** Generator. */
-  public static JSONCountReturn of() {
-    return new JSONCountReturn();
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(long data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(int data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(byte data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(short data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(@NonNull Long data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(@NonNull Integer data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(@NonNull Short data) {
-    return new JSONCountReturn(data);
-  }
-
-  /** Generator. */
-  public static JSONCountReturn of(@NonNull Byte data) {
-    return new JSONCountReturn(data);
-  }
-
   /** data. */
   private transient long data = COUNT;
 
@@ -136,5 +92,50 @@ public class JSONCountReturn extends JSONBasicReturn implements JSONReturn {
   public JSONCountReturn withData(long data) {
     this.setData(data);
     return this;
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of() {
+    return new JSONCountReturn();
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(long data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(int data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(byte data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(short data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(@NonNull Long data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(@NonNull Integer data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(@NonNull Short data) {
+    return new JSONCountReturn(data);
+  }
+
+  /** Generator. */
+  public static JSONCountReturn of(@NonNull Byte data) {
+    return new JSONCountReturn(data);
   }
 }

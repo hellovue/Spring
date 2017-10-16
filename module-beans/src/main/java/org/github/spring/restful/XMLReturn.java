@@ -14,10 +14,15 @@ import org.github.spring.enumeration.ContentType;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface XMLReturn extends Returnable {
+  @Override
+  default ContentType contentType() {
+    return ContentType.XML;
+  }
+
   /** Generator. */
   static XMLReturn of(@NonNull XMLReturn xml) {
     return xml;
@@ -36,10 +41,5 @@ public interface XMLReturn extends Returnable {
   /** Generator. */
   static XMLReturn of() {
     return of(EMPTY_XML);
-  }
-
-  @Override
-  default ContentType contentType() {
-    return ContentType.XML;
   }
 }

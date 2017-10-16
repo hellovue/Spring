@@ -1,48 +1,43 @@
 package org.github.spring.footstone;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import static java.util.Objects.isNull;
-import static org.github.spring.footstone.CrudHelper.Status.IGNORE;
-import static org.github.spring.footstone.CrudHelper.Status.TARGET;
-
 /**
  * CrudHelper.
  *
  * @author JYD_XL
+ * @since 0.0.1-SNAPSHOT
  */
 @Slf4j
 abstract class CrudHelper {
-  private static final String LIKE = "%";
-
+  /** 调用方法, 默认模式. */
   static void startCrud(Object criteria, CrudHelperModel helper) {
     start(criteria, helper, null);
   }
 
+  /** 调用方法, 忽略模式. */
   static void startIgnore(Object criteria, CrudHelperModel helper, String... ignore) {
-    start(criteria, helper, IGNORE, ignore);
+    start(criteria, helper, Status.IGNORE, ignore);
   }
 
+  /** 调用方法, 目标模式. */
   static void startTarget(Object criteria, CrudHelperModel helper, String... target) {
-    start(criteria, helper, TARGET, target);
+    start(criteria, helper, Status.TARGET, target);
   }
 
+  /** 核心方法. */
   private static void start(Object criteria, CrudHelperModel helper, Status status, String... param) {
-    turn(criteria, helper, status, param);
-  }
-
-  /** CURD core function. */
-  private static void turn(Object criteria, CrudHelperModel helper, Status status, String... param) {
     val fieldWrappers = helper.getAttributes();
     val criteriaClass = criteria.getClass();
     val optional = Optional.ofNullable(status);
 
-    optional.filter(IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
-    optional.filter(TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
+    optional.filter(Status.IGNORE::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.in(param)));
+    optional.filter(Status.TARGET::equals).ifPresent(v -> fieldWrappers.removeIf(e -> e.notIn(param)));
 
     for (val wrapper : fieldWrappers) {
       val flag = wrapper.getFlag();
@@ -88,7 +83,7 @@ abstract class CrudHelper {
    * @return String
    */
   private static String valueLikeNormal(Object value) {
-    return isNull(value) ? null : LIKE.concat(value.toString());
+    return Objects.isNull(value) ? null : LIKE.concat(value.toString());
   }
 
   /**
@@ -98,8 +93,11 @@ abstract class CrudHelper {
    * @return String
    */
   private static String valueLikeFull(Object value) {
-    return isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
+    return Objects.isNull(value) ? null : LIKE.concat(value.toString().concat(LIKE));
   }
+
+  /** 模糊查询附加字符. */
+  private static final String LIKE = "%";
 
   /**
    * status.

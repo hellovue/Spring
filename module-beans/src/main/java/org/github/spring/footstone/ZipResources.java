@@ -14,7 +14,14 @@ import org.springframework.web.context.support.ServletContextResource;
 
 import com.google.common.io.ByteStreams;
 
+/**
+ * ZipResources.
+ *
+ * @author JYD_XL
+ * @since 0.0.1-SNAPSHOT
+ */
 public abstract class ZipResources {
+  /** 打包资源文件. */
   public static void zipServletContextResources(@NonNull OutputStream outputStream, @NonNull Resource... resources) throws IOException {
     val zipOutputStream = new ZipOutputStream(outputStream);
     for (val res : resources) {

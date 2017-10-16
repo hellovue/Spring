@@ -28,26 +28,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
  * @see org.github.spring.restful.json.JSONDataReturn
+ * @since 0.0.1-SNAPSHOT
  */
 @JsonIgnoreProperties("callback")
 @SuppressWarnings("serial")
 public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
-  /** Generator. */
-  public static JSONPReturn of() {
-    return new JSONPReturn();
-  }
-
-  /** Generator. */
-  public static <V> JSONPReturn<V> of(V data) {
-    return new JSONPReturn<>(data);
-  }
-
-  /** Generator. */
-  @SafeVarargs
-  public static <V> JSONPReturn<V[]> of(V... data) {
-    return new JSONPReturn<>(data);
-  }
-
   /** callback. */
   private String callback = CALL_BACK;
 
@@ -65,14 +50,14 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
   }
 
   @Override
-  public boolean functional() {
-    return true;
-  }
-
-  @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
     Optional.of(callback).filter(CALL_BACK::equals).ifPresent(v -> this.setCallback(request.getParameter(CALL_BACK)));
     super.collect(request, response);
+  }
+
+  @Override
+  public boolean functional() {
+    return true;
   }
 
   @Override
@@ -110,5 +95,21 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
   public JSONPReturn<T> withCallback(String callback) {
     this.setCallback(callback);
     return this;
+  }
+
+  /** Generator. */
+  public static JSONPReturn of() {
+    return new JSONPReturn();
+  }
+
+  /** Generator. */
+  public static <V> JSONPReturn<V> of(V data) {
+    return new JSONPReturn<>(data);
+  }
+
+  /** Generator. */
+  @SafeVarargs
+  public static <V> JSONPReturn<V[]> of(V... data) {
+    return new JSONPReturn<>(data);
   }
 }

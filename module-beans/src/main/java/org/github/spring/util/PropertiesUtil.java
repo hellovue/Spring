@@ -18,9 +18,6 @@ import org.github.spring.footstone.PropertyPathLocation;
  * @author JYD_XL
  */
 public abstract class PropertiesUtil {
-  /** cache. */
-  private static final Map<String, Properties> cacheMap = new ConcurrentHashMap<>();
-
   /**
    * ADD props.
    *
@@ -149,4 +146,7 @@ public abstract class PropertiesUtil {
   public static int getIntValue(PropertyPathLocation path, PropertyNameLocation name) {
     return StringUtil.isEmpty(getStringValue(path, name)) ? 0 : Integer.parseInt(getStringValue(path, name));
   }
+
+  /** cache. */
+  private static final Map<String, Properties> cacheMap = new ConcurrentHashMap<>();
 }

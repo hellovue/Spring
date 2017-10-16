@@ -27,42 +27,10 @@ import com.github.pagehelper.Page;
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
  * @see org.github.spring.restful.json.JSONArrayReturn
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn {
-  /** Generator. */
-  public static JSONPageReturn of() {
-    return new JSONPageReturn();
-  }
-
-  /** Generator. */
-  @PrimaryMethod
-  public static <V> JSONPageReturn<V> of(@NonNull List<? extends V> page) {
-    return new JSONPageReturn<>(page);
-  }
-
-  /** Generator. */
-  @PrimaryMethod
-  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, @NonNull Class<? extends V> data) {
-    return new JSONPageReturn<>(page, data);
-  }
-
-  /** Generator. */
-  @SafeVarargs
-  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, V... data) {
-    return new JSONPageReturn<>(page, data);
-  }
-
-  /** Generator. */
-  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, Stream<? extends V> data) {
-    return new JSONPageReturn<>(page, data);
-  }
-
-  /** Generator. */
-  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, Collection<? extends V> data) {
-    return new JSONPageReturn<>(page, data);
-  }
-
   /** total. */
   private long total = COUNT;
 
@@ -168,5 +136,38 @@ public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn 
   public JSONPageReturn<E> withTotal(long total) {
     this.setTotal(total);
     return this;
+  }
+
+  /** Generator. */
+  public static JSONPageReturn of() {
+    return new JSONPageReturn();
+  }
+
+  /** Generator. */
+  @PrimaryMethod
+  public static <V> JSONPageReturn<V> of(@NonNull List<? extends V> page) {
+    return new JSONPageReturn<>(page);
+  }
+
+  /** Generator. */
+  @PrimaryMethod
+  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, @NonNull Class<? extends V> data) {
+    return new JSONPageReturn<>(page, data);
+  }
+
+  /** Generator. */
+  @SafeVarargs
+  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, V... data) {
+    return new JSONPageReturn<>(page, data);
+  }
+
+  /** Generator. */
+  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, Stream<? extends V> data) {
+    return new JSONPageReturn<>(page, data);
+  }
+
+  /** Generator. */
+  public static <V> JSONPageReturn<V> of(@NonNull List<? super V> page, Collection<? extends V> data) {
+    return new JSONPageReturn<>(page, data);
   }
 }

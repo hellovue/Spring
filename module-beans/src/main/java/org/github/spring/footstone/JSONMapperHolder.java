@@ -1,63 +1,42 @@
 package org.github.spring.footstone;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.TimeZone;
 
-import org.github.spring.exception.HandlingException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.NonNull;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_INVALID_SUBTYPE;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS;
-import static com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY;
-import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
-import static org.github.spring.footstone.Constants.DEFAULT_TIME_ZONE;
+import org.github.spring.exception.HandlingException;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+/**
+ * JSONMapperHolder.
+ *
+ * @author JYD_XL
+ * @see com.fasterxml.jackson.databind.ObjectMapper
+ * @since 0.0.1-SNAPSHOT
+ */
 public final class JSONMapperHolder extends ObjectMapper {
   /** Constructor. */
-  public JSONMapperHolder() {}
+  JSONMapperHolder() {}
 
-  /**
-   * GET instance.
-   *
-   * @return JSONMapper
-   */
-  public static JSONMapperHolder getMobileJSONMapper() {
-    return Holder._mobile_json_instance;
+  /** JSONString -> Collection. */
+  public <T> Collection<T> toCollection(@NonNull String json, @NonNull Class<? extends Collection<T>> collection, Class<?>... clazz) throws UnsupportedOperationException, HandlingException {
+    try {
+      return super.readValue(json, this.getTypeFactory().constructParametricType(collection, clazz));
+    } catch (IOException e) {
+      throw new HandlingException(e.getMessage(), e);
+    }
   }
 
-  /**
-   * GET instance.
-   *
-   * @return JSONMapper
-   */
-  public static JSONMapperHolder getWebJSONMapper() {
-    return Holder._web_json_instance;
-  }
-
-  /**
-   * GET instance.
-   *
-   * @return JSONMapper
-   */
-  public static JSONMapperHolder getJSONMapper() {
-    return Holder._json_instance;
-  }
-
-  /**
-   * JSONString->JAVABean.
-   *
-   * @param json  JSONString
-   * @param clazz class
-   * @return JAVABean
-   */
+  /** JSONString -> JAVABean. */
   public <T> T toJAVABean(@NonNull String json, @NonNull Class<T> clazz) throws HandlingException {
     try {
       return super.readValue(json, clazz);
@@ -66,27 +45,7 @@ public final class JSONMapperHolder extends ObjectMapper {
     }
   }
 
-  /**
-   * JSONString->JAVABeanCollection.
-   *
-   * @param json  JSONString
-   * @param clazz class...
-   * @return Collection
-   */
-  public <T> Collection<T> toCollection(@NonNull String json, @NonNull Class<? extends Collection<T>> collection, Class<?>... clazz) throws UnsupportedOperationException, HandlingException {
-    try {
-      return super.readValue(json, super.getTypeFactory().constructParametricType(collection, clazz));
-    } catch (IOException e) {
-      throw new HandlingException(e.getMessage(), e);
-    }
-  }
-
-  /**
-   * JAVABean->JSONString.
-   *
-   * @param bean JAVABean
-   * @return JSONString
-   */
+  /** JAVABean -> JSONString. */
   public String toJSONString(@NonNull Object bean) throws HandlingException {
     try {
       return super.writeValueAsString(bean);
@@ -95,33 +54,52 @@ public final class JSONMapperHolder extends ObjectMapper {
     }
   }
 
+  /** GET instance. */
+  public static JSONMapperHolder getMobileJSONMapper() {
+    return Holder._mobile_json_instance;
+  }
+
+  /** GET instance. */
+  public static JSONMapperHolder getWebJSONMapper() {
+    return Holder._web_json_instance;
+  }
+
+  /** GET instance. */
+  public static JSONMapperHolder getJSONMapper() {
+    return Holder._json_instance;
+  }
+
   /**
-   * static inner class of holder.
+   * Holder.
    *
    * @author JYD_XL
+   * @since 0.0.1-SNAPSHOT
    */
   private static class Holder {
-    /** instance. */
-    private static final JSONMapperHolder _web_json_instance = new JSONMapperHolder();
-    /** instance. */
-    private static final JSONMapperHolder _mobile_json_instance = new JSONMapperHolder();
-    /** instance. */
-    private static final JSONMapperHolder _json_instance = new JSONMapperHolder();
-
     /** Constructor. */
     private Holder() {}
 
+    /** instance. */
+    private static final JSONMapperHolder _web_json_instance = new JSONMapperHolder();
+
+    /** instance. */
+    private static final JSONMapperHolder _mobile_json_instance = new JSONMapperHolder();
+
+    /** instance. */
+    private static final JSONMapperHolder _json_instance = new JSONMapperHolder();
+
     static {
+      // 初始化.
       _web_json_instance
-        .enable(SORT_PROPERTIES_ALPHABETICALLY)
-        .disable(FAIL_ON_EMPTY_BEANS)
-        .disable(FAIL_ON_INVALID_SUBTYPE)
-        .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-        .disable(FAIL_ON_UNRESOLVED_OBJECT_IDS)
-        .disable(FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
-        .setTimeZone(TimeZone.getTimeZone(DEFAULT_TIME_ZONE))
-        .setSerializationInclusion(NON_NULL)
-        .setDateFormat(ThreadLocal.withInitial(NaiveDateFormat::new).get());
+        .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+        .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+        .disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS)
+        .disable(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
+        .setTimeZone(TimeZone.getTimeZone(Constants.DEFAULT_TIME_ZONE))
+        .setSerializationInclusion(Include.NON_NULL)
+        .setDateFormat(ThreadLocal.withInitial(() -> new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT)).get());
     }
   }
 }

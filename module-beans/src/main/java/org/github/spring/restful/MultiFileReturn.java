@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-import org.github.spring.bootstrap.ServletResourcePatternResolver;
+import org.github.spring.bootstrap.ApplicationContextHolder;
 import org.github.spring.footstone.ZipResources;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.web.context.support.ServletContextResourcePatternResolver;
 
 /**
  * MultiFile返回类型顶层接口.
@@ -26,18 +27,42 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.FileReturn
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface MultiFileReturn extends FileReturn {
+  @Override
+  default void accept(OutputStream output) throws IOException {
+    ZipResources.zipServletContextResources(output, this.resources());
+  }
+
+  @Override
+  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
+    response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(FILE_NAME_ZIP));
+    return response;
+  }
+
+  default Resource[] resources() throws IOException {
+    return resources(() -> new ServletContextResourcePatternResolver(ApplicationContextHolder.getApplicationContext()));
+  }
+
+  default Resource[] resources(@NonNull Supplier<ResourcePatternResolver> resolver) throws IOException {
+    return resolver.get().getResources(this.get());
+  }
+
   /** Generator. */
   static MultiFileReturn of(@NonNull MultiFileReturn multiFile) {
     return multiFile;
   }
 
   /** Generator. */
-  static MultiFileReturn of(@NonNull String multiFile) {
-    return of(multiFile::toString);
+  static MultiFileReturn of(@NonNull String pattern) {
+    return of(pattern::toString);
+  }
+
+  /** Generator. */
+  static MultiFileReturn of(@NonNull String name, @NonNull String pattern) {
+    return new CustomMultiFileReturn(name, pattern, new ServletContextResourcePatternResolver(ApplicationContextHolder.getApplicationContext()));
   }
 
   /** Generator. */
@@ -80,24 +105,5 @@ public interface MultiFileReturn extends FileReturn {
     public Resource[] resources() throws IOException {
       return this.resources(() -> resolver);
     }
-  }
-
-  @Override
-  default void accept(OutputStream output) throws IOException {
-    ZipResources.zipServletContextResources(output, this.resources());
-  }
-
-  @Override
-  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
-    response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(FILE_NAME_ZIP));
-    return response;
-  }
-
-  default Resource[] resources() throws IOException {
-    return resources(ServletResourcePatternResolver::new);
-  }
-
-  default Resource[] resources(@NonNull Supplier<ResourcePatternResolver> resolver) throws IOException {
-    return resolver.get().getResources(this.get());
   }
 }

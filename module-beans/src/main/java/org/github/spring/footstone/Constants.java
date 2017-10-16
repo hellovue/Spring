@@ -8,6 +8,7 @@ import com.google.common.base.Joiner;
  * 公共常量聚合接口,定义所有通用型常量.
  *
  * @author JYD_XL
+ * @since 0.0.1-SNAPSHOT
  */
 public interface Constants {
   /** default time zone. */

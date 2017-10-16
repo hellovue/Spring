@@ -25,44 +25,23 @@ import org.github.spring.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * CRUD辅助数据模型.
+ *
+ * @author JYD_XL
+ * @see org.github.spring.footstone.AbstractEntity
+ * @since 0.0.1-SNAPSHOT
+ */
 @Slf4j
 public final class CrudHelperModel extends AbstractEntity {
-  /** MethodDescription----AND. */
-  private static final String AND = "and";
-
-  @Getter
-  @AllArgsConstructor
-  static final class Wrapper {
-    @JsonProperty("values")
-    final Object values;
-
-    @NonNull
-    @JsonIgnore
-    final Method flag;
-
-    @NonNull
-    @JsonIgnore
-    final Class type;
-
-    @NonNull
-    @JsonIgnore
-    final String origin;
-
-    @NonNull
-    final String method;
-
-    boolean in(String... param) {
-      return Arrays.asList(param).contains(origin);
-    }
-
-    boolean notIn(String... param) {
-      return !this.in(param);
-    }
-  }
+  /** CRUD属性包装信息集合. */
   @Getter
   private final List<Wrapper> attributes;
+
+  /** 原始数据. */
   private final Object condModel;
 
+  /** Constructor. */
   CrudHelperModel(@NonNull Object condModel) {
     val condModelClass = condModel.getClass();
     val fields = new ArrayList<Field>(Arrays.asList(condModelClass.getDeclaredFields()));
@@ -75,28 +54,10 @@ public final class CrudHelperModel extends AbstractEntity {
 
   @Override
   public String toString() {
-    return JSONMapperHolder.getWebJSONMapper().toJSONString(attributes);
+    return JSON.toJSONString(attributes);
   }
 
-  public void startCrud(@NonNull Object criteria) {
-    CrudHelper.startCrud(criteria, this);
-  }
-
-  public void startCrudWithIgnore(@NonNull Object criteria, String... ignore) {
-    CrudHelper.startIgnore(criteria, this, ignore);
-  }
-
-  public void startCrudWithTarget(@NonNull Object criteria, String... target) {
-    CrudHelper.startTarget(criteria, this, target);
-  }
-
-  private void findAllFields(Class<?> condModelClass, List<Field> fields) {
-    condModelClass = condModelClass.getSuperclass();
-    if (condModelClass.isAssignableFrom(Object.class)) {return;}
-    fields.addAll(Arrays.asList(condModelClass.getDeclaredFields()));
-    findAllFields(condModelClass, fields);
-  }
-
+  /** 查找所有位于方法上的CRUD标记注解. */
   @SuppressWarnings("all")
   private List<Wrapper> findAllColumnOnMethod() {
     val wrappers = new ArrayList<Wrapper>();
@@ -135,6 +96,40 @@ public final class CrudHelperModel extends AbstractEntity {
     return wrappers;
   }
 
+  /** 查找所有属性. */
+  private void findAllFields(Class<?> condModelClass, List<Field> fields) {
+    condModelClass = condModelClass.getSuperclass();
+    if (condModelClass.isAssignableFrom(Object.class)) {return;}
+    fields.addAll(Arrays.asList(condModelClass.getDeclaredFields()));
+    findAllFields(condModelClass, fields);
+  }
+
+  /** 讲方法名转为属性名. */
+  private String headDown(String name) {
+    return name.substring(0, 1).toLowerCase().concat(name.substring(1));
+  }
+
+  /** 将属性名转为方法名. */
+  private String headUp(String name) {
+    return name.substring(0, 1).toUpperCase().concat(name.substring(1));
+  }
+
+  /** 执行方法. */
+  public void startCrud(@NonNull Object criteria) {
+    CrudHelper.startCrud(criteria, this);
+  }
+
+  /** 执行方法. */
+  public void startCrudWithIgnore(@NonNull Object criteria, String... ignore) {
+    CrudHelper.startIgnore(criteria, this, ignore);
+  }
+
+  /** 执行方法. */
+  public void startCrudWithTarget(@NonNull Object criteria, String... target) {
+    CrudHelper.startTarget(criteria, this, target);
+  }
+
+  /** 包装属性信息. */
   @SuppressWarnings("all")
   private List<Wrapper> wrap(Field field) {
     try {
@@ -169,11 +164,37 @@ public final class CrudHelperModel extends AbstractEntity {
     return null;
   }
 
-  private String headUp(String name) {
-    return name.substring(0, 1).toUpperCase().concat(name.substring(1));
-  }
+  /** 方法名前缀. */
+  private static final String AND = "and";
 
-  private String headDown(String name) {
-    return name.substring(0, 1).toLowerCase().concat(name.substring(1));
+  /** 属性信息包装类. */
+  @Getter
+  @AllArgsConstructor
+  static final class Wrapper {
+    @JsonProperty("values")
+    final Object values;
+
+    @NonNull
+    @JsonIgnore
+    final Method flag;
+
+    @NonNull
+    @JsonIgnore
+    final Class type;
+
+    @NonNull
+    @JsonIgnore
+    final String origin;
+
+    @NonNull
+    final String method;
+
+    boolean in(String... param) {
+      return Arrays.asList(param).contains(origin);
+    }
+
+    boolean notIn(String... param) {
+      return !this.in(param);
+    }
   }
 }

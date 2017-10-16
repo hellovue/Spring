@@ -22,31 +22,10 @@ import org.github.spring.restful.JSONReturn;
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONArrayReturn<E> extends JSONBasicReturn implements JSONReturn {
-  /** Generator. */
-  public static JSONArrayReturn of() {
-    return new JSONArrayReturn();
-  }
-
-  /** Generator. */
-  @SafeVarargs
-  public static <V> JSONArrayReturn<V> of(V... data) {
-    return new JSONArrayReturn<>(data);
-  }
-
-  /** Generator. */
-  public static <V> JSONArrayReturn<V> of(Stream<? extends V> data) {
-    return new JSONArrayReturn<>(data);
-  }
-
-  /** Generator. */
-  public static <V> JSONArrayReturn<V> of(Collection<? extends V> data) {
-    return new JSONArrayReturn<>(data);
-  }
-
   /** data. */
   private transient Object[] data = ARRAY;
 
@@ -90,6 +69,24 @@ public class JSONArrayReturn<E> extends JSONBasicReturn implements JSONReturn {
     Optional.ofNullable(data).ifPresent(v -> this.data = v);
   }
 
+  /** GET data. */
+  @SuppressWarnings("unchecked")
+  public E[] toArray() {
+    return (E[]) this.getData();
+  }
+
+  /** GET data. */
+  @SuppressWarnings("unchecked")
+  public List<E> toList() {
+    return (List<E>) Arrays.asList(data);
+  }
+
+  /** GET data. */
+  @SuppressWarnings("unchecked")
+  public Stream<E> toStream() {
+    return (Stream<E>) Arrays.stream(data);
+  }
+
   /** WITH data. */
   @SuppressWarnings("unchecked")
   public JSONArrayReturn<E> withData(E... data) {
@@ -109,21 +106,24 @@ public class JSONArrayReturn<E> extends JSONBasicReturn implements JSONReturn {
     return this;
   }
 
-  /** GET data. */
-  @SuppressWarnings("unchecked")
-  public E[] toArray() {
-    return (E[]) this.getData();
+  /** Generator. */
+  public static JSONArrayReturn of() {
+    return new JSONArrayReturn();
   }
 
-  /** GET data. */
-  @SuppressWarnings("unchecked")
-  public Stream<E> toStream() {
-    return (Stream<E>) Arrays.stream(data);
+  /** Generator. */
+  @SafeVarargs
+  public static <V> JSONArrayReturn<V> of(V... data) {
+    return new JSONArrayReturn<>(data);
   }
 
-  /** GET data. */
-  @SuppressWarnings("unchecked")
-  public List<E> toList() {
-    return (List<E>) Arrays.asList(data);
+  /** Generator. */
+  public static <V> JSONArrayReturn<V> of(Stream<? extends V> data) {
+    return new JSONArrayReturn<>(data);
+  }
+
+  /** Generator. */
+  public static <V> JSONArrayReturn<V> of(Collection<? extends V> data) {
+    return new JSONArrayReturn<>(data);
   }
 }

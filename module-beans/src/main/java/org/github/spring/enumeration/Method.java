@@ -2,7 +2,6 @@ package org.github.spring.enumeration;
 
 import java.util.function.Supplier;
 
-
 /**
  * CRUD反射方法枚举.
  *

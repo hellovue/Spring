@@ -1,68 +1,31 @@
 package org.github.spring.exception;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.github.spring.footstone.Constants;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Joiner;
 
 /**
  * InvalidParamsException.
  *
  * @author JYD_XL
+ * @see java.lang.RuntimeException
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class InvalidParamsException extends RunException implements Constants {
   /** params. */
-  private List<String> params;
+  private final List<String> params;
 
   /** Constructor. */
   public InvalidParamsException(String... param) {
-    params = ImmutableList.copyOf(param);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param message String
-   */
-  public InvalidParamsException(String message) {
-    super(message);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param cause Throwable
-   */
-  public InvalidParamsException(Throwable cause) {
-    super(cause);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param message String
-   * @param cause   Throwable
-   */
-  public InvalidParamsException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param message            String
-   * @param cause              Throwable
-   * @param enableSuppression  boolean
-   * @param writableStackTrace boolean
-   */
-  public InvalidParamsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
+    params = Arrays.asList(param);
   }
 
   @Override
   public String getMessage() {
-    return JOINER.join(params, "invalid param of them. ");
+    return JOINER_SPACE.join("[", Joiner.on(", ").skipNulls().join(params), "],", "上述参数非法...");
   }
 }

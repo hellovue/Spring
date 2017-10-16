@@ -17,13 +17,14 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import org.github.spring.bootstrap.ServletResourceLoader;
+import org.github.spring.bootstrap.ServletContextHolder;
 import org.github.spring.enumeration.ContentType;
 import org.github.spring.footstone.ExcelGenerator;
 import org.github.spring.util.StringUtil;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.context.support.ServletContextResourceLoader;
 
 import com.google.common.io.ByteStreams;
 
@@ -37,10 +38,46 @@ import com.google.common.io.ByteStreams;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface FileReturn extends Returnable {
+  @Override
+  default void accept(OutputStream output) throws IOException {
+    ByteStreams.copy(this.resource().getInputStream(), output);
+  }
+
+  @Override
+  default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Returnable.super.collect(request, this.withFileName(response));
+  }
+
+  @Override
+  default ContentType contentType() {
+    return ContentType.FILE;
+  }
+
+  @Override
+  default boolean functional() {
+    return false;
+  }
+
+  /** 获取下载文件资源. */
+  default Resource resource() throws IOException {
+    return this.resource(() -> new ServletContextResourceLoader(ServletContextHolder.getServletContext()));
+  }
+
+  /** 根据自定义文件加载器获取文件资源. */
+  default Resource resource(@NonNull Supplier<ResourceLoader> loader) {
+    return loader.get().getResource(this.get());
+  }
+
+  /** 设置下载文件名. */
+  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
+    response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(this.get().substring(this.get().lastIndexOf(ROOT) + 1)));
+    return response;
+  }
+
   /** Generator. */
   static FileReturn of(@NonNull FileReturn file) {
     return file;
@@ -142,6 +179,12 @@ public interface FileReturn extends Returnable {
     @NonNull
     final List data;
 
+    /** GET 数据类型. */
+    Class<?> getType() {
+      for (Object item : data) {if (Objects.nonNull(item)) return item.getClass();}
+      return null;
+    }
+
     /** 对原始数据进行包装, 为导出到excel做准备. */
     public String[][] getWrappedData() {
       if (data.isEmpty()) return INIT;
@@ -163,12 +206,6 @@ public interface FileReturn extends Returnable {
         }
       }
       return wrappedData;
-    }
-
-    /** GET 数据类型. */
-    Class<?> getType() {
-      for (Object item : data) {if (Objects.nonNull(item)) return item.getClass();}
-      return null;
     }
 
     /** 修正属性名称, 为调用GET方法做准备. */
@@ -194,41 +231,5 @@ public interface FileReturn extends Returnable {
       response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(name).concat(SUFFIX_EXCEL));
       return response;
     }
-  }
-
-  @Override
-  default ContentType contentType() {
-    return ContentType.FILE;
-  }
-
-  @Override
-  default boolean functional() {
-    return false;
-  }
-
-  @Override
-  default void accept(OutputStream output) throws IOException {
-    ByteStreams.copy(this.resource().getInputStream(), output);
-  }
-
-  @Override
-  default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Returnable.super.collect(request, this.withFileName(response));
-  }
-
-  /** 设置下载文件名. */
-  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
-    response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(this.get().substring(this.get().lastIndexOf(ROOT) + 1)));
-    return response;
-  }
-
-  /** 获取下载文件资源. */
-  default Resource resource() throws IOException {
-    return this.resource(ServletResourceLoader::new);
-  }
-
-  /** 根据自定义文件加载器获取文件资源. */
-  default Resource resource(@NonNull Supplier<ResourceLoader> loader) {
-    return loader.get().getResource(this.get());
   }
 }

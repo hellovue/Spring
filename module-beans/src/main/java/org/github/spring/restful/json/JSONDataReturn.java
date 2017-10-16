@@ -16,25 +16,10 @@ import org.github.spring.restful.JSONReturn;
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
+ * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
-  /** Generator. */
-  public static JSONDataReturn of() {
-    return new JSONDataReturn();
-  }
-
-  /** Generator. */
-  public static <V> JSONDataReturn<V> of(V data) {
-    return new JSONDataReturn<>(data);
-  }
-
-  /** Generator. */
-  @SafeVarargs
-  public static <V> JSONDataReturn<V[]> of(V... data) {
-    return new JSONDataReturn<>(data);
-  }
-
   /** data. */
   private transient T data;
 
@@ -71,5 +56,21 @@ public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
   public JSONDataReturn<T> withData(T data) {
     this.setData(data);
     return this;
+  }
+
+  /** Generator. */
+  public static JSONDataReturn of() {
+    return new JSONDataReturn();
+  }
+
+  /** Generator. */
+  public static <V> JSONDataReturn<V> of(V data) {
+    return new JSONDataReturn<>(data);
+  }
+
+  /** Generator. */
+  @SafeVarargs
+  public static <V> JSONDataReturn<V[]> of(V... data) {
+    return new JSONDataReturn<>(data);
   }
 }

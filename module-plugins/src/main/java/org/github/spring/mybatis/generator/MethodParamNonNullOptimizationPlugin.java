@@ -12,14 +12,14 @@ public class MethodParamNonNullOptimizationPlugin extends NaivePluginAdapter {
     InnerClass generatedCriteria = this.getGeneratedCriteria(topLevelClass);
     if (generatedCriteria == null) return true;
     if (criteria == null) return true;
-    
+
     String methodBetween = "Between";
     String methodNull = "Null";
     String methodIn = "In";
     String methodCriteria = "Criteria";
     String methodValid = "Valid";
     String methodCriterion = "Criterion";
-    
+
     for (Method method : generatedCriteria.getMethods()) {
       String name = method.getName();
       if (name.endsWith(methodBetween)) continue;
@@ -28,12 +28,12 @@ public class MethodParamNonNullOptimizationPlugin extends NaivePluginAdapter {
       if (name.endsWith(methodCriteria)) continue;
       if (name.endsWith(methodValid)) continue;
       if (name.endsWith(methodCriterion)) continue;
-      
+
       String origin = method.getBodyLines().get(0);
-      origin = "if(target != null) ".concat(origin);
+      origin = "if(value != null) ".concat(origin);
       method.getBodyLines().set(0, origin);
     }
-    
+
     return true;
   }
 }

@@ -11,17 +11,17 @@ import java.lang.annotation.Target;
  *
  * @author JYD_XL
  * @see java.lang.annotation.Annotation
- * @since 0.0.7-SNAPSHOT
+ * @since 0.0.1-SNAPSHOT
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 @Documented
 public @interface Invoke {
-  /** GET 注入的参数名称. */
-  String value() default "";
-
   /** GET 注入的参数类型. */
   Format style() default Format.JSON;
+
+  /** GET 注入的参数名称. */
+  String value() default "";
 
   /** 参数注入类型. */
   enum Format {
