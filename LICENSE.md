@@ -1,4 +1,4 @@
-Copyright (c) 2016-2017 David Heinemeier Hansson
+Copyright (C) 2016-2017 JYD_XL 1252504314l@Gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
