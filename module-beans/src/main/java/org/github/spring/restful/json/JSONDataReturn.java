@@ -16,7 +16,6 @@ import org.github.spring.restful.JSONReturn;
  * @see org.github.spring.restful.JSONReturn
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
@@ -35,11 +34,6 @@ public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
   public void release() {
     data = null;
     super.release();
-  }
-
-  @Override
-  public JSONDataReturn clone() {
-    return (JSONDataReturn) super.clone();
   }
 
   /** GET data. */

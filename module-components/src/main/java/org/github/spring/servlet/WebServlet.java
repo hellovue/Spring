@@ -82,6 +82,7 @@ public class WebServlet extends DispatcherServlet {
     returnValueHandlersLink.setAccessible(true);
     val returnValueHandlerList = new ArrayList<>((List<HandlerMethodReturnValueHandler>) returnValueHandlersLink.get(returnValueHandlerComposite));
     returnValueHandlerList.add(0, new ReturnableValueHandler());
+    // returnValueHandlerList.add(0, ReturnableValueHandlerOfKotlin.INSTANCE);
     returnValueHandlers.set(requestMappingHandlerAdapter, new HandlerMethodReturnValueHandlerComposite().addHandlers(returnValueHandlerList));
 
     val handlerExceptionResolvers = this.getClass().getSuperclass().getDeclaredField(FIELD_HANDLER_EXCEPTION_RESOLVERS);

@@ -22,16 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @SuppressWarnings("serial")
 public abstract class AbstractEntity implements Constants, Cloneable, Serializable {
   @Override
-  public AbstractEntity clone() {
-    try {
-      return (AbstractEntity) super.clone();
-    } catch (CloneNotSupportedException e) {
-      LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
-      return null;
-    }
-  }
-
-  @Override
   public String toString() {
     return JSONMapperHolder.getWebJSONMapper().toJSONString(this);
   }

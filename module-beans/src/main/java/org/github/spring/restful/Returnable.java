@@ -65,7 +65,7 @@ public interface Returnable extends Constants, Serializable, Supplier<String> {
 
   /** 清空数据. */
   default void release() {
-    // 接口没有属性, 直接通过函数接口传递的数据无法保存, 因而无法执行清理操作, 此处的默认实现为空...
+    // 接口没有属性,直接通过函数接口传递的数据无法保存,因而无法执行清理操作,此处的默认实现为空...
   }
 
   /** 请求是否已被完全处理, 未被完全处理的请求将继续被Spring处理. */

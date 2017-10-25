@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -29,7 +31,7 @@ import org.springframework.web.context.support.ServletContextResourceLoader;
 import com.google.common.io.ByteStreams;
 
 /**
- * FILE返回类型顶层接口.
+ * File返回类型顶层接口.
  *
  * <pre>
  *   return FileReturn.of();
@@ -38,20 +40,19 @@ import com.google.common.io.ByteStreams;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface FileReturn extends Returnable {
   @Override
-  default void accept(OutputStream output) throws IOException {
-    val input = this.resource().getInputStream();
+  default void accept(@NonNull OutputStream output) throws IOException {
+    @Cleanup val input = this.resource().getInputStream();
     ByteStreams.copy(input, output);
-    input.close();
   }
 
   @Override
   default void collect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Returnable.super.collect(request, this.withFileName(response));
+    this.setFileName(response);
+    Returnable.super.collect(request, response);
   }
 
   @Override
@@ -75,9 +76,8 @@ public interface FileReturn extends Returnable {
   }
 
   /** 设置下载文件名. */
-  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
+  default void setFileName(@NonNull HttpServletResponse response) throws IOException {
     response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(this.get().substring(this.get().lastIndexOf(ROOT) + 1)));
-    return response;
   }
 
   /** Generator. */
@@ -133,22 +133,19 @@ public interface FileReturn extends Returnable {
     }
 
     @Override
-    public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
+    public void setFileName(HttpServletResponse response) throws IOException {
       response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(fileName));
-      return response;
     }
   }
 
   /** Path File. */
-  @AllArgsConstructor
-  final class PathFileReturn implements FileReturn {
+  @Value
+  class PathFileReturn implements FileReturn {
     /** resource path. */
-    @NonNull
-    final String path;
+    String path;
 
     /** resource loader. */
-    @NonNull
-    final ResourceLoader loader;
+    ResourceLoader loader;
 
     @Override
     public Resource resource() {
@@ -163,24 +160,20 @@ public interface FileReturn extends Returnable {
 
   /** Excel导出文件. */
   @Slf4j
-  @AllArgsConstructor
-  final class ExcelFileReturn implements FileReturn {
+  @Value
+  class ExcelFileReturn implements FileReturn {
     /** 文件名. */
-    @NonNull
-    final String name;
+    String name;
 
     /** 标题集合. */
     @Getter
-    @NonNull
-    final List<String> title;
+    List<String> title;
 
     /** 属性集合. */
-    @NonNull
-    final List<String> field;
+    List<String> field;
 
     /** 原始数据. */
-    @NonNull
-    final List data;
+    List data;
 
     /** GET 数据类型. */
     Class<?> getType() {
@@ -224,15 +217,13 @@ public interface FileReturn extends Returnable {
 
     @Override
     public void accept(OutputStream output) throws IOException {
-      val workBook = ExcelGenerator.generate(this);
+      @Cleanup val workBook = ExcelGenerator.generate(this);
       workBook.write(output);
-      workBook.close();
     }
 
     @Override
-    public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
+    public void setFileName(HttpServletResponse response) throws IOException {
       response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(name).concat(SUFFIX_EXCEL));
-      return response;
     }
   }
 }

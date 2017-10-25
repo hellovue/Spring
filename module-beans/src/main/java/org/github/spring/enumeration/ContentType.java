@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * @since 0.0.1-SNAPSHOT
  */
 public enum ContentType implements Supplier<String> {
-  XML("application/xml"), JSON("application/json"), TEXT("text/plain"), FILE("application/octet-stream"), JSON_P("application/javascript");
+  XML("application/xml"), JSON("application/json"), TEXT("text/plain"), FILE("application/octet-stream"), JSONP("application/javascript");
 
   /** 返回类型. */
   private final String _type;

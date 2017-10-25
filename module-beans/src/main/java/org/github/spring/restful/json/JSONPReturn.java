@@ -14,7 +14,7 @@ import org.github.spring.restful.JSONReturn;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * JSONReturn of json_p.
+ * JSONReturn of jsonp.
  *
  * <pre>
  *   return JSONPReturn.of();
@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
  * @see org.github.spring.restful.json.JSONDataReturn
- * @since 0.0.1-SNAPSHOT
  */
 @JsonIgnoreProperties("callback")
 @SuppressWarnings("serial")
@@ -62,23 +61,18 @@ public class JSONPReturn<T> extends JSONDataReturn<T> implements JSONReturn {
 
   @Override
   public String get() {
-    return JOINER_EMPTY.join(callback, "(", super.get(), ");");
+    return JOINER_EMPTY.join(callback, "(", super.get(), ")", ";");
   }
 
   @Override
   public ContentType contentType() {
-    return ContentType.JSON_P;
+    return ContentType.JSONP;
   }
 
   @Override
   public void release() {
     callback = CALL_BACK;
     super.release();
-  }
-
-  @Override
-  public JSONPReturn clone() {
-    return (JSONPReturn) super.clone();
   }
 
   /** GET callback. */

@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.Value;
 
 import org.github.spring.bootstrap.ApplicationContextHolder;
 import org.github.spring.footstone.ZipResources;
@@ -37,9 +37,8 @@ public interface MultiFileReturn extends FileReturn {
   }
 
   @Override
-  default HttpServletResponse withFileName(@NonNull HttpServletResponse response) throws IOException {
+  default void setFileName(@NonNull HttpServletResponse response) throws IOException {
     response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(FILE_NAME_ZIP));
-    return response;
   }
 
   default Resource[] resources() throws IOException {
@@ -76,19 +75,16 @@ public interface MultiFileReturn extends FileReturn {
   }
 
   /** 自定义MultiFile类型. */
-  @AllArgsConstructor
-  final class CustomMultiFileReturn implements MultiFileReturn {
+  @Value
+  class CustomMultiFileReturn implements MultiFileReturn {
     /** 打包文件名. */
-    @NonNull
-    final String name;
+    String name;
 
     /** 资源路径匹配模式. */
-    @NonNull
-    final String pattern;
+    String pattern;
 
     /** 资源路径解析器. */
-    @NonNull
-    final ResourcePatternResolver resolver;
+    ResourcePatternResolver resolver;
 
     @Override
     public String get() {
@@ -96,9 +92,8 @@ public interface MultiFileReturn extends FileReturn {
     }
 
     @Override
-    public HttpServletResponse withFileName(HttpServletResponse response) throws IOException {
+    public void setFileName(HttpServletResponse response) throws IOException {
       response.addHeader(CONTENT_DISPOSITION, ATTACHMENT_FILENAME.concat(name).concat(SUFFIX_ZIP));
-      return response;
     }
 
     @Override

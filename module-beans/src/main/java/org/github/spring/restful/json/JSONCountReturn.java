@@ -73,11 +73,6 @@ public class JSONCountReturn extends JSONBasicReturn implements JSONReturn {
     super.release();
   }
 
-  @Override
-  public JSONCountReturn clone() {
-    return (JSONCountReturn) super.clone();
-  }
-
   /** GET data. */
   public long getData() {
     return data;

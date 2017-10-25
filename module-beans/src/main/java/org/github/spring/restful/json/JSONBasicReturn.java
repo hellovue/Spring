@@ -77,11 +77,6 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   }
 
   @Override
-  public JSONBasicReturn clone() {
-    return (JSONBasicReturn) super.clone();
-  }
-
-  @Override
   public String get() {
     return this.toString();
   }

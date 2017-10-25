@@ -50,11 +50,6 @@ public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
   }
 
   @Override
-  public XMLResponse clone() {
-    return (XMLResponse) super.clone();
-  }
-
-  @Override
   public String get() {
     return XML.toXMLString(this);
   }

@@ -27,7 +27,6 @@ import com.github.pagehelper.Page;
  * @see org.github.spring.footstone.AbstractEntity
  * @see org.github.spring.restful.json.JSONBasicReturn
  * @see org.github.spring.restful.json.JSONArrayReturn
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn {
@@ -115,11 +114,6 @@ public class JSONPageReturn<E> extends JSONArrayReturn<E> implements JSONReturn 
   public void release() {
     total = COUNT;
     super.release();
-  }
-
-  @Override
-  public JSONPageReturn clone() {
-    return (JSONPageReturn) super.clone();
   }
 
   /** GET total. */
