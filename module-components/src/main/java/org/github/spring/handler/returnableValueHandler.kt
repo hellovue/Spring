@@ -11,9 +11,9 @@ import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class ReturnableValueHandlerOfKotlin : HandlerMethodReturnValueHandler {
+object returnableValueHandler : HandlerMethodReturnValueHandler {
 
-    val log: Logger = LoggerFactory.getLogger(javaClass)
+    private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun supportsReturnType(returnType: MethodParameter?): Boolean {
         return if (returnType != null) {
