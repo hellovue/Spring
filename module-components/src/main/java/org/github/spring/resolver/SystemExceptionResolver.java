@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.github.spring.footstone.AbstractSpringComponent;
 import org.github.spring.restful.Returnable;
-import org.github.spring.restful.json.JSONBasicReturn;
+import org.github.spring.restful.json.JSONBasic;
 
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,8 +62,8 @@ public class SystemExceptionResolver extends AbstractSpringComponent implements 
   }
 
   static {
-    ExceptionResolver<Exception> otherExceptionResolver = (q, p, e) -> JSONBasicReturn.error();
-    ExceptionResolver<NullPointerException> nullPointerExceptionResolver = (q, p, e) -> Optional.ofNullable(e.getMessage()).filter(v -> ! EMPTY.equals(v) && ! PATTERN_NULL.matcher(v).matches() && PATTERN_PARAM.matcher(v).matches()).map(JSONBasicReturn::errorOfNullParams).orElse(null);
+    ExceptionResolver<Exception> otherExceptionResolver = (q, p, e) -> JSONBasic.error();
+    ExceptionResolver<NullPointerException> nullPointerExceptionResolver = (q, p, e) -> Optional.ofNullable(e.getMessage()).filter(v -> ! EMPTY.equals(v) && ! PATTERN_NULL.matcher(v).matches() && PATTERN_PARAM.matcher(v).matches()).map(JSONBasic::errorOfNullParams).orElse(null);
     RESOLVER_SERVICE = ImmutableList.of(nullPointerExceptionResolver, otherExceptionResolver);
   }
 }

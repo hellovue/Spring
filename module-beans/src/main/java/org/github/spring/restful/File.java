@@ -34,7 +34,7 @@ import com.google.common.io.ByteStreams;
  * File返回类型顶层接口.
  *
  * <pre>
- *   return FileReturn.of();
+ *   return File.of();
  * </pre>
  *
  * @author JYD_XL
@@ -42,7 +42,7 @@ import com.google.common.io.ByteStreams;
  * @see org.github.spring.restful.Returnable
  */
 @FunctionalInterface
-public interface FileReturn extends Returnable {
+public interface File extends Returnable {
   @Override
   default void accept(@NonNull OutputStream output) throws IOException {
     @Cleanup val input = this.resource().getInputStream();
@@ -81,38 +81,38 @@ public interface FileReturn extends Returnable {
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull FileReturn file) {
+  static File of(@NonNull File file) {
     return file;
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull String file) {
+  static File of(@NonNull String file) {
     return of(file::toString);
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull String path, @NonNull ResourceLoader loader) {
-    return new PathFileReturn(path, loader);
+  static File of(@NonNull String path, @NonNull ResourceLoader loader) {
+    return new PathFile(path, loader);
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull String name, @NonNull InputStream input) {
-    return new TempFileReturn(name, input);
+  static File of(@NonNull String name, @NonNull InputStream input) {
+    return new TempFile(name, input);
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull String name, @NonNull List<String> title, @NonNull List<String> field, @NonNull List<?> data) {
-    return new ExcelFileReturn(name, title, field, data);
+  static File of(@NonNull String name, @NonNull List<String> title, @NonNull List<String> field, @NonNull List<?> data) {
+    return new ExcelFile(name, title, field, data);
   }
 
   /** Generator. */
-  static FileReturn of(@NonNull List<String> title, @NonNull List<String> field, @NonNull List<?> data) {
-    return new ExcelFileReturn(PREFIX_EXCEL, title, field, data);
+  static File of(@NonNull List<String> title, @NonNull List<String> field, @NonNull List<?> data) {
+    return new ExcelFile(PREFIX_EXCEL, title, field, data);
   }
 
   /** 临时文件. */
   @AllArgsConstructor
-  final class TempFileReturn implements FileReturn {
+  final class TempFile implements File {
     /** 文件名. */
     @NonNull
     final String fileName;
@@ -140,7 +140,7 @@ public interface FileReturn extends Returnable {
 
   /** Path File. */
   @Value
-  class PathFileReturn implements FileReturn {
+  class PathFile implements File {
     /** resource path. */
     String path;
 
@@ -161,7 +161,7 @@ public interface FileReturn extends Returnable {
   /** Excel导出文件. */
   @Slf4j
   @Value
-  class ExcelFileReturn implements FileReturn {
+  class ExcelFile implements File {
     /** 文件名. */
     String name;
 

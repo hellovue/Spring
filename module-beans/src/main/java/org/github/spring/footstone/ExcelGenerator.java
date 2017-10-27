@@ -2,7 +2,7 @@ package org.github.spring.footstone;
 
 import lombok.val;
 
-import org.github.spring.restful.FileReturn.ExcelFileReturn;
+import org.github.spring.restful.File.ExcelFile;
 
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @since 0.0.1-SNAPSHOT
  */
 public abstract class ExcelGenerator {
-  public static XSSFWorkbook generate(ExcelFileReturn excel) {
+  public static XSSFWorkbook generate(ExcelFile excel) {
     val workbook = new XSSFWorkbook();
 
     val sheet = workbook.createSheet();

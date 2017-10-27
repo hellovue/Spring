@@ -6,7 +6,7 @@ import lombok.NonNull;
  * VIEW返回类型顶层接口.
  *
  * <pre>
- *   return VIEWReturn.of();
+ *   return View.of();
  * </pre>
  *
  * @author JYD_XL
@@ -15,29 +15,29 @@ import lombok.NonNull;
  * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
-public interface VIEWReturn extends Returnable {
+public interface View extends Returnable {
   @Override
   default boolean terminal() {
     return false;
   }
 
   /** Generator. */
-  static VIEWReturn of(@NonNull VIEWReturn view) {
+  static View of(@NonNull View view) {
     return view;
   }
 
   /** Generator. */
-  static VIEWReturn of(@NonNull String view) {
+  static View of(@NonNull String view) {
     return of(view::toString);
   }
 
   /** Generator. */
-  static VIEWReturn of(Object... path) {
+  static View of(Object... path) {
     return of(JOINER_EMPTY.join(path));
   }
 
   /** Generator. */
-  static VIEWReturn of() {
+  static View of() {
     return of(ROOT);
   }
 }

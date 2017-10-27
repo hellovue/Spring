@@ -9,27 +9,26 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 
 import org.github.spring.footstone.AbstractEntity;
-import org.github.spring.restful.JSONReturn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * JSONReturn of basic.
+ * JSON of basic.
  *
  * <pre>
- *   return JSONBasicReturn.of();
+ *   return JSONBasic.of();
  * </pre>
  *
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @see org.github.spring.restful.JSONReturn
+ * @see org.github.spring.restful.JSON
  * @see org.github.spring.footstone.AbstractEntity
  * @since 0.0.1-SNAPSHOT
  */
 @JsonIgnoreProperties("status")
 @SuppressWarnings("serial")
-public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
+public class JSONBasic extends AbstractEntity implements org.github.spring.restful.JSON {
   /** 当前系统版本. */
   private final String version = System.getProperty(VERSION, UNKNOWN);
 
@@ -43,15 +42,15 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   private int status = HttpServletResponse.SC_OK;
 
   /** Constructor. */
-  public JSONBasicReturn() {}
+  public JSONBasic() {}
 
   /** Constructor. */
-  public JSONBasicReturn(int retCode, @NonNull String retMsg) {
+  public JSONBasic(int retCode, @NonNull String retMsg) {
     this.withRetCode(retCode).withRetMsg(retMsg);
   }
 
   /** Constructor. */
-  public JSONBasicReturn(int status, int retCode, @NonNull String retMsg) {
+  public JSONBasic(int status, int retCode, @NonNull String retMsg) {
     this.withStatus(status).withRetCode(retCode).withRetMsg(retMsg);
   }
 
@@ -63,7 +62,7 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
     if (HttpServletResponse.SC_OK != status) response.sendError(status, retMsg);
-    JSONReturn.super.collect(request, response);
+    org.github.spring.restful.JSON.super.collect(request, response);
   }
 
   @Override
@@ -117,45 +116,45 @@ public class JSONBasicReturn extends AbstractEntity implements JSONReturn {
   }
 
   /** WITH retCode. */
-  public JSONBasicReturn withRetCode(int retCode) {
+  public JSONBasic withRetCode(int retCode) {
     this.setRetCode(retCode);
     return this;
   }
 
   /** WITH retMsg. */
-  public JSONBasicReturn withRetMsg(@NonNull String retMsg) {
+  public JSONBasic withRetMsg(@NonNull String retMsg) {
     this.setRetMsg(retMsg);
     return this;
   }
 
   /** WITH status. */
-  public JSONBasicReturn withStatus(int status) {
+  public JSONBasic withStatus(int status) {
     this.setStatus(status);
     return this;
   }
 
   /** Generator. */
-  public static JSONBasicReturn of() {
-    return new JSONBasicReturn();
+  public static JSONBasic of() {
+    return new JSONBasic();
   }
 
   /** Generator. */
-  public static JSONBasicReturn of(int code, @NonNull String msg) {
-    return new JSONBasicReturn(code, msg);
+  public static JSONBasic of(int code, @NonNull String msg) {
+    return new JSONBasic(code, msg);
   }
 
   /** Generator. */
-  public static JSONBasicReturn of(int status, int code, @NonNull String msg) {
-    return new JSONBasicReturn(status, code, msg);
+  public static JSONBasic of(int status, int code, @NonNull String msg) {
+    return new JSONBasic(status, code, msg);
   }
 
   /** Generator. */
-  public static JSONBasicReturn error() {
+  public static JSONBasic error() {
     return of(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, RET_ERROR_CODE, RET_ERROR_MSG);
   }
 
   /** Generator. */
-  public static JSONBasicReturn errorOfNullParams(String... param) {
+  public static JSONBasic errorOfNullParams(String... param) {
     return of(HttpServletResponse.SC_BAD_REQUEST, RET_ERROR_CODE, JOINER.join("[", param, "],", "上述参数不能为空..."));
   }
 }

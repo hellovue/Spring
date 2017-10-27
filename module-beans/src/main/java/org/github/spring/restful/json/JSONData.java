@@ -1,32 +1,30 @@
 package org.github.spring.restful.json;
 
-import org.github.spring.restful.JSONReturn;
-
 /**
- * JSONReturn of data.
+ * JSON of data.
  *
  * <pre>
- *   return JSONDataReturn.of();
+ *   return JSONData.of();
  * </pre>
  *
  * @param <T> data
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @see org.github.spring.restful.JSONReturn
+ * @see org.github.spring.restful.JSON
  * @see org.github.spring.footstone.AbstractEntity
- * @see org.github.spring.restful.json.JSONBasicReturn
+ * @see JSONBasic
  */
 @SuppressWarnings("serial")
-public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
+public class JSONData<T> extends JSONBasic implements org.github.spring.restful.JSON {
   /** data. */
   private transient T data;
 
   /** Constructor. */
-  public JSONDataReturn() {}
+  public JSONData() {}
 
   /** Constructor. */
-  public JSONDataReturn(T data) {
+  public JSONData(T data) {
     this.withData(data);
   }
 
@@ -47,24 +45,24 @@ public class JSONDataReturn<T> extends JSONBasicReturn implements JSONReturn {
   }
 
   /** WITH data. */
-  public JSONDataReturn<T> withData(T data) {
+  public JSONData<T> withData(T data) {
     this.setData(data);
     return this;
   }
 
   /** Generator. */
-  public static JSONDataReturn of() {
-    return new JSONDataReturn();
+  public static JSONData of() {
+    return new JSONData();
   }
 
   /** Generator. */
-  public static <V> JSONDataReturn<V> of(V data) {
-    return new JSONDataReturn<>(data);
+  public static <V> JSONData<V> of(V data) {
+    return new JSONData<>(data);
   }
 
   /** Generator. */
   @SafeVarargs
-  public static <V> JSONDataReturn<V[]> of(V... data) {
-    return new JSONDataReturn<>(data);
+  public static <V> JSONData<V[]> of(V... data) {
+    return new JSONData<>(data);
   }
 }

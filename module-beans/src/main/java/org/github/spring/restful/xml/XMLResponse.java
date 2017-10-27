@@ -6,12 +6,11 @@ import java.io.OutputStream;
 import lombok.NonNull;
 
 import org.github.spring.footstone.AbstractEntity;
-import org.github.spring.restful.XMLReturn;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
- * XMLReturn of response.
+ * XML of response.
  *
  * <pre>
  *   return XMLResponse.of();
@@ -21,13 +20,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @see org.github.spring.restful.XMLReturn
+ * @see org.github.spring.restful.XML
  * @see org.github.spring.footstone.AbstractEntity
  * @since 0.0.1-SNAPSHOT
  */
 @JacksonXmlRootElement(localName = "root")
 @SuppressWarnings("serial")
-public class XMLResponse<T> extends AbstractEntity implements XMLReturn {
+public class XMLResponse<T> extends AbstractEntity implements org.github.spring.restful.XML {
   /** data. */
   private transient T data;
 
