@@ -1,7 +1,9 @@
 package org.github.spring.restful.json;
 
+import org.github.spring.restful.JSON;
+
 /**
- * JSON of data.
+ * JSON_HOLDER of data.
  *
  * <pre>
  *   return JSONData.of();
@@ -16,7 +18,7 @@ package org.github.spring.restful.json;
  * @see JSONBasic
  */
 @SuppressWarnings("serial")
-public class JSONData<T> extends JSONBasic implements org.github.spring.restful.JSON {
+public class JSONData<T> extends JSONBasic implements JSON {
   /** data. */
   private transient T data;
 

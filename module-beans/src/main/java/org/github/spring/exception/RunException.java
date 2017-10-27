@@ -1,11 +1,10 @@
 package org.github.spring.exception;
 
 /**
- * RunException.
+ * Custom runtime exception.
  *
  * @author JYD_XL
  * @see java.lang.RuntimeException
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class RunException extends RuntimeException {

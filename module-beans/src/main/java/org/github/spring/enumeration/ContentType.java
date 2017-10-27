@@ -8,7 +8,6 @@ import java.util.function.Supplier;
  * @author JYD_XL
  * @see java.lang.Enum
  * @see java.util.function.Supplier
- * @since 0.0.1-SNAPSHOT
  */
 public enum ContentType implements Supplier<String> {
   XML("application/xml"), JSON("application/json"), TEXT("text/plain"), FILE("application/octet-stream"), JSONP("application/javascript");

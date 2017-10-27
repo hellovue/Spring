@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.github.spring.restful.JSON;
+
 /**
- * JSON of array.
+ * JSON_HOLDER of array.
  *
  * <pre>
  *   return JSONArray.of();
@@ -22,7 +24,7 @@ import java.util.stream.Stream;
  * @see JSONBasic
  */
 @SuppressWarnings("serial")
-public class JSONArray<E> extends JSONBasic implements org.github.spring.restful.JSON {
+public class JSONArray<E> extends JSONBasic implements JSON {
   /** data. */
   private transient Object[] data = ARRAY;
 

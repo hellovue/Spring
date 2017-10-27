@@ -6,15 +6,13 @@ import org.github.spring.util.StringUtil;
 
 import org.apache.ibatis.session.RowBounds;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.PageHelper;
 
 /**
- * 分页查询数据模型, 该类的作用是辅助分页及帮助分页时进行排序操作.
+ * 分页查询数据模型,该类的作用是辅助分页及帮助分页时进行排序操作.
  *
  * @author JYD_XL
  * @see org.github.spring.footstone.AbstractEntity
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public final class PageHelperModel extends AbstractEntity {
@@ -33,9 +31,8 @@ public final class PageHelperModel extends AbstractEntity {
   /** page size. */
   private int pageSize = SIZE;
 
-  /** Get values pageSize, part or full. */
-  @JsonIgnore
-  public int getData() {
+  /** calculate page size,part or full. */
+  private int calculate() {
     return pageFlag ? pageSize : 0;
   }
 
@@ -70,10 +67,9 @@ public final class PageHelperModel extends AbstractEntity {
   }
 
   /** Get RowBounds. */
-  @JsonIgnore
   @Deprecated
-  public RowBounds getRowBounds() {
-    return new RowBounds(pageNumber, this.getData());
+  public RowBounds createRowBounds() {
+    return new RowBounds(pageNumber, this.calculate());
   }
 
   /**
@@ -81,8 +77,7 @@ public final class PageHelperModel extends AbstractEntity {
    *
    * @return 排序信息
    */
-  @JsonIgnore
-  private String getSortInfoByCustom() {
+  private String createSortInfoByCustom() {
     return Optional.ofNullable(sortName).filter(StringUtil::isNotBlank).map(v -> v.concat(SPACE).concat(sortOrder)).orElse(null);
   }
 
@@ -91,8 +86,7 @@ public final class PageHelperModel extends AbstractEntity {
    *
    * @return 排序信息
    */
-  @JsonIgnore
-  private String getSortInfoByDefault() {
+  private String createSortInfoByDefault() {
     if (StringUtil.isBlank(sortName)) {return null;}
     StringBuilder column = new StringBuilder();
     for (int i = 0; i < this.sortName.length(); i++) {
@@ -126,43 +120,43 @@ public final class PageHelperModel extends AbstractEntity {
   }
 
   /** SET method. */
-  public void setFlag(String flag) {
+  public void setPageFlag(String flag) {
     if (StringUtil.isNotBlank(flag)) this.pageFlag = Boolean.parseBoolean(flag);
   }
 
   /** SET pageNumber. */
-  public void setNumber(String number) {
+  public void setPageNumber(String number) {
     if (StringUtil.isNotBlank(number)) this.pageNumber = Integer.parseInt(number);
   }
 
   /** SET pageSize. */
-  public void setSize(String size) {
+  public void setPageSize(String size) {
     if (StringUtil.isNotBlank(size)) this.pageSize = Integer.parseInt(size);
   }
 
   /** start page. */
   public void startPage() {
-    PageHelper.startPage(pageNumber, this.getData());
+    PageHelper.startPage(pageNumber, this.calculate());
   }
 
   /** start page. */
   public void startPageOrderByCustom(String sortInfo) {
-    PageHelper.startPage(pageNumber, this.getData(), Optional.ofNullable(this.getSortInfoByCustom()).orElse(sortInfo));
+    PageHelper.startPage(pageNumber, this.calculate(), Optional.ofNullable(this.createSortInfoByCustom()).orElse(sortInfo));
   }
 
   /** start page. */
   public void startPageOrderByCustom() {
-    PageHelper.startPage(pageNumber, this.getData(), this.getSortInfoByCustom());
+    PageHelper.startPage(pageNumber, this.calculate(), this.createSortInfoByCustom());
   }
 
   /** start page. */
   public void startPageOrderByDefault() {
-    PageHelper.startPage(pageNumber, this.getData(), this.getSortInfoByDefault());
+    PageHelper.startPage(pageNumber, this.calculate(), this.createSortInfoByDefault());
   }
 
   /** start page. */
   public void startPageOrderByDefault(String sortInfo) {
-    PageHelper.startPage(pageNumber, this.getData(), Optional.ofNullable(this.getSortInfoByDefault()).orElse(sortInfo));
+    PageHelper.startPage(pageNumber, this.calculate(), Optional.ofNullable(this.createSortInfoByDefault()).orElse(sortInfo));
   }
 
   /** WITH sortName. */

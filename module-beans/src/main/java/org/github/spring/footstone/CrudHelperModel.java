@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author JYD_XL
  * @see org.github.spring.footstone.AbstractEntity
- * @since 0.0.1-SNAPSHOT
  */
 @Slf4j
 public final class CrudHelperModel extends AbstractEntity {
@@ -54,7 +53,7 @@ public final class CrudHelperModel extends AbstractEntity {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(attributes);
+    return JSON_HOLDER.toJSONString(attributes);
   }
 
   /** 查找所有位于方法上的CRUD标记注解. */

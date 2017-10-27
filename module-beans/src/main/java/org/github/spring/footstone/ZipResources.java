@@ -18,7 +18,6 @@ import com.google.common.io.ByteStreams;
  * ZipResources.
  *
  * @author JYD_XL
- * @since 0.0.1-SNAPSHOT
  */
 public abstract class ZipResources {
   /** 打包资源文件. */

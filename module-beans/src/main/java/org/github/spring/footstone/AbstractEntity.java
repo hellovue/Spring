@@ -11,16 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
- * 抽象实体类, 仅提供方法而不存在属性.
+ * 抽象实体类,仅提供方法而不存在属性.
  *
  * @author JYD_XL
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
-public abstract class AbstractEntity implements Constants, Cloneable, Serializable {
+public abstract class AbstractEntity implements Constants, Serializable {
   @Override
   public String toString() {
     return JSONMapperHolder.getWebJSONMapper().toJSONString(this);
@@ -37,12 +34,12 @@ public abstract class AbstractEntity implements Constants, Cloneable, Serializab
   public PageHelperModel createPageHelper() {
     val pageHelperModel = new PageHelperModel();
     try {
-      val request = this.getRequest();
+      val request = this.request();
       pageHelperModel.setSortOrder(request.getParameter(FIELD_SORT_ORDER));
+      pageHelperModel.setPageNumber(request.getParameter(FIELD_PAGE_NUMBER));
       pageHelperModel.setSortName(request.getParameter(FIELD_SORT_NAME));
-      pageHelperModel.setFlag(request.getParameter(FIELD_PAGE_FLAG));
-      pageHelperModel.setSize(request.getParameter(FIELD_PAGE_SIZE));
-      pageHelperModel.setNumber(request.getParameter(FIELD_PAGE_NUMBER));
+      pageHelperModel.setPageSize(request.getParameter(FIELD_PAGE_SIZE));
+      pageHelperModel.setPageFlag(request.getParameter(FIELD_PAGE_FLAG));
     } catch (Exception e) {
       LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
     }
@@ -52,14 +49,20 @@ public abstract class AbstractEntity implements Constants, Cloneable, Serializab
   }
 
   /** GET 请求对象(HttpServletRequest). */
-  @JsonIgnore
-  public HttpServletRequest getRequest() {
+  public HttpServletRequest request() {
     return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
   }
 
   /** GET 响应对象(HttpServletResponse). */
-  @JsonIgnore
-  public HttpServletResponse getResponse() {
+  public HttpServletResponse response() {
     return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+  }
+
+  public AbstractEntity assertParam() {
+    return this;
+  }
+
+  public AbstractEntity injectParam() {
+    return this;
   }
 }

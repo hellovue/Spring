@@ -1,4 +1,3 @@
-/** Created by JYD_XL on 2017/5/25. */
 package org.github.spring.util;
 
 import java.util.Collection;

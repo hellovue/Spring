@@ -12,7 +12,6 @@ import lombok.NonNull;
  * @author JYD_XL
  * @see java.util.function.Supplier
  * @see org.github.spring.restful.Returnable
- * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface View extends Returnable {

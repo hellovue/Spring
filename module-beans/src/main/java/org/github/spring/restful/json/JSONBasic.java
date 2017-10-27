@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 
 import org.github.spring.footstone.AbstractEntity;
+import org.github.spring.restful.JSON;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * JSON of basic.
+ * JSON_HOLDER of basic.
  *
  * <pre>
  *   return JSONBasic.of();
@@ -24,14 +25,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @see org.github.spring.restful.Returnable
  * @see org.github.spring.restful.JSON
  * @see org.github.spring.footstone.AbstractEntity
- * @since 0.0.1-SNAPSHOT
  */
-@JsonIgnoreProperties("status")
 @SuppressWarnings("serial")
-public class JSONBasic extends AbstractEntity implements org.github.spring.restful.JSON {
-  /** 当前系统版本. */
-  private final String version = System.getProperty(VERSION, UNKNOWN);
-
+public class JSONBasic extends AbstractEntity implements JSON {
   /** 返回的状态码. */
   private int retCode = RET_OK_CODE;
 
@@ -39,6 +35,7 @@ public class JSONBasic extends AbstractEntity implements org.github.spring.restf
   private String retMsg = RET_OK_MSG;
 
   /** HTTP状态码. */
+  @JsonIgnore
   private int status = HttpServletResponse.SC_OK;
 
   /** Constructor. */
@@ -56,13 +53,13 @@ public class JSONBasic extends AbstractEntity implements org.github.spring.restf
 
   @Override
   public void accept(@NonNull OutputStream output) throws IOException {
-    JSON.writeValue(output, this);
+    JSON_HOLDER.writeValue(output, this);
   }
 
   @Override
   public void collect(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
     if (HttpServletResponse.SC_OK != status) response.sendError(status, retMsg);
-    org.github.spring.restful.JSON.super.collect(request, response);
+    JSON.super.collect(request, response);
   }
 
   @Override
@@ -112,7 +109,7 @@ public class JSONBasic extends AbstractEntity implements org.github.spring.restf
 
   /** GET version. */
   public String getVersion() {
-    return version;
+    return System.getProperty(VERSION, UNKNOWN);
   }
 
   /** WITH retCode. */

@@ -26,13 +26,16 @@
     <maven.generator.plugin>1.3.5</maven.generator.plugin>
     <maven.jar.plugin>3.0.2</maven.jar.plugin>
     <maven.surefire.plugin>2.20</maven.surefire.plugin>
+
     <hikaricp.version>2.7.1</hikaricp.version>
     <dolphin.version>1.1.0</dolphin.version>
     <io-github-cgi.version>1.0.1</io-github-cgi.version>
     <mybatis.plus.version>2.1.2</mybatis.plus.version>
+    <pagehelper.version>5.1.2</pagehelper.version>
+    <mysql.version>5.1.44</mysql.version>
+
     <commons-lang3.version>3.6</commons-lang3.version>
     <google.guava.version>23.0</google.guava.version>
-    <kotlin.version>1.1.4-2</kotlin.version>
     <core.lombok.version>1.16.18</core.lombok.version>
     <slf4j-api.version>1.7.25</slf4j-api.version>
     <javaee-api.version>8.0</javaee-api.version>
@@ -40,8 +43,6 @@
     <joda-time.version>2.9.9</joda-time.version>
     <springframework.version>5.0.1.RELEASE</springframework.version>
     <aspectjrt.version>1.8.11</aspectjrt.version>
-    <pagehelper.version>5.1.2</pagehelper.version>
-    <mysql.version>5.1.44</mysql.version>
     <kotlin.version>1.1.51</kotlin.version>
   </properties>
 
@@ -198,6 +199,7 @@
         <version>${project.version}</version>
       </dependency>
 
+      <!-- kotlin -->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-stdlib-jre8</artifactId>
@@ -319,14 +321,6 @@
       <layout>default</layout>
       <name>AliYun Repository</name>
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>daily</updatePolicy>
-        <checksumPolicy>ignore</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
     </repository>
   </repositories>
 
@@ -336,14 +330,6 @@
       <layout>default</layout>
       <name>AliYun Repository</name>
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>daily</updatePolicy>
-        <checksumPolicy>ignore</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
     </pluginRepository>
   </pluginRepositories>
 </project>

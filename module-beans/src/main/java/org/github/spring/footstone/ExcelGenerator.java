@@ -11,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * Excel文件生成工具类.
  *
  * @author JYD_XL
- * @since 0.0.1-SNAPSHOT
  */
 public abstract class ExcelGenerator {
   public static XSSFWorkbook generate(ExcelFile excel) {

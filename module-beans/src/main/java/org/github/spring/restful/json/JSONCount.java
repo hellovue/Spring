@@ -2,8 +2,10 @@ package org.github.spring.restful.json;
 
 import lombok.NonNull;
 
+import org.github.spring.restful.JSON;
+
 /**
- * JSON of count.
+ * JSON_HOLDER of count.
  *
  * <pre>
  *   return JSONCount.of();
@@ -15,12 +17,11 @@ import lombok.NonNull;
  * @see org.github.spring.restful.JSON
  * @see org.github.spring.footstone.AbstractEntity
  * @see JSONBasic
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
-public class JSONCount extends JSONBasic implements org.github.spring.restful.JSON {
+public class JSONCount extends JSONBasic implements JSON {
   /** data. */
-  private transient long data = COUNT;
+  private long data = COUNT;
 
   /** Constructor. */
   public JSONCount() {}

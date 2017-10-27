@@ -1,5 +1,6 @@
 package org.github.spring.bootstrap;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
  *
  * @author JYD_XL
  * @see org.springframework.context.ApplicationContextAware
- * @since 0.0.1-SNAPSHOT
  */
 @Component
 public final class ApplicationContextHolder implements ApplicationContextAware {
@@ -21,7 +21,7 @@ public final class ApplicationContextHolder implements ApplicationContextAware {
 
   @Deprecated
   @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+  public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
     ApplicationContextHolder.applicationContext = applicationContext;
   }
 

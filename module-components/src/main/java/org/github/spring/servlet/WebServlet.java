@@ -9,8 +9,8 @@ import lombok.val;
 
 import org.github.spring.handler.ReturnableValueHandler;
 import org.github.spring.resolver.InvokeArgumentResolver;
-import org.github.spring.resolver.SystemExceptionResolver;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolverComposite;
@@ -27,12 +27,11 @@ import com.google.common.collect.ImmutableList;
  *
  * @author JYD_XL
  * @see org.springframework.web.servlet.DispatcherServlet
- * @since 0.0.1-SNAPSHOT
  */
 @SuppressWarnings("serial")
 public class WebServlet extends DispatcherServlet {
   @Override
-  protected void initStrategies(ApplicationContext applicationContext) {
+  protected void initStrategies(@NotNull ApplicationContext applicationContext) {
     super.initStrategies(applicationContext);
     try {
       initializing();
@@ -88,7 +87,7 @@ public class WebServlet extends DispatcherServlet {
     val handlerExceptionResolvers = this.getClass().getSuperclass().getDeclaredField(FIELD_HANDLER_EXCEPTION_RESOLVERS);
     handlerExceptionResolvers.setAccessible(true);
     val handlerExceptionResolverList = new ArrayList<>((List<HandlerExceptionResolver>) handlerExceptionResolvers.get(this));
-    handlerExceptionResolverList.add(new SystemExceptionResolver());
+    // handlerExceptionResolverList.add(new SystemExceptionResolver());
     handlerExceptionResolvers.set(this, ImmutableList.copyOf(handlerExceptionResolverList));
   }
 

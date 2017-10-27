@@ -8,7 +8,6 @@ import java.util.function.Supplier;
  * @author JYD_XL
  * @see java.lang.Enum
  * @see java.util.function.Supplier
- * @since 0.0.1-SNAPSHOT
  */
 public enum Method implements Supplier<String> {
   IN("In"), NOT_IN("NotIn"),

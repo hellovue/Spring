@@ -28,7 +28,6 @@ import org.github.spring.footstone.Constants;
  *
  * @author JYD_XL
  * @see java.util.function.Supplier
- * @since 0.0.1-SNAPSHOT
  */
 @FunctionalInterface
 public interface Returnable extends Constants, Serializable, Supplier<String> {

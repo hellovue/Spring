@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  *
  * @author JYD_XL
  * @see com.fasterxml.jackson.databind.ObjectMapper
- * @since 0.0.1-SNAPSHOT
  */
 public final class JSONMapperHolder extends ObjectMapper {
   /** Constructor. */

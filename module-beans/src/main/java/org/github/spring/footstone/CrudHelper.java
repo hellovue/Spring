@@ -11,7 +11,6 @@ import lombok.val;
  * CrudHelper.
  *
  * @author JYD_XL
- * @since 0.0.1-SNAPSHOT
  */
 @Slf4j
 abstract class CrudHelper {

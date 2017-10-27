@@ -2,6 +2,7 @@ package org.github.spring.bootstrap;
 
 import javax.servlet.ServletContext;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
@@ -10,7 +11,6 @@ import org.springframework.web.context.ServletContextAware;
  *
  * @author JYD_XL
  * @see org.springframework.web.context.ServletContextAware
- * @since 0.0.1-SNAPSHOT
  */
 @Component
 public final class ServletContextHolder implements ServletContextAware {
@@ -21,7 +21,7 @@ public final class ServletContextHolder implements ServletContextAware {
 
   @Deprecated
   @Override
-  public void setServletContext(ServletContext servletContext) {
+  public void setServletContext(@NotNull ServletContext servletContext) {
     ServletContextHolder.servletContext = servletContext;
   }
 

@@ -26,7 +26,6 @@ import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_
  *
  * @author JYD_XL
  * @see com.fasterxml.jackson.dataformat.xml.XmlMapper
- * @since 0.0.1-SNAPSHOT
  */
 @Getter
 public final class XMLMapperHolder extends XmlMapper {
