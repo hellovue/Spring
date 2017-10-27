@@ -20,6 +20,7 @@ public interface Constants {
     /** date style pattern of day. */
     String FORMAT_DATE = "yyyy-MM-dd";
 
+    /** date style pattern of time. */
     String FORMAT_TIME = "HH:mm:ss";
 
     /** date style pattern of year. */
@@ -34,19 +35,25 @@ public interface Constants {
     /** date style pattern only month. */
     String FORMAT_ONLY_MONTH = "MM";
 
-    /** default param pattern. */
+    /** default pattern of param. */
     Pattern PATTERN_PARAM = Pattern.compile("^[A-Za-z_$]+[A-Za-z0-9_$]*$");
 
+    /** default pattern of null. */
     Pattern PATTERN_NULL = Pattern.compile("^(null)|[ ]*$");
 
+    /** empty string. */
     String EMPTY = "";
 
+    /** empty string of xml. */
     String EMPTY_XML = "<root/>";
 
+    /** empty string of json. */
     String EMPTY_JSON = "{}";
 
+    /** Content-Disposition. */
     String CONTENT_DISPOSITION = "Content-Disposition";
 
+    /** attachment;fileName. */
     String ATTACHMENT_FILENAME = "attachment;fileName=";
 
     String SPACE = " ";
