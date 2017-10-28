@@ -11,16 +11,16 @@ import com.google.common.base.Joiner;
 
 public class NaivePluginAdapter extends PluginAdapter {
   static final Joiner JOINER = Joiner.on("").skipNulls();
-  
+
   static final FullyQualifiedJavaType IMPORT_NULLABLE = new FullyQualifiedJavaType("javax.annotation.Nullable");
-  
+
   static final String ANNOTATION_NULLABLE = "@Nullable";
-  
+
   @Override
   public boolean validate(List<String> warnings) {
     return warnings.isEmpty();
   }
-  
+
   InnerClass getGeneratedCriteria(TopLevelClass topLevelClass) {
     InnerClass generatedCriteria = null;
     for (InnerClass innerClass : topLevelClass.getInnerClasses()) {
@@ -31,7 +31,7 @@ public class NaivePluginAdapter extends PluginAdapter {
     }
     return generatedCriteria;
   }
-  
+
   InnerClass getCriteria(TopLevelClass topLevelClass) {
     InnerClass criteria = null;
     for (InnerClass innerClass : topLevelClass.getInnerClasses()) {

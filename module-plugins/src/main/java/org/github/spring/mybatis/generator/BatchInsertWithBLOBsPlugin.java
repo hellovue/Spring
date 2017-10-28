@@ -31,23 +31,23 @@ public class BatchInsertWithBLOBsPlugin extends NaiveAbstractXMLPlugin {
   private static final String PROPERTY_PREFIX = "item.";
   /** 字符串拼接工具. */
   private static final Joiner JOINER = Joiner.on("").skipNulls();
-  
+
   @Override
   public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
     //仅在包含二进制数据时生成.
     if (introspectedTable.hasBLOBColumns()) {
       val objectName = introspectedTable.getRecordWithBLOBsType();
       val type = new FullyQualifiedJavaType(JOINER.join("java.util.List<", objectName, ">"));
-      
+
       val method = new Method(METHOD_NAME);
       method.addParameter(new Parameter(type, "list"));
       method.setReturnType(FullyQualifiedJavaType.getIntInstance());
       interfaze.addMethod(method);
     }
-    
+
     return true;
   }
-  
+
   @Override
   public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
     //仅在包含二进制数据时生成.

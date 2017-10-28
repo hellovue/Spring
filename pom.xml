@@ -57,6 +57,8 @@
     <servlet.version>4.0.0</servlet.version>
     <google.guava.version>23.2-jre</google.guava.version>
     <google.protobuf.version>3.4.0</google.protobuf.version>
+    <scala.version>2.12.4</scala.version>
+    <clojure.version>1.8.0</clojure.version>
   </properties>
 
   <dependencyManagement>
@@ -199,6 +201,16 @@
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
         <version>${aspectjrt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>${scala.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.clojure</groupId>
+        <artifactId>clojure</artifactId>
+        <version>${clojure.version}</version>
       </dependency>
 
       <!-- mybatis generator -->
@@ -355,16 +367,14 @@
 
   <repositories>
     <repository>
-      <id>AliYun</id>
-      <name>AliYun Repository</name>
+      <id>Aliyun</id>
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
     </repository>
   </repositories>
 
   <pluginRepositories>
     <pluginRepository>
-      <id>AliYun</id>
-      <name>AliYun Repository</name>
+      <id>Aliyun</id>
       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
     </pluginRepository>
   </pluginRepositories>
